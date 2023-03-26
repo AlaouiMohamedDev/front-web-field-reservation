@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components{
+  .active{
+    @apply bg-main text-white;
+  }
+}
+.fade {
+    animation-name: fade;
+    animation-duration: 1s;
+  }
+.alert-animation {
+  animation-name: alert-animation;
+  animation-duration: 1s;
+}
+.zoom-in{
+    animation-name: zoom-in;
+    animation-duration: 1.5s;
+}
+.fade-left{
+  animation-name: fade-left;
+  animation-duration: 1.5s;
+}
+.fade-down{
+  animation-name: fade-down;
+  animation-duration: .7s;
+}
+
+.fade-up{
+  animation-name: fade-up;
+  animation-duration: .7s;
+}
+  .pl-30{
+    padding-left: 7rem;
+  }
+  .h-sm{
+    height:28rem;
+  }
+ 
+
+  @media only screen and (max-width: 600px) {
+    .h-sm{
+        height:20rem;
+    }
+  }
+  
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+ 
+  @keyframes zoom-in {
+    from {opacity: .4;scale:0} 
+    to {opacity: 1;scale:1}
+  }
+  @keyframes fade-left{
+    from {right:-430px} 
+    to {right:0}
+  }
+
+  @keyframes fade-up{
+    from {opacity: .4;display:none;bottom:0px;} 
+    to {opacity: 1;display:grid;bottom:20px;}
+  }
+  @keyframes fade-down{
+    from {opacity: .4;display:none;top:0px;} 
+    to {opacity: 1;display:flex;top:20px;}
+  }
+  @keyframes alert-animation{
+    from {right:-2.5rem;} 
+    to {right:1.25rem;}
+  }
+
+
+
+ 
