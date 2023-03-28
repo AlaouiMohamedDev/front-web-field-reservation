@@ -38,21 +38,25 @@ export default function AddComplex() {
           }
         }
         else{
-          setX((prevX) => prevX + 1);
-
-          type.classList.remove('grid')
-          type.classList.add('hidden')
+          if(addCategories() == true)
+          {
+            setX((prevX) => prevX + 1);
   
-          field.classList.remove('hidden')
-          field.classList.add('grid')
+            type.classList.remove('grid')
+            type.classList.add('hidden')
+    
+            field.classList.remove('hidden')
+            field.classList.add('grid')
+  
+            second.classList.remove('active')
+            second.classList.add('bg-white')
+            second.classList.add('text-gray-300')
+  
+            last.classList.remove('bg-white')
+            last.classList.remove('text-gray-300')
+            last.classList.add('active')
 
-          second.classList.remove('active')
-          second.classList.add('bg-white')
-          second.classList.add('text-gray-300')
-
-          last.classList.remove('bg-white')
-          last.classList.remove('text-gray-300')
-          last.classList.add('active')
+          }
         }
 
         
@@ -72,23 +76,29 @@ export default function AddComplex() {
   });
 
   const [category,setCategory] = useState({
-    category:'',
-    price:''
+    typeTerrain:'',
+    price:'',
+    complexeSportif:''
   })
  
   const handleCategoryInput =(e) =>{
     e.persist();
     setCategory({...category,[e.target.name]:e.target.value});
-    
+    setCategory(prevState => ({...prevState, complexeSportif: complexId}));
+}
+
+const resetCategory = () => {
+  setCategory({
+    typeTerrain:'',
+    price:''
+  });
 }
 
 const [categoriesList, setCategoriesList] = useState([]);
 
 const AddCategory = () => {
   setCategoriesList([...categoriesList, category]);
-  category.forEach(element => {
-    element.value="";
-  });
+  resetCategory()
 };
 
 const [field,setField] = useState({
@@ -113,6 +123,8 @@ const AddField = () => {
     setComplex({...complexInput,[e.target.name]:e.target.value});
    
 }
+const [complexId, setComplexId] = useState(null);
+
     const addComplex =(e)=>{
       if (complexInput.name=="" || complexInput.address=="" || complexInput.lat=="" || complexInput.long=="" || complexInput.desc=="" || zone == null)
       {
@@ -130,33 +142,36 @@ const AddField = () => {
           jwt:getCookie('jwt')
         }
         console.log("🚀 ~ file: AddComplex.jsx:129 ~ addComplex ~ data:", data)
-        // axios.post('http://127.0.0.1:8000/entity/complexe-create/',data).then(res => {
+        axios.post('http://127.0.0.1:8000/entity/complexe-create/',data).then(res => {
                       
-        // if(res.data.status === 200){
-        //    /* setCookie('name',res.data.name);
-        //     setCookie('email',res.data.email);
-        //     setCookie('public_id',res.data.public_id);
-        //     setCookie('id',res.data.id);
-        //     setCookie('token',res.data.token);
-        //     setCookie('name',res.data.name);
-        //     setCookie('adress',res.data.adresse);
-        //     setCookie('tel',res.data.tel);
-        //     setCookie('image',res.data.image);
-        //     if(res.data.admin){
-        //         setCookie('admin',res.data.admin);
-        //     }*/
-        //     swal.fire("Complex add","","success");
+        if(res.data.status === 200){
+          setComplexId(res.data.complexe_id)
+          console.log("🚀 ~ file: AddComplex.jsx:129 ~ addComplex ~ res.data.complexe_id:", res.data.complexe_id)
+           /* setCookie('name',res.data.name);
+            setCookie('email',res.data.email);
+            setCookie('public_id',res.data.public_id);
+            setCookie('id',res.data.id);
+            setCookie('token',res.data.token);
+            setCookie('name',res.data.name);
+            setCookie('adress',res.data.adresse);
+            setCookie('tel',res.data.tel);
+            setCookie('image',res.data.image);
+            if(res.data.admin){
+                setCookie('admin',res.data.admin);
+            }*/
+            swal.fire("Complex add","","success");
             
-        // }
-        // else
-        // {
-        //     swal.fire("Echec !!",res.data.message,"warning");
-        // }
-    //})
+        }
+        else
+        {
+            swal.fire("Echec !!",res.data.message,"warning");
+
+        }
+    })
 
         return true
       }
-
+      
     }
 
     const customStyles = {
@@ -199,12 +214,52 @@ const AddField = () => {
         }
     }
 
+    const addCategories = () =>{
+
+      const data = {
+        categories :categoriesList,
+        jwt:getCookie('jwt')
+      }
+      console.log("🚀 ~ file: AddComplex.jsx:223 ~ addCategories ~ data:", data)
+
+      axios.post('http://127.0.0.1:8000/entity/fieldCategory-create/',data).then(res => {
+                      
+        if(res.data.status === 200){
+           /* setCookie('name',res.data.name);
+            setCookie('email',res.data.email);
+            setCookie('public_id',res.data.public_id);
+            setCookie('id',res.data.id);
+            setCookie('token',res.data.token);
+            setCookie('name',res.data.name);
+            setCookie('adress',res.data.adresse);
+            setCookie('tel',res.data.tel);
+            setCookie('image',res.data.image);
+            if(res.data.admin){
+                setCookie('admin',res.data.admin);
+            }*/
+            swal.fire("Categories added","","success");
+            
+        }
+        else
+        {
+            swal.fire("Echec !!",res.data.message,"warning");
+            return false
+        }
+      })
+
+        return true
+
+    }
 
     const sumbitComplex =()=>{
 
      
       console.log("🚀 ~ file: AddComplex.jsx:65 ~ AddComplex ~ complexInput:", complexInput)
-      console.log("🚀 ~ file: AddComplex.jsx:75 ~ handleCategoryInput ~ categoriesList:", categoriesList)
+      const data = {
+        categories :[categoriesList],
+        complexe_id : complexId
+      }
+      console.log("🚀 ~ file: AddComplex.jsx:207 ~ sumbitComplex ~ data:", data)
       console.log("🚀 ~ file: AddComplex.jsx:100 ~ AddComplex ~ setFieldList:", fieldList)
 
 
@@ -273,7 +328,7 @@ const AddField = () => {
         {/* Second Step */}
         <div className="bg-white  grid-cols-2 py-5 px-5 gap-5 hidden type">
             <h1 className="col-span-2 font-semibold text-gray-500 border-b-2 border-main w-max">Add your Categories</h1>
-            <input name="category" value={category.category} onChange={handleCategoryInput}  placeholder = "Field Category" type="text" className = "focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
+            <input name="typeTerrain" value={category.typeTerrain} onChange={handleCategoryInput}  placeholder = "Field Category" type="text" className = "focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
             <input name="price"  value={category.price} onChange={handleCategoryInput} placeholder = "Price of the field" type="text" className = "focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
           <div className="flex items-center col-span-2 space-x-5">
               <button onClick={AddCategory} className="bg-white border flex items-center justify-center space-x-2 border-main py-2  w-1/4  text-gray-600 text-xs rounded">
