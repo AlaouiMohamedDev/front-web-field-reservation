@@ -13,7 +13,7 @@ module.exports = {
       },
       colors:{
         'main':'#03C988',
-        'Cblue' :'#001935',
+        'Cblue' :'#001022',
         'dashBlack':'#212529',
         'custGreen':'#0ab39c'
       },
@@ -24,6 +24,7 @@ module.exports = {
       },
       backgroundImage:{
         'home':'url("/images/bg-home.jpg")',
+        'dashUser':'url("/images/owner.jpg")'
       },       
     },
   },

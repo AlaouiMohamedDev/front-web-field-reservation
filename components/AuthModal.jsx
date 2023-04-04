@@ -89,7 +89,6 @@ export default function AuthModal() {
                     }*/
                     swal.fire("Bienvenue","","success");
                     ModalAuth()
-                    document.location.reload()
                 }
                 else
                 {
@@ -181,6 +180,17 @@ export default function AuthModal() {
                                 <span>S'inscrire</span>
                         </button>
                     </form>
+                    <div className="grid grid-cols-3 gap-5">
+                        <div className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                             <i class='bx bxl-google-plus'></i>
+                        </div>
+                        <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                            <i class='bx bxl-facebook' ></i>
+                        </div>
+                        <div className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                            <i class='bx bxl-twitter text-blue-500' ></i>
+                        </div>
+                    </div>
                     <div className = "flex items-center w-full justify-between" >
                         <p onClick={loginForm} className = "text-sm hover:text-main cursor-pointer font-semibold duration-300" >
                            Se connectez!
@@ -211,6 +221,17 @@ export default function AuthModal() {
                                 <span>Se connectez</span>
                         </button>
                     </form>
+                    <div className="grid grid-cols-3 gap-5">
+                        <div className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                             <i class='bx bxl-google-plus'></i>
+                        </div>
+                        <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                            <i class='bx bxl-facebook' ></i>
+                        </div>
+                        <div className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                            <i class='bx bxl-twitter text-blue-500' ></i>
+                        </div>
+                    </div>
                     <div className = "flex items-center w-full justify-between" >
                         <p onClick={registerForm} className = "text-sm hover:text-main cursor-pointer font-semibold duration-300" >
                            Inscription içi!
@@ -230,8 +251,8 @@ export default function AuthModal() {
                     }
                 </div>
             </div>
-            <img src="images/logo.png" className="absolute bottom-5 right-5 w-24" />
-            <img src="images/logo-a.png" className="absolute top-5 right-[52%] w-24" />
+            <img alt="logo" src="images/logo.png" className="absolute bottom-5 right-5 w-24" />
+            {/* <img alt="logo-a" src="images/logo-a.png" className="absolute top-5 right-[52%] w-24" /> */}
             <img src="images/authModal.jpg" className="hidden md:flex w-1/2 object-right object-cover h-full "/>
         </div>
     </div>

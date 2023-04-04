@@ -45,7 +45,7 @@ export default function Sidebar() {
     
   return (
     <aside className="select-none">
-            <div onClick={closeSidebar} className="sidebar1 w-full h-screen fixed top-0 z-100 bg-gray-500 opacity-60  transform duration-100">
+            <div onClick={closeSidebar} className="sidebar1 w-full hidden h-screen fixed top-0 z-100 bg-gray-500 opacity-60  transform duration-100">
 
             </div>
            <div className="sidebar2 text-sm flex flex-col w-2/3 lg:w-1/3 h-screen top-0 fixed bg-white z-100  -left-full transform duration-500 ">

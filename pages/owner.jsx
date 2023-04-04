@@ -2,6 +2,9 @@ import Head from 'next/head'
 import React from 'react'
 import AddComplex from '../components/AddComplex'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
+import DashUser from '../components/DashUser'
+import AuthModal from '../components/AuthModal'
 export default function () {
   return (
     <div className="">
@@ -11,18 +14,15 @@ export default function () {
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
       </Head>
       <Header />
-      <div className="bg-gray-50 w-full h-screen font-poppins">
-        <div className="p-7 flex flex-col items-center space-y-2">
-          <h1 className="text-2xl text-Cblue font-bold">Complex <c className="text-main">Configuration</c></h1>
-          <div className='flex items-center space-x-2 '>
-
-            <span className='bg-main h-1 w-[200px] rounded'></span>
-          </div>
-        </div>
-        
+      <AuthModal />
+      <div className="bg-gray-50 w-full grid grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 font-poppins py-10">
+       
+        <DashUser />
         <AddComplex />
+
       </div>
         
+      <Footer />
     </div>
   )
 }

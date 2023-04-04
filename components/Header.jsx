@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export default function Header() {
+
+    const router = useRouter();
 
     const ModalAuth =()=>{
         const modal= document.querySelector('.authmodal')
@@ -57,7 +60,7 @@ export default function Header() {
                     <a href="" className="">Fields</a>
                     <a href="" className="">About Us</a>
                     <a href="" className="">Contact Us</a>
-                    
+                    <a  onClick = {() => router.push("/owner")} className="">Owner</a>
                 </div>
             </div>
             <div className="flex items-center space-x-5 text-xl ">
