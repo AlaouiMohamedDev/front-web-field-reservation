@@ -57,7 +57,7 @@ export default function Header() {
                 <img src="./images/logo-name.png" className="w-[170px] "/>
                 <div className="md:flex items-center space-x-7 hidden">
                     <a href="" className=" text-main">Welcome</a>
-                    <a href="" className="">Fields</a>
+                    <a onClick = {() => router.push("/fields")}  className="">Fields</a>
                     <a href="" className="">About Us</a>
                     <a href="" className="">Contact Us</a>
                     <a  onClick = {() => router.push("/owner")} className="">Owner</a>
