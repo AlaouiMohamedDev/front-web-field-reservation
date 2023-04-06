@@ -71,7 +71,7 @@ export default function AuthModal() {
                 email:loginInput.email,
                 password:loginInput.password,
             }
-            axios.post('http://127.0.0.1:8000/api/login',data).then(res => {
+            axios.post('https://kritirank.pythonanywhere.com/api/login',data).then(res => {
                       
                 if(res.data.status === 200){
                     setCookie('jwt',res.data.jwt);
@@ -132,7 +132,7 @@ export default function AuthModal() {
             console.log("🚀 ~ file: AuthModal.jsx:131 ~ AuthModal ~ data:", data)
             
     
-            axios.post('http://127.0.0.1:8000/api/register',data).then(res => {
+            axios.post('https://kritirank.pythonanywhere.com/api/register',data).then(res => {
                 if(res.data.status === 200){
                     swal.fire("Bienvenue","","success");
                     loginForm();
