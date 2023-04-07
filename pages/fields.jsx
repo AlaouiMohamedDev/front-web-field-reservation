@@ -5,7 +5,18 @@ import Footer from '../components/Footer'
 import AuthModal from '../components/AuthModal'
 import Banner from '../components/fields/Banner'
 import FieldList from '../components/fields/FieldList'
-export default function () {
+
+export async function getServerSideProps(context) {
+  const response = await fetch('http://127.0.0.1:8000/entity/list_fields')
+  const fields = await response.json();
+
+  return {
+    props: {
+      fields:fields
+    },
+  }
+}
+export default function ({fields}) {
   return (
     <div className="">
       <Head>
@@ -19,7 +30,7 @@ export default function () {
       <Header />
       <AuthModal />
        <Banner />
-       <FieldList />
+       <FieldList  fields={fields} />
       <Footer />
     </div>
   )

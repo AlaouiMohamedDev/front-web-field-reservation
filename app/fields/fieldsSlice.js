@@ -2,29 +2,29 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getCookie } from "cookies-next";
 
-const URL = 'http://127.0.0.1:5000/products';
+const URL = 'http://127.0.0.1:8000/entity/list_fields';
 
 const initialState = []
 
-export const fetchProducts= createAsyncThunk('products/fetchProducts', async () => {
+export const fetchFields= createAsyncThunk('fields/fetchFields', async () => {
     const response = await axios.get(URL);
     return response.data
 })
 
 
-const productsSlice = createSlice({
-    name: 'products',
+const fieldsSlice = createSlice({
+    name: 'fields',
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(fetchProducts.fulfilled, (state, action) => {
+        builder.addCase(fetchFields.fulfilled, (state, action) => {
             return action.payload;
         })
     }
 })
 
-export const selectAllProducts = (state) => state.products;
+export const selectAllFields = (state) => state.fields;
 
 //export const selectUserById = (state, userId) =>state.users.find(user => user.id === userId)
 
-export default productsSlice.reducer
+export default fieldsSlice.reducer

@@ -71,14 +71,21 @@ export default function AuthModal() {
                 email:loginInput.email,
                 password:loginInput.password,
             }
+
+
+            //http://127.0.0.1:8000/
+            //https://kritirank.pythonanywhere.com/
             axios.post('http://127.0.0.1:8000/api/login',data).then(res => {
                       
                 if(res.data.status === 200){
+                    console.log("🚀 ~ file: AuthModal.jsx:77 ~ axios.post ~ res.data:", res.data.user)
                     setCookie('jwt',res.data.jwt);
-                   /* setCookie('name',res.data.name);
-                    setCookie('email',res.data.email);
+                    setCookie('name',res.data.user.first_name);
+                    setCookie('email',res.data.user.email);
+                    setCookie('id',res.data.user.id);
+                    
+                    /*
                     setCookie('public_id',res.data.public_id);
-                    setCookie('id',res.data.id);
                     setCookie('token',res.data.token);
                     setCookie('name',res.data.name);
                     setCookie('adress',res.data.adresse);
@@ -89,6 +96,7 @@ export default function AuthModal() {
                     }*/
                     swal.fire("Bienvenue","","success");
                     ModalAuth()
+                    document.location.reload()
                 }
                 else
                 {

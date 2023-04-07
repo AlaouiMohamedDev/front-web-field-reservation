@@ -1,14 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { setCookie,getCookie, deleteCookie } from 'cookies-next'
 
 export default function Header() {
 
     const router = useRouter();
+    const [userName,setUserName] = useState(null)
 
     const ModalAuth =()=>{
         const modal= document.querySelector('.authmodal')
         modal.classList.remove('hidden')
         modal.classList.add('flex')
+    }
+
+    const logout = () => {
+        deleteCookie('name')
+        deleteCookie('jwt')
+        deleteCookie('id')
+        deleteCookie('email')
+        router.push('/')
     }
 
     useEffect(() => {
@@ -33,6 +43,14 @@ export default function Header() {
             }        
         })
     },[]);
+
+    useEffect(()=>{
+        if(getCookie('name') == null)
+            setUserName(null)
+        else
+            setUserName(getCookie('name'))
+        console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ userName:", userName)
+    },[getCookie('name')])
 
     const sidebar = () => {
         console.log("🚀 ~ file: Header.jsx:38 ~ sidebar ~ sidebar:")
@@ -65,7 +83,11 @@ export default function Header() {
             </div>
             <div className="flex items-center space-x-5 text-xl ">
                 <i class='bx bx-search cursor-pointer'></i>
-                <i onClick={ModalAuth}  class='bx bx-user cursor-pointer' ></i>
+                { userName == null ?
+                    <i onClick={ModalAuth}  class='bx bx-user cursor-pointer' ></i>
+                :
+                    <span onClick={logout} className='text-sm cursor-pointer'>{userName}</span>
+                }
                 <i onClick= {sidebar} class='bx bx-menu-alt-right cursor-pointer '></i>
             </div>
         </div>
