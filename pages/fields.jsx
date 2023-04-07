@@ -7,7 +7,7 @@ import Banner from '../components/fields/Banner'
 import FieldList from '../components/fields/FieldList'
 
 export async function getServerSideProps(context) {
-  const response = await fetch('http://kritirank.pythonanywhere.com/entity/list_fields')
+  const response = await fetch('https://kritirankk.pythonanywhere.com/entity/list_fields')
   const fields = await response.json();
 
   return {
