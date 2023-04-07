@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import {selectAllFields} from '../../app/fields/fieldsSlice'
 
 export default function FieldList({fields}) {
 
     var [displayedFields,setDisplayedFields]= useState(fields)
+
+    useEffect(()=>{
+        setDisplayedFields(fields)
+    },[fields])
 
     const customStyles = {
 
