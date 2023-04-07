@@ -75,7 +75,7 @@ export default function AuthModal() {
 
             //http://127.0.0.1:8000/
             //https://kritirank.pythonanywhere.com/
-            axios.post('http://127.0.0.1:8000/api/login',data).then(res => {
+            axios.post('http://kritirank.pythonanywhere.com/api/login',data).then(res => {
                       
                 if(res.data.status === 200){
                     console.log("🚀 ~ file: AuthModal.jsx:77 ~ axios.post ~ res.data:", res.data.user)
@@ -140,7 +140,7 @@ export default function AuthModal() {
             console.log("🚀 ~ file: AuthModal.jsx:131 ~ AuthModal ~ data:", data)
             
     
-            axios.post('http://127.0.0.1:8000/api/register',data).then(res => {
+            axios.post('http://kritirank.pythonanywhere.com/api/register',data).then(res => {
                 if(res.data.status === 200){
                     swal.fire("Bienvenue","","success");
                     loginForm();
