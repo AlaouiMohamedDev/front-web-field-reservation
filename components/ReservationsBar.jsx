@@ -50,7 +50,7 @@ export default function ReservationsBar({reservations}) {
             <div onClick={closeSidebar} className="reservationbar1 w-full hidden h-screen fixed top-0 z-100 bg-gray-500 opacity-60  transform duration-100">
 
             </div>
-           <div className="reservationbar2 text-sm h-full flex flex-col w-2/3 lg:w-1/5 first-line:h-screen top-0 fixed bg-white z-100  -right-full transform duration-500 ">
+           <div className="reservationbar2 text-sm h-full flex flex-col w-2/3 lg:w-1/3 overflow-y-auto 2xl:1/5 first-line:h-screen top-0 fixed bg-white z-100  -right-full transform duration-500 ">
                 <div className='flex flex-col h-full w-full '>
                     <div className='flex items-center space-x-2 justify-center py-3  border-b'>
                         <i className='bx bxs-book-bookmark text-main text-xl' ></i>

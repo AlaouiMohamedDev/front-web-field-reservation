@@ -1,6 +1,10 @@
 import React from 'react'
 
 export default function Footer() {
+  const goToTop =() =>{
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
   return (
     <div className="flex flex-col w-full font-roboto ">
       <div className="py-[50px]  bg-main px-[80px] md:px-[150px] lg:px-[200px] 2xl:px-[400px] ">
@@ -80,7 +84,7 @@ export default function Footer() {
            <img src="./images/logo-white.png" className="w-[200px]" />
         </div>
         <div className="w-full items-center flex justify-center">
-          <div className=" rounded-full w-12 h-12 bg-main flex items-center justify-center text-white">
+          <div onClick={goToTop} className="cursor-pointer rounded-full w-12 h-12 bg-main flex items-center justify-center text-white">
             <i className='bx bx-chevrons-up text-2xl'></i>
           </div>
         </div>
