@@ -5,18 +5,24 @@ import Footer from '../components/Footer'
 import AuthModal from '../components/AuthModal'
 import Banner from '../components/fields/Banner'
 import FieldList from '../components/fields/FieldList'
+import ReservationsBar from '../components/ReservationsBar'
+import Sidebar from '../components/SideBar'
 
 export async function getServerSideProps(context) {
-  const response = await fetch('https://kritirankk.pythonanywhere.com/entity/list_fields')
+  const response = await fetch('http://127.0.0.1:8000/entity/list_fields')
   const fields = await response.json();
+
+  const response1 = await fetch('http://127.0.0.1:8000/entity/reservation-list')
+  const reservations = await response1.json();
 
   return {
     props: {
-      fields:fields
+      fields:fields,
+      reservations:reservations
     },
   }
 }
-export default function ({fields}) {
+export default function ({fields,reservations}) {
   return (
     <div className="">
       <Head>
@@ -29,6 +35,8 @@ export default function ({fields}) {
       </Head>
       <Header />
       <AuthModal />
+      <Sidebar />
+       <ReservationsBar reservations={reservations}/>
        <Banner />
        <FieldList  fields={fields} />
       <Footer />

@@ -18,15 +18,15 @@ export default function Footer() {
           <p className='text-sm text-justify'><c className='text-main'>KRI TIRANK</c> helped thousands of clients to find the right property for their needs.</p>
           <div className='flex flex-col space-y-2 text-sm'>
             <div className='flex items-center space-x-2'>
-              <i class='bx bxs-map-pin text-main text-lg'></i>
+              <i className='bx bxs-map-pin text-main text-lg'></i>
               <span>214 El DADA No. Marrakech, MA 10002</span>
             </div>
             <div className='flex items-center space-x-2'>
-              <i class='bx bxs-phone text-main text-lg' ></i>
+              <i className='bx bxs-phone text-main text-lg' ></i>
               <span>+212 701344384</span>
             </div>
             <div className='flex items-center space-x-2'>
-              <i class='bx bx-support text-main text-lg' ></i>
+              <i className='bx bx-support text-main text-lg' ></i>
               <span>kritirank@support.com</span>
             </div>
           </div>       
@@ -81,7 +81,7 @@ export default function Footer() {
         </div>
         <div className="w-full items-center flex justify-center">
           <div className=" rounded-full w-12 h-12 bg-main flex items-center justify-center text-white">
-            <i class='bx bx-chevrons-up text-2xl'></i>
+            <i className='bx bx-chevrons-up text-2xl'></i>
           </div>
         </div>
         <div className="md:items-center md:flex justify-end col-span-2 md:col-span-1 pt-5 md:pt-0">

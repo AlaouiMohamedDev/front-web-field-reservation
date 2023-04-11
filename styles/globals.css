@@ -4,8 +4,8 @@
 
 
 @layer components{
-  .active{
-    @apply bg-main text-white;
+  .activeOwner{
+    @apply bg-main rounded cursor-pointer text-white;
   }
 }
 .fade {

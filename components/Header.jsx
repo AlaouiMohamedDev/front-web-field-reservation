@@ -5,7 +5,7 @@ import { setCookie,getCookie, deleteCookie } from 'cookies-next'
 export default function Header() {
 
     const router = useRouter();
-    const [userName,setUserName] = useState(null)
+   
 
     const ModalAuth =()=>{
         const modal= document.querySelector('.authmodal')
@@ -28,14 +28,16 @@ export default function Header() {
         window.addEventListener('scroll', () => {
             if ((window.scrollY || window.pageYOffset) > 10 ) {
                 header.classList.add('fixed')
-                header.classList.add('z-90')
+                header.classList.add('z-100')
                 header.classList.add('shadow');
                 header.classList.add('top-0');
+                header.classList.add('w-screen');
                 header.classList.remove('py-5');
                 header.classList.add('py-3');
             }else{
                 header.classList.remove('fixed')
-                header.classList.remove('z-90')
+                header.classList.remove('w-screen');
+                header.classList.remove('z-100')
                 header.classList.remove('shadow');
                 header.classList.remove('py-3');
                 header.classList.remove('top-0');
@@ -44,16 +46,15 @@ export default function Header() {
         })
     },[]);
 
+    const [userName,setUserName] = useState(null)
     useEffect(()=>{
         if(getCookie('name') == null)
             setUserName(null)
         else
             setUserName(getCookie('name'))
-        console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ userName:", userName)
     },[getCookie('name')])
 
     const sidebar = () => {
-        console.log("🚀 ~ file: Header.jsx:38 ~ sidebar ~ sidebar:")
         
         const sidebar1 = document.querySelector('.sidebar1')
         const sidebar2 = document.querySelector('.sidebar2')
@@ -61,20 +62,30 @@ export default function Header() {
         sidebar2.classList.remove('-left-full')
         sidebar2.classList.add('left-0');
     }
+
+    const reservationbar = () => {
+        
+        const reservationbar1 = document.querySelector('.reservationbar1')
+        const reservationbar2 = document.querySelector('.reservationbar2')
+        reservationbar1.classList.remove('hidden')
+        reservationbar2.classList.remove('-right-full')
+        reservationbar2.classList.add('right-0');
+    }
+
   return (
     <div className=''>
         <div className="bg-main text-white font-poppins text-sm  py-2 flex items-center justify-center space-x-7">
             <h1>FOLLOW US</h1>
-            <i class='bx bxl-pinterest' ></i>
-            <i class='bx bxl-github' ></i>
-            <i class='bx bxl-facebook' ></i>
-            <i class='bx bxl-instagram' ></i>
+            <i className='bx bxl-pinterest' ></i>
+            <i className='bx bxl-github' ></i>
+            <i className='bx bxl-facebook' ></i>
+            <i className='bx bxl-instagram' ></i>
         </div>
-        <div className="flex  font-poppins text-sm justify-evenly px-5 shadow-sm relative py-4 text-gray-600 header select-none">
+        <div className="flex  bg-white font-poppins text-sm justify-evenly px-5 shadow-sm  py-4 text-gray-600 header select-none">
             <div className="flex items-center space-x-10">
                 <img src="./images/logo-name.png" className="w-[170px] "/>
                 <div className="md:flex items-center space-x-7 hidden">
-                    <a href="" className=" text-main">Welcome</a>
+                    <a onClick={()=>{router.push('/')}} className=" text-main">Welcome</a>
                     <a onClick = {() => router.push("/fields")}  className="">Fields</a>
                     <a href="" className="">About Us</a>
                     <a href="" className="">Contact Us</a>
@@ -82,13 +93,15 @@ export default function Header() {
                 </div>
             </div>
             <div className="flex items-center space-x-5 text-xl ">
-                <i class='bx bx-search cursor-pointer'></i>
+                <i className='bx bx-search cursor-pointer'></i>
                 { userName == null ?
-                    <i onClick={ModalAuth}  class='bx bx-user cursor-pointer' ></i>
+                    <i onClick={ModalAuth}  className='bx bx-user cursor-pointer' ></i>
                 :
                     <span onClick={logout} className='text-sm cursor-pointer'>{userName}</span>
+                    
                 }
-                <i onClick= {sidebar} class='bx bx-menu-alt-right cursor-pointer '></i>
+                {userName!=null && <i onClick={reservationbar} className='bx bx-book-bookmark cursor-pointer'></i>}
+                <i onClick= {sidebar} className='bx bx-menu-alt-right cursor-pointer '></i>
             </div>
         </div>
         

@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import swal from 'sweetalert2'
 import axios from 'axios'
 import { setCookie,getCookie } from 'cookies-next'
+import { useRouter } from 'next/router'
+
 /*
 import  { useRouter} from 'next/router';
 import { setCookie,getCookie } from 'cookies-next';*/
 
 export default function AuthModal() {
 
-
+    const router = useRouter();
     const [registerInput,setRegister] = useState({
         userName:'',
         password:'',
@@ -74,8 +76,8 @@ export default function AuthModal() {
 
 
             //http://127.0.0.1:8000/
-            //https://kritirank.pythonanywhere.com/
-            axios.post('https://kritirankk.pythonanywhere.com/api/login',data).then(res => {
+            //https://kritirankk.pythonanywhere.com/
+            axios.post('http://127.0.0.1:8000/api/login',data).then(res => {
                       
                 if(res.data.status === 200){
                     console.log("🚀 ~ file: AuthModal.jsx:77 ~ axios.post ~ res.data:", res.data.user)
@@ -96,7 +98,7 @@ export default function AuthModal() {
                     }*/
                     swal.fire("Bienvenue","","success");
                     ModalAuth()
-                    document.location.reload()
+                    router.push('')
                 }
                 else
                 {
@@ -181,7 +183,7 @@ export default function AuthModal() {
 
                         <div className="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
                             <input name="isChecked" value={isChecked} onChange={handleCheckboxChange} type="checkbox" className="w-4 h-4 text-main bg-gray-100 border-gray-300 rounded checked:bg-main focus:ring-main dark:focus:ring-main dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                            <label for="bordered-checkbox-2" className="w-full py-2 ml-2 text-xs font-medium text-gray-600 dark:text-gray-300">Complex owner</label>
+                            <label htmlFor="bordered-checkbox-2" className="w-full py-2 ml-2 text-xs font-medium text-gray-600 dark:text-gray-300">Complex owner</label>
                         </div>
 
                         <button className = "bg-main text-white flex items-center justify-center py-2 rounded text-sm" >
@@ -190,13 +192,13 @@ export default function AuthModal() {
                     </form>
                     <div className="grid grid-cols-3 gap-5">
                         <div className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
-                             <i class='bx bxl-google-plus'></i>
+                             <i className='bx bxl-google-plus'></i>
                         </div>
                         <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
-                            <i class='bx bxl-facebook' ></i>
+                            <i className='bx bxl-facebook' ></i>
                         </div>
                         <div className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
-                            <i class='bx bxl-twitter text-blue-500' ></i>
+                            <i className='bx bxl-twitter text-blue-500' ></i>
                         </div>
                     </div>
                     <div className = "flex items-center w-full justify-between" >
@@ -231,13 +233,13 @@ export default function AuthModal() {
                     </form>
                     <div className="grid grid-cols-3 gap-5">
                         <div className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
-                             <i class='bx bxl-google-plus'></i>
+                             <i className='bx bxl-google-plus'></i>
                         </div>
                         <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
-                            <i class='bx bxl-facebook' ></i>
+                            <i className='bx bxl-facebook' ></i>
                         </div>
                         <div className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
-                            <i class='bx bxl-twitter text-blue-500' ></i>
+                            <i className='bx bxl-twitter text-blue-500' ></i>
                         </div>
                     </div>
                     <div className = "flex items-center w-full justify-between" >

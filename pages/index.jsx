@@ -7,7 +7,22 @@ import Footer from '../components/Footer'
 import Banner from '../components/Banner'
 import Sidebar from '../components/SideBar'
 import PopularFields from '../components/PopularFields'
-const Home= () => {
+import ReservationsBar from '../components/ReservationsBar'
+
+
+export async function getServerSideProps(context) {
+
+  const response = await fetch('http://127.0.0.1:8000/entity/reservation-list')
+  const reservations = await response.json();
+
+  return {
+    props: {
+      reservations:reservations
+    },
+  }
+}
+
+const Home= ({reservations}) => {
 
 
   
@@ -24,6 +39,7 @@ const Home= () => {
        </Head>
       <Header />
       <AuthModal />
+      <ReservationsBar reservations={reservations} />
       <Banner />
       <Sidebar />
       <PopularFields />
