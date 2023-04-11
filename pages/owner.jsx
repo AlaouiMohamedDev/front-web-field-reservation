@@ -7,7 +7,7 @@ import UserBanner from '../components/UserBanner'
 import AuthModal from '../components/AuthModal'
 import UserInfo from '../components/UserInfo'
 import ReservationsBar from '../components/ReservationsBar'
-// import Complexlist from '../components/owner/Complexlist'
+import Complexlist from '../components/owner/Complexlist'
 
 
 export async function getServerSideProps(context) {
@@ -44,7 +44,7 @@ export default function ({reservations}) {
         <UserBanner />
         <AddComplex />
         <UserInfo />
-        {/* <Complexlist /> */}
+         <Complexlist /> 
       </div>
         
       <Footer />
