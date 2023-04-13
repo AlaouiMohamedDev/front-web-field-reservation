@@ -76,7 +76,7 @@ export default function AuthModal() {
 
 
             //https://kritirankk.pythonanywhere.com/
-            //https://kritirankk.pythonanywhere.com/
+            //https://kritirankk.py1thonanywhere.com/
             axios.post('https://kritirankk.pythonanywhere.com/api/login',data).then(res => {
                       
                 if(res.data.status === 200){
@@ -98,7 +98,8 @@ export default function AuthModal() {
                     }*/
                     swal.fire("Bienvenue","","success");
                     ModalAuth()
-                    router.push('')
+                    const currentUrl = router.asPath;
+                    router.push(currentUrl)
                 }
                 else
                 {

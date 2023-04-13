@@ -18,7 +18,8 @@ export default function Header() {
         deleteCookie('jwt')
         deleteCookie('id')
         deleteCookie('email')
-        router.push('')
+        const currentUrl = router.asPath;
+        router.push(currentUrl)
     }
 
     useEffect(() => {

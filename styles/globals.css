@@ -7,6 +7,9 @@
   .activeOwner{
     @apply bg-main rounded cursor-pointer text-white;
   }
+  .activeM{
+    @apply bg-main rounded text-white;
+  }
 }
 .fade {
     animation-name: fade;

@@ -27,7 +27,6 @@ export async function getServerSideProps(context) {
     }
   }
 export default function ({reservations}) {
-console.log("🚀 ~ file: calendar.jsx:28 ~ reservations:", reservations)
 
 
     const router = useRouter();
@@ -277,6 +276,7 @@ console.log("🚀 ~ file: calendar.jsx:28 ~ reservations:", reservations)
                         endTime:t,
                         date:date.toISOString().slice(0, 10),
                         terrain:field,
+                        ttt:"dsqdqsd",
                         jwt:getCookie('jwt')
                     }
                     console.log("🚀 ~ file: calendar.jsx:236 ~ book ~ data:", data)
