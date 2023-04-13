@@ -75,9 +75,9 @@ export default function AuthModal() {
             }
 
 
-            //http://127.0.0.1:8000/
             //https://kritirankk.pythonanywhere.com/
-            axios.post('http://127.0.0.1:8000/api/login',data).then(res => {
+            //https://kritirankk.pythonanywhere.com/
+            axios.post('https://kritirankk.pythonanywhere.com/api/login',data).then(res => {
                       
                 if(res.data.status === 200){
                     console.log("🚀 ~ file: AuthModal.jsx:77 ~ axios.post ~ res.data:", res.data.user)

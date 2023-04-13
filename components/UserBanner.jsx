@@ -11,7 +11,6 @@ export default function UserBanner() {
             setUserName(null)
         else
             setUserName(getCookie('name'))
-        console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ userName:", userName)
     },[getCookie('name')])
 
     const showComplex = () => {

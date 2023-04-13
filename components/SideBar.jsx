@@ -54,8 +54,8 @@ export default function Sidebar() {
                     <i onClick={closeSidebar} className='bx bx-x  text-2xl font-bold rounded cursor-pointer'></i>
                 </div>
                 <div className="flex flex-col px-5 text-gray-700  text-left font-semibold">
-                    <span  className="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
-                    <span  className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">Fields</span>
+                    <span onClick={()=>router.push('/')} className="cursor-pointer hover:text-gray-500 py-4 border-y border-gray-200">Acceuil</span>
+                    <span onClick={()=>router.push('/fields')} className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">Fields</span>
                   
                     <span  className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">About Us</span>
                     <span className="cursor-pointer hover:text-gray-500 py-4 border-b border-gray-200">Contact Us</span>

@@ -9,10 +9,10 @@ import ReservationsBar from '../components/ReservationsBar'
 import Sidebar from '../components/SideBar'
 
 export async function getServerSideProps(context) {
-  const response = await fetch('http://127.0.0.1:8000/entity/list_fields')
+  const response = await fetch('https://kritirankk.pythonanywhere.com/entity/list_fields')
   const fields = await response.json();
 
-  const response1 = await fetch('http://127.0.0.1:8000/entity/reservation-list')
+  const response1 = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
   const reservations = await response1.json();
 
   return {

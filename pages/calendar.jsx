@@ -17,7 +17,7 @@ export async function getServerSideProps(context) {
 
 
 
-    const response = await fetch('http://127.0.0.1:8000/entity/reservation-list')
+    const response = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
     const reservations = await response.json();
   
     return {
@@ -281,7 +281,7 @@ console.log("🚀 ~ file: calendar.jsx:28 ~ reservations:", reservations)
                     }
                     console.log("🚀 ~ file: calendar.jsx:236 ~ book ~ data:", data)
 
-                    axios.post('http://127.0.0.1:8000/entity/reservation-create/',data).then(res => {
+                    axios.post('https://kritirankk.pythonanywhere.com/entity/reservation-create/',data).then(res => {
                     if(res.data.status === 200){
                         
                         toast.success("Field Booked", {
