@@ -80,11 +80,11 @@ export default function AuthModal() {
             axios.post('https://kritirankk.pythonanywhere.com/api/login',data).then(res => {
                       
                 if(res.data.status === 200){
-                    console.log("🚀 ~ file: AuthModal.jsx:77 ~ axios.post ~ res.data:", res.data.user)
                     setCookie('jwt',res.data.jwt);
                     setCookie('name',res.data.user.first_name);
                     setCookie('email',res.data.user.email);
                     setCookie('id',res.data.user.id);
+                    setCookie('role',res.data.user.role);
                     
                     /*
                     setCookie('public_id',res.data.public_id);

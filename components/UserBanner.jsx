@@ -1,10 +1,19 @@
 import { getCookie } from 'cookies-next'
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
 export default function UserBanner() {
 
 
     const [userName,setUserName] = useState(null)
+
+    const router = useRouter();
+    const { reservation } = router.query;
+
+    useEffect(()=>{
+           if(reservation != null)
+                showReservationlist()
+    })
 
     useEffect(()=>{
         if(getCookie('name') == null)
@@ -17,10 +26,13 @@ export default function UserBanner() {
         const addComplex = document.querySelector('.addComplex')
         const userInfo = document.querySelector('.userInfo')
         const complexlist = document.querySelector('.complexlist')
+        const reservationlist = document.querySelector('.reservationlist')
+
        
         userInfo.classList.add('hidden')
         complexlist.classList.add('hidden')
         addComplex.classList.remove('hidden')
+        reservationlist.classList.add('hidden')
     }
 
     const showUserInfo = () => {
@@ -29,14 +41,19 @@ export default function UserBanner() {
         const complexlist = document.querySelector('.complexlist')
         const cmlist = document.querySelector('.cmlist')
         const settings = document.querySelector('.settings')
+        const reservationlist = document.querySelector('.reservationlist')
+        const reslist = document.querySelector('.reslist')
+
         
         settings.classList.add('activeOwner')
         cmlist.classList.remove('activeOwner')
-
+        reslist.classList.remove('activeOwner')
 
         complexlist.classList.add('hidden')
         userInfo.classList.remove('hidden')
         addComplex.classList.add('hidden')
+        reservationlist.classList.add('hidden')
+
         
     }
 
@@ -46,13 +63,40 @@ export default function UserBanner() {
         const complexlist = document.querySelector('.complexlist')
         const cmlist = document.querySelector('.cmlist')
         const settings = document.querySelector('.settings')
+        const reservationlist = document.querySelector('.reservationlist')
+        const reslist = document.querySelector('.reslist')
+
 
         settings.classList.remove('activeOwner')
         cmlist.classList.add('activeOwner')
+        reslist.classList.remove('activeOwner')
+
 
         complexlist.classList.remove('hidden')
         userInfo.classList.add('hidden')
         addComplex.classList.add('hidden')
+        reservationlist.classList.add('hidden')
+
+    }
+
+    const showReservationlist = () => {
+        const addComplex = document.querySelector('.addComplex')
+        const userInfo = document.querySelector('.userInfo')
+        const complexlist = document.querySelector('.complexlist')
+        const cmlist = document.querySelector('.cmlist')
+        const reslist = document.querySelector('.reslist')
+        const settings = document.querySelector('.settings')
+        const reservationlist = document.querySelector('.reservationlist')
+
+
+        settings.classList.remove('activeOwner')
+        cmlist.classList.remove('activeOwner')
+        reslist.classList.add('activeOwner')
+
+        complexlist.classList.add('hidden')
+        userInfo.classList.add('hidden')
+        addComplex.classList.add('hidden')
+        reservationlist.classList.remove('hidden')
     }
 
   return (
@@ -105,6 +149,7 @@ export default function UserBanner() {
                             </div>
                         </div>
                         <div className='flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-5 text-xs mt-20 md:mt-10'>
+                            <a onClick={showReservationlist} className='px-2 py-1 reslist'>Reservation List</a>
                             <a onClick={showComplexlist} className='px-2 py-1 cmlist'>Complexe List</a>
                             <a onClick={showUserInfo} className='activeOwner px-2 py-1 settings'>My Settings</a>
                         </div>

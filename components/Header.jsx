@@ -2,9 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { setCookie,getCookie, deleteCookie } from 'cookies-next'
 
-export default function Header() {
+
+
+export default function Header({notifications}) {
+
 
     const router = useRouter();
+
+    const [displayedReservation,setDisplayedReservation] = useState(notifications.data)
+    useEffect(()=>{
+        setDisplayedReservation(notifications.data.filter(reservation => {
+            if(reservation.owner == getCookie('id'))
+            {
+                return reservation
+            }
+    
+    }))
+      
+
+    },[notifications])
    
 
     const ModalAuth =()=>{
@@ -18,6 +34,7 @@ export default function Header() {
         deleteCookie('jwt')
         deleteCookie('id')
         deleteCookie('email')
+        deleteCookie('role')
         const currentUrl = router.asPath;
         router.push(currentUrl)
     }
@@ -48,12 +65,20 @@ export default function Header() {
     },[]);
 
     const [userName,setUserName] = useState(null)
+    const [role,setRole] = useState(null)
     useEffect(()=>{
         if(getCookie('name') == null)
             setUserName(null)
         else
             setUserName(getCookie('name'))
     },[getCookie('name')])
+
+    useEffect(()=>{
+        if(getCookie('role') == null)
+            setRole(null)
+        else
+            setRole(getCookie('role'))
+    },[getCookie('role')])
 
     const sidebar = () => {
         
@@ -77,6 +102,12 @@ export default function Header() {
         const dropDown = document.querySelector('.dropDown')
         dropDown.classList.toggle('hidden')
     }
+    
+    const dropDown1 = () => {
+        const dropDown = document.querySelector('.dropDown1')
+        dropDown.classList.toggle('hidden')
+    }
+
 
   return (
     <div className=''>
@@ -91,14 +122,58 @@ export default function Header() {
             <div className="flex items-center space-x-10">
                 <img src="./images/logo-name.png" className="w-[170px] "/>
                 <div className="md:flex items-center space-x-7 hidden">
-                    <a onClick={()=>{router.push('/')}} className=" text-main">Welcome</a>
-                    <a onClick = {() => router.push("/fields")}  className="">Fields</a>
-                    <a href="" className="">About Us</a>
-                    <a href="" className="">Contact Us</a>
+                    <a onClick={()=>{router.push('/')}} className=" text-main cursor-pointer">Welcome</a>
+                    <a onClick = {() => router.push("/fields")}  className=" cursor-pointer">Fields</a>
+                    <a onClick = {() => router.push("/posts")}  className=" cursor-pointer">Posts</a>
+                    <a href="" className=" cursor-pointer">About Us</a>
+                    <a href="" className=" cursor-pointer">Contact Us</a>
                 </div>
             </div>
             <div className="flex items-center space-x-5 text-xl ">
-                <i className='bx bx-search cursor-pointer'></i>
+                {
+                    userName !=null
+                    &&
+                    role == 'host'
+                    &&
+                    <div className='relative'>
+                    <button onClick={dropDown1} id="dropdownNavbarLink1" data-dropdown-toggle="dropdownNavbar1" className="relative text-sm flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-main md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
+                        <i className='bx bx-bell text-lg '></i>
+                        {
+                            displayedReservation.length != 0
+                            &&
+                        <div className='text-[9px] text-white bg-red-500 w-3 h-3 absolute left-3 top-0 rounded-full flex items-center justify-center'>{displayedReservation.length}</div>
+                        }
+                    </button>
+                        <div id="dropdownNavbar1" className="dropDown1 hidden z-10 absolute top-10 right-1 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-max dark:bg-gray-700 dark:divide-gray-600">
+                            <ul className="text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton1">
+                               {
+                                displayedReservation.length != 0
+                                &&
+                                displayedReservation.slice(0, 3).map(rese => {
+
+                                    return(
+
+                                        <li key={rese.id} onClick={()=>router.push('/owner?reservation=true')} className='flex space-x-2 items-center hover:bg-main/40 cursor-pointer rounded py-2 px-3'>
+                                            <img src='/user-2.jpg' className='w-8 h-8 rounded-full object-cover' />
+                                            <div className='flex flex-col text-[10px]'>
+                                                <p><b>{rese.name} -</b> <span className='text-main'>Field {rese.nameField}</span></p>
+                                                <p><span className='text-gray-400 border-b'>more details</span></p>
+                                            </div>
+                                        </li>
+                                    )
+                                })
+                               }
+                               {
+                                displayedReservation.length != 0
+                                &&
+                                <li onClick={()=>router.push('/owner?reservation=true')} className='flex justify-center border-t space-x-2 items-center cursor-pointer rounded py-1 bg-main text-white px-3'>
+                                        See All
+                                </li>
+                               }
+                            </ul>
+                        </div>
+                    </div> 
+                }
                 { userName == null ?
                     <i onClick={ModalAuth}  className='bx bx-user cursor-pointer' ></i>
                 :
@@ -107,9 +182,14 @@ export default function Header() {
                 <button onClick={dropDown} id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" className="text-sm flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-main md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">{userName}<svg className="w-5 h-5 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
                     <div id="dropdownNavbar" className="dropDown hidden z-10 absolute top-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                         <ul className="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                        {
+                            role == 'host'
+                            &&
+
                         <li>
                             <a onClick = {() => router.push("/owner")} className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
                         </li>
+                        }
                         <li>
                             <a  className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
                         </li>
@@ -121,7 +201,7 @@ export default function Header() {
                         <a onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sign out</a>
                         </div>
                     </div>
-            </div>
+                </div>
                     
                 }
                 {userName!=null && <i onClick={reservationbar} className='bx bx-book-bookmark cursor-pointer'></i>}

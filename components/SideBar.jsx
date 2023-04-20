@@ -7,12 +7,7 @@ import axios from 'axios';
 
 
 export default function Sidebar() {
-//     const [cats,setCats]= useState([])
 
-
-//    useEffect(()=>{
-//         setCats(categories)
-//     },[cats])
 
     const logOut =async ()=>{
         // const response =await axios.get(`http://127.0.0.1:5000/logout/${user.id}`);

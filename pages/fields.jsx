@@ -15,14 +15,19 @@ export async function getServerSideProps(context) {
   const response1 = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
   const reservations = await response1.json();
 
+  const responseRes = await fetch('https://kritirankk.pythonanywhere.com/entity/completed_reservations_post/')
+  const notifications = await responseRes.json();
+
+
   return {
     props: {
       fields:fields,
-      reservations:reservations
+      reservations:reservations,
+      notifications:notifications
     },
   }
 }
-export default function ({fields,reservations}) {
+export default function ({fields,reservations,notifications}) {
   return (
     <div className="">
       <Head>
@@ -33,7 +38,7 @@ export default function ({fields,reservations}) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
       </Head>
-      <Header />
+      <Header notifications={notifications}/>
       <AuthModal />
       <Sidebar />
        <ReservationsBar reservations={reservations}/>

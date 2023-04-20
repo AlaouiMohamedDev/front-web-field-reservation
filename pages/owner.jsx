@@ -9,6 +9,7 @@ import UserInfo from '../components/UserInfo'
 import ReservationsBar from '../components/ReservationsBar'
 import Complexlist from '../components/owner/Complexlist'
 import { getCookie } from 'cookies-next'
+import ReservationList from '../components/owner/ReservationList'
 
 
 
@@ -17,13 +18,17 @@ export async function getServerSideProps(context) {
   const response = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
   const reservations = await response.json();
 
+  const responseRes = await fetch('https://kritirankk.pythonanywhere.com/entity/completed_reservations_post/')
+  const notifications = await responseRes.json();
+
   return {
     props: {
       reservations:reservations,
+      notifications:notifications
     },
   }
 }
-export default function ({reservations}) {
+export default function ({reservations,notifications}) {
   return (
     <div className="">
       <Head>
@@ -34,7 +39,7 @@ export default function ({reservations}) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
       </Head>
-      <Header />
+      <Header notifications={notifications} />
       <AuthModal />
       <ReservationsBar reservations={reservations} />
       {/* grid grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 */}
@@ -45,6 +50,7 @@ export default function ({reservations}) {
         <AddComplex />
         <UserInfo />
          <Complexlist /> 
+         <ReservationList reservations={reservations}/>
       </div>
         
       <Footer />

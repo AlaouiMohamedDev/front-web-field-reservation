@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { toast } from "react-toastify"
 import axios from 'axios';
 import ReservationsBar from '../components/ReservationsBar';
+import CreatePost from '../components/calendar/CreatePost';
 
 export async function getServerSideProps(context) {
 
@@ -19,14 +20,22 @@ export async function getServerSideProps(context) {
 
     const response = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
     const reservations = await response.json();
-  
+
+    const response1 = await fetch('https://kritirankk.pythonanywhere.com/entity/list_fields')
+    const fields = await response1.json();
+
+    const responseRes = await fetch('https://kritirankk.pythonanywhere.com/entity/completed_reservations_post/')
+  const notifications = await responseRes.json();
+
     return {
       props: {
-        reservations:reservations
+        reservations:reservations,
+        fields:fields,
+        notifications:notifications
       },
     }
   }
-export default function ({reservations}) {
+export default function ({reservations,fields,notifications}) {
 
 
     const router = useRouter();
@@ -165,7 +174,7 @@ export default function ({reservations}) {
     const nowMonth = now.getMonth(); // Get the current month (0-11, where 0 is January and 11 is December)
     const nowWeek = Math.floor((now.getDate() - 1) / 7) + 1; // Get the current week of the month (1-5)
     const [reservationList,setReservationList] = useState([])
-
+    const [oneField,setField] = useState({})
     useEffect(()=>{
         setReservationList(
             reservations.filter(reservation => {
@@ -186,7 +195,15 @@ export default function ({reservations}) {
         
         })
         )
+       
     },[reservations])
+
+    useEffect(()=>{
+
+      setField(fields.filter(f=>{
+        if(f.id == field) return f
+      }))
+    },[fields])
       
     //   const reservations = [
     //     {
@@ -246,6 +263,9 @@ export default function ({reservations}) {
         modal.classList.remove('hidden')
         modal.classList.add('flex')
     }
+    const[from1,setFrom1] = useState('')
+    const[to1,setTo1] = useState('')
+    const[day1,setDay1] = useState('')
 
     const book =(f,t,d) => {
         if(userId == null)
@@ -253,56 +273,92 @@ export default function ({reservations}) {
            ModalAuth()
         }
         else{
-            Swal.fire({
-                title: `Do you want to Reserve `,
-                text: "Make sure of your descion",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes,Book it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const currentDate = new Date()
-                    const formattedDate = currentDate.toISOString().slice(0, 10)
+       
 
-                    const date = new Date(formattedDate)
-                    if(date.getDay() != d)
-                    {
-                        date.setDate(date.getDate() + d-date.getDay())
-                    }
-                    const data={
-                        startTime:f,
-                        endTime:t,
-                        date:date.toISOString().slice(0, 10),
-                        terrain:field,
-                        ttt:"dsqdqsd",
-                        jwt:getCookie('jwt')
-                    }
-                    console.log("🚀 ~ file: calendar.jsx:236 ~ book ~ data:", data)
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'bg-main text-white outline-none py-2 px-3 rounded ml-5',
+              cancelButton: 'bg-yellow-500 text-white outline-none py-2 px-3 rounded '
+            },
+            buttonsStyling: false
+          })
+          
+          swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Full reseravation',
+            cancelButtonText: 'Create a Post',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+                      Swal.fire({
+                    title: `Do you want to Reserve `,
+                    text: "Make sure of your descion",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes,Book it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const currentDate = new Date()
+                        const formattedDate = currentDate.toISOString().slice(0, 10)
 
-                    axios.post('https://kritirankk.pythonanywhere.com/entity/reservation-create/',data).then(res => {
-                    if(res.data.status === 200){
+                        const date = new Date(formattedDate)
+                        if(date.getDay() != d)
+                        {
+                            date.setDate(date.getDate() + d-date.getDay())
+                        }
+                        const data={
+                            startTime:f,
+                            endTime:t,
+                            date:date.toISOString().slice(0, 10),
+                            terrain:field,
+                            approved_rejected:"waiting",
+                            jwt:getCookie('jwt')
+                        }
+
+                        axios.post('https://kritirankk.pythonanywhere.com/entity/reservation-create/',data).then(res => {
+                        if(res.data.status === 200){
+                            
+                            toast.success("Field Booked", {
+                                position: "bottom-right",
+                              });
+                              router.push(`/calendar?field=${field}`)
+                        }
+                        else
+                        {
+                            Swal.fire("Echec !!",res.data.message,"warning");
+                        }
+                    })
+
                         
-                        toast.success("Field Booked", {
-                            position: "bottom-right",
-                          });
-                          router.push(`/calendar?field=${field}`)
-                    }
-                    else
-                    {
-                        Swal.fire("Echec !!",res.data.message,"warning");
-                    }
-                })
-
-                    
-            }
-               
-        })
+                }
+                  
+            })
+            } else{
+                    setFrom1(f)
+                    setDay1(d)
+                    setTo1(t)
+                    const postmodal= document.querySelector('.postmodal')
+                    postmodal.classList.remove('hidden')
+                    postmodal.classList.add('flex')
+            } 
+          })
         }
    
     }
-
+    const  getWeekNumber = (date) => {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      // Set the day to Thursday of the current week to get the correct week number
+      d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+      const yearStart = new Date(d.getFullYear(), 0, 1);
+      const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+      return weekNo;
+    }
     return (
       <div className="">
         <Head>
@@ -313,7 +369,7 @@ export default function ({reservations}) {
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
           <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
         </Head>
-        <Header />
+        <Header notifications={notifications}/>
         <SideBar />
         <AuthModal />
         <ReservationsBar reservations={reservations} />
@@ -375,9 +431,16 @@ export default function ({reservations}) {
 
                                     {Array.from({ length: 7 }, (_, i) => {
                                     const day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][i];
+                                    const date = new Date()
                                     const reservation = reservationList.find(reservation => {
+                                      const weekNumber= getWeekNumber(reservation.date)
+                                      
+                                      console.log("🚀 ~ file: calendar.jsx:437 ~ reservation ~ weekNumber:", weekNumber)
+                                      
                                         return reservation.day === day && reservation.from === from && reservation.to === to
                                     })
+                        
+
 
                                     const hasReservation = Boolean(reservation);
                                    
@@ -408,24 +471,33 @@ export default function ({reservations}) {
                                                 </div>
                                             </div>
                                         :
+                                        <div className='h-full'>
+                                            <div className='group-hover:hidden h-full flex items-center justify-center text-sm text-gray-200'>
+                                                <span>Empty</span>
+                                            </div>
+                                            <div onClick={()=>book(from,to,i)} className='transition duration-100 ease-in-out hidden space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm'>
+                                                <i className='bx bxs-plus-circle text-lg' ></i>
+                                                <span>Add a Reservation</span>
+                                            </div>  
+                                        </div>
                                             
-                                            currentDate.getDay()<=i && newDate > dateCurrent ?
-                                                    <div className='h-full'>
-                                                        <div className='group-hover:hidden h-full flex items-center justify-center text-sm text-gray-200'>
-                                                            <span>Empty</span>
-                                                        </div>
-                                                        <div onClick={()=>book(from,to,i)} className='transition duration-100 ease-in-out hidden space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm'>
-                                                            <i className='bx bxs-plus-circle text-lg' ></i>
-                                                            <span>Add a Reservation</span>
-                                                        </div>  
-                                                    </div>  
-                                                :
-                                                <div className='h-full w-full cursor-none'>
-                                                        <div className='space-y-1 flex flex-col items-center h-full justify-center text-gray-50 bg-gray-300 text-sm'>
-                                                            <i className='bx bx-block text-lg' ></i>
-                                                            <span>Locked</span>
-                                                        </div>  
-                                                </div>  
+                                            // currentDate.getDay()<=i && newDate > dateCurrent ?
+                                            //         <div className='h-full'>
+                                            //             <div className='group-hover:hidden h-full flex items-center justify-center text-sm text-gray-200'>
+                                            //                 <span>Empty</span>
+                                            //             </div>
+                                            //             <div onClick={()=>book(from,to,i)} className='transition duration-100 ease-in-out hidden space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm'>
+                                            //                 <i className='bx bxs-plus-circle text-lg' ></i>
+                                            //                 <span>Add a Reservation</span>
+                                            //             </div>  
+                                            //         </div>  
+                                            //     :
+                                            //     <div className='h-full w-full cursor-none'>
+                                            //             <div className='space-y-1 flex flex-col items-center h-full justify-center text-gray-50 bg-gray-300 text-sm'>
+                                            //                 <i className='bx bx-block text-lg' ></i>
+                                            //                 <span>Locked</span>
+                                            //             </div>  
+                                            //     </div>  
                                             
                                         }
                                         </div>
@@ -443,6 +515,7 @@ export default function ({reservations}) {
                     <Pagination paginate={paginate} currentPage={currentPage} elementPerPage={elementPerPage} totalElement={hours.length} />
                 </div>
         </div>
+        <CreatePost oneField={oneField} from={from1} to={to1}/>
         <Footer />
       </div>
     )
