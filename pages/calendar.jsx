@@ -13,18 +13,19 @@ import { toast } from "react-toastify"
 import axios from 'axios';
 import ReservationsBar from '../components/ReservationsBar';
 import CreatePost from '../components/calendar/CreatePost';
+import BASE_URL from './global';
 
 export async function getServerSideProps(context) {
 
 
 
-    const response = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
+    const response = await fetch(`${BASE_URL}/entity/reservation-list`)
     const reservations = await response.json();
 
-    const response1 = await fetch('https://kritirankk.pythonanywhere.com/entity/list_fields')
+    const response1 = await fetch(`${BASE_URL}/entity/list_fields`)
     const fields = await response1.json();
 
-    const responseRes = await fetch('https://kritirankk.pythonanywhere.com/entity/completed_reservations_post/')
+    const responseRes = await fetch(`${BASE_URL}/entity/completed_reservations_post/`)
   const notifications = await responseRes.json();
 
     return {
@@ -320,7 +321,7 @@ export default function ({reservations,fields,notifications}) {
                             jwt:getCookie('jwt')
                         }
 
-                        axios.post('https://kritirankk.pythonanywhere.com/entity/reservation-create/',data).then(res => {
+                        axios.post(`${BASE_URL}/entity/reservation-create/`,data).then(res => {
                         if(res.data.status === 200){
                             
                             toast.success("Field Booked", {

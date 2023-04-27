@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
@@ -18,7 +19,8 @@ module.exports = {
         'main':'#03C988',
         'Cblue' :'#001022',
         'dashBlack':'#212529',
-        'custGreen':'#0ab39c'
+        'custGreen':'#0ab39c',
+        'dashGreen':'#023535'
       },
       fontFamily:{
         'roboto':['Roboto', 'sans-serif'],

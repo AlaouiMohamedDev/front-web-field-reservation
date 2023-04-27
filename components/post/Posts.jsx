@@ -31,7 +31,7 @@ export default function Posts({posts}) {
             }).then((result) => {
                 if (result.isConfirmed) {
                     
-                    axios.post(`https://kritirankk.pythonanywhere.com/entity/decrementPlayersNeeded/${id}/`,{jwt:getCookie('jwt')}).then(res => {
+                    axios.post(`${BASE_URL}/entity/decrementPlayersNeeded/${id}/`,{jwt:getCookie('jwt')}).then(res => {
                     if(res.data.status === 200){
                         router.push('')
                         toast.success("You have joined the team", {

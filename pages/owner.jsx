@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AddComplex from '../components/AddComplex'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -10,15 +10,16 @@ import ReservationsBar from '../components/ReservationsBar'
 import Complexlist from '../components/owner/Complexlist'
 import { getCookie } from 'cookies-next'
 import ReservationList from '../components/owner/ReservationList'
+import BASE_URL from './global'
 
 
 
 export async function getServerSideProps(context) {
 
-  const response = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
+  const response = await fetch(`${BASE_URL}/entity/reservation-list`)
   const reservations = await response.json();
 
-  const responseRes = await fetch('https://kritirankk.pythonanywhere.com/entity/completed_reservations_post/')
+  const responseRes = await fetch(`${BASE_URL}/entity/completed_reservations_post/`)
   const notifications = await responseRes.json();
 
   return {
@@ -29,6 +30,25 @@ export async function getServerSideProps(context) {
   }
 }
 export default function ({reservations,notifications}) {
+
+  const [userName,setUserName] = useState(null)
+    
+    useEffect(()=>{
+        if(getCookie('name') == null)
+            setUserName(null)
+        else
+            setUserName(getCookie('name'))
+    },[getCookie('name')])
+
+
+    const [role,setRole] = useState(null)
+    useEffect(()=>{
+        if(getCookie('role') == null)
+            setRole(null)
+        else
+            setRole(getCookie('role'))
+    },[getCookie('role')])
+
   return (
     <div className="">
       <Head>
@@ -47,10 +67,21 @@ export default function ({reservations,notifications}) {
        
         {/* <DashUser /> */}
         <UserBanner />
-        <AddComplex />
+        {
+           userName !=null
+           &&
+           role == 'host'
+           &&
+           <>
+           <AddComplex />
+           
+           <Complexlist /> 
+           
+           <ReservationList reservations={reservations}/>
+           </>
+
+        }
         <UserInfo />
-         <Complexlist /> 
-         <ReservationList reservations={reservations}/>
       </div>
         
       <Footer />

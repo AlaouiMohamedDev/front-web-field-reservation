@@ -4,6 +4,7 @@ import Select from 'react-select'
 import swal from 'sweetalert2'
 import { setCookie,getCookie } from 'cookies-next'
 import {  useRouter } from 'next/router';
+import BASE_URL from '../pages/global';
 
 export default function AddComplex() {
   
@@ -142,7 +143,7 @@ const [complexId, setComplexId] = useState(null);
           jwt:getCookie('jwt')
         }
         console.log("🚀 ~ file: AddComplex.jsx:129 ~ addComplex ~ data:", data)
-        axios.post('https://kritirankk.pythonanywhere.com/entity/complexe-create/',data).then(res => {
+        axios.post(`${BASE_URL}/entity/complexe-create/`,data).then(res => {
                       
         if(res.data.status === 200){
           document.querySelector('.addComplexe').classList.remove('inline')
@@ -254,9 +255,8 @@ const [complexId, setComplexId] = useState(null);
         categories :categoriesList,
         jwt:getCookie('jwt')
       }
-      console.log("🚀 ~ file: AddComplex.jsx:223 ~ addCategories ~ data:", data)
 
-      axios.post('https://kritirankk.pythonanywhere.com/entity/fieldCategory-create/',data).then(res => {
+      axios.post(`${BASE_URL}/entity/fieldCategory-create/`,data).then(res => {
                       
         if(res.data.status === 200){
            /* setCookie('name',res.data.name);
@@ -320,7 +320,7 @@ const [complexId, setComplexId] = useState(null);
           jwt:getCookie('jwt')
         }
         console.log("🚀 ~ file: AddComplex.jsx:261 ~ sumbitComplex ~ data:", data)
-        axios.post('https://kritirankk.pythonanywhere.com/entity/field-create/',data).then(res => {
+        axios.post(`${BASE_URL}/entity/field-create/`,data).then(res => {
                         
           if(res.data.status === 200){
             /* setCookie('name',res.data.name);

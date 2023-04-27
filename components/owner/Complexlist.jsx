@@ -1,6 +1,7 @@
 import { getCookie } from 'cookies-next';
 import React, { useEffect, useState } from 'react'
 import Pagination from '../Pagination';
+import BASE_URL from '../../pages/global';
 
 
 
@@ -11,7 +12,7 @@ export default function Complexlist() {
     var [displayedComplexs,setDisplayedComplexs]= useState([])
 
     const getData = async() =>{
-        const response1 = await fetch(`https://kritirankk.pythonanywhere.com/entity/utilisateur/${getCookie('id')}/complexes-sportifs/`)
+        const response1 = await fetch(`${BASE_URL}/entity/utilisateur/${getCookie('id')}/complexes-sportifs/`)
         const complexs = await response1.json();
         setDisplayedComplexs(complexs);
     }
@@ -40,7 +41,7 @@ export default function Complexlist() {
     const currentFields =displayedFields.slice(indexOfFirstElement,indexOfLastElement)
 
     const getFieldByComplex = async (id) => {
-        const response1 = await fetch(`https://kritirankk.pythonanywhere.com/entity/complexes/${id}/terrains/`)
+        const response1 = await fetch(`${BASE_URL}/entity/complexes/${id}/terrains/`)
         const fields = await response1.json();
         setDisplayedFields(fields);
     }

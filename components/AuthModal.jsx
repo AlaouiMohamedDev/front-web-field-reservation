@@ -3,12 +3,18 @@ import swal from 'sweetalert2'
 import axios from 'axios'
 import { setCookie,getCookie } from 'cookies-next'
 import { useRouter } from 'next/router'
+import BASE_URL from "../pages/global";
+
+
+// Now you can use BASE_URL anywhere in this file
+
 
 /*
 import  { useRouter} from 'next/router';
 import { setCookie,getCookie } from 'cookies-next';*/
 
 export default function AuthModal() {
+    
 
     const router = useRouter();
     const [registerInput,setRegister] = useState({
@@ -76,8 +82,8 @@ export default function AuthModal() {
 
 
             //https://kritirankk.pythonanywhere.com/
-            //https://kritirankk.py1thonanywhere.com/
-            axios.post('https://kritirankk.pythonanywhere.com/api/login',data).then(res => {
+           
+            axios.post(`${BASE_URL}/api/login`,data).then(res => {
                       
                 if(res.data.status === 200){
                     setCookie('jwt',res.data.jwt);
@@ -85,6 +91,7 @@ export default function AuthModal() {
                     setCookie('email',res.data.user.email);
                     setCookie('id',res.data.user.id);
                     setCookie('role',res.data.user.role);
+                    setCookie('image','')
                     
                     /*
                     setCookie('public_id',res.data.public_id);
@@ -143,7 +150,7 @@ export default function AuthModal() {
             console.log("🚀 ~ file: AuthModal.jsx:131 ~ AuthModal ~ data:", data)
             
     
-            axios.post('https://kritirankk.pythonanywhere.com/api/register',data).then(res => {
+            axios.post(`${BASE_URL}/api/register`,data).then(res => {
                 if(res.data.status === 200){
                     swal.fire("Bienvenue","","success");
                     loginForm();

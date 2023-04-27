@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { toast } from "react-toastify"
 import Swal from 'sweetalert2'
+import BASE_URL from '../../pages/global'
 
 export default function CreatePost({oneField,from,to}) {
     const ModalAuth =()=>{
@@ -78,9 +79,8 @@ export default function CreatePost({oneField,from,to}) {
                         approved_rejected:"waiting",
                         jwt:getCookie('jwt')
                     }
-                    console.log("🚀 ~ file: calendar.jsx:236 ~ book ~ data:", data)
 
-                    axios.post('https://kritirankk.pythonanywhere.com/entity/reservation-create/',data).then(res => {
+                    axios.post(`${BASE_URL}/entity/reservation-create/`,data).then(res => {
                     if(res.data.status === 200){
                             const data1 ={
                                 number_of_players_needed:createPost.nbr,
@@ -89,7 +89,7 @@ export default function CreatePost({oneField,from,to}) {
                                 post_reservation:res.data.reservation_id,
                                 jwt:getCookie('jwt')
                             }
-                            axios.post('https://kritirankk.pythonanywhere.com/entity/post-create/',data1).then(res => {
+                            axios.post(`${BASE_URL}/entity/post-create/`,data1).then(res => {
                                     if(res.data.status === 200){
                                             resetPost()
                                             router.push(`/posts`)

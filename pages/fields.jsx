@@ -7,15 +7,17 @@ import Banner from '../components/fields/Banner'
 import FieldList from '../components/fields/FieldList'
 import ReservationsBar from '../components/ReservationsBar'
 import Sidebar from '../components/SideBar'
+import BASE_URL from './global'
 
 export async function getServerSideProps(context) {
-  const response = await fetch('https://kritirankk.pythonanywhere.com/entity/list_fields')
+  
+  const response = await fetch(`${BASE_URL}/entity/list_fields`)
   const fields = await response.json();
 
-  const response1 = await fetch('https://kritirankk.pythonanywhere.com/entity/reservation-list')
+  const response1 = await fetch(`${BASE_URL}/entity/reservation-list`)
   const reservations = await response1.json();
 
-  const responseRes = await fetch('https://kritirankk.pythonanywhere.com/entity/completed_reservations_post/')
+  const responseRes = await fetch(`${BASE_URL}/entity/completed_reservations_post/`)
   const notifications = await responseRes.json();
 
 

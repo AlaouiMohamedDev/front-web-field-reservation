@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
+import BASE_URL from '../../pages/global'
 
 function ReservationList({reservations}) {
 
@@ -43,7 +44,7 @@ function ReservationList({reservations}) {
                     reservation_id:id,
                     status:'approved'
                 }
-                axios.post('https://kritirankk.pythonanywhere.com/entity/approve-reservation/',data).then(res => {
+                axios.post(`${BASE_URL}/entity/approve-reservation/`,data).then(res => {
                     if(res.data.status === 200){
                         Swal.fire(
                             'Approved!',
@@ -81,7 +82,7 @@ function ReservationList({reservations}) {
                     reservation_id:id,
                     status:'rejected'
                 }
-                axios.post('https://kritirankk.pythonanywhere.com/entity/approve-reservation/',data).then(res => {
+                axios.post(`${BASE_URL}/entity/approve-reservation/`,data).then(res => {
                     if(res.data.status === 200){
                         Swal.fire(
                             'Rejected!',
