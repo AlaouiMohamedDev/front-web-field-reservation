@@ -1,17 +1,19 @@
 import axios from 'axios'
-import { getCookie } from 'cookies-next'
+import { getCookie, setCookie } from 'cookies-next'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import BASE_URL from '../pages/global'
+import { Router, useRouter } from 'next/router'
 
 export default function UserInfo() {
   const [userName,setUserName] = useState(null)
 
     useEffect(()=>{
-        if(getCookie('name') == null)
+        if(getCookie('first_name') == null)
             setUserName(null)
         else
-            setUserName(getCookie('name'))
-    },[getCookie('name')])
+            setUserName(getCookie('first_name'))
+    },[getCookie('first_name')])
 
     const [userInput,setUser] = useState({
       first_name:'',
@@ -28,9 +30,11 @@ export default function UserInfo() {
    
 }
 
+const router = useRouter();
+
   useEffect(()=>{
-    setUser({...userInput,[e.target.name]:e.target.value});
-  },)
+    setUser({...userInput,first_name:getCookie('first_name'),last_name:getCookie('last_name')});
+  },[getCookie('first_name')])
 
   const updateUser = () =>{
 
@@ -60,6 +64,8 @@ export default function UserInfo() {
                       
           if(res.data.status === 200){
             toast.success(res.data.message,{ position: "bottom-right" })
+            setCookie('name',userInput.first_name)
+            router.push('')
           }
           else
           {

@@ -26,17 +26,22 @@ export async function getServerSideProps(context) {
     const fields = await response1.json();
 
     const responseRes = await fetch(`${BASE_URL}/entity/completed_reservations_post/`)
-  const notifications = await responseRes.json();
+    const notificationsOwner = await responseRes.json();
+  
+    const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`)
+    const notificationsUser = await responseRes1.json();
+  
 
     return {
       props: {
         reservations:reservations,
         fields:fields,
-        notifications:notifications
+        notificationsOwner:notificationsOwner,
+        notificationsUser:notificationsUser
       },
     }
   }
-export default function ({reservations,fields,notifications}) {
+export default function ({reservations,fields,notificationsUser,notificationsOwner}) {
 
 
     const router = useRouter();
@@ -370,7 +375,7 @@ export default function ({reservations,fields,notifications}) {
           <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
           <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
         </Head>
-        <Header notifications={notifications}/>
+        <Header notificationsUser={notificationsUser} notificationsOwner={notificationsOwner}/>
         <SideBar />
         <AuthModal />
         <ReservationsBar reservations={reservations} />

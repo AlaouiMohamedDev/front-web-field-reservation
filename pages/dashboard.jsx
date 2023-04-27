@@ -2,6 +2,7 @@
 import Head from 'next/head'
 import SideBar from '../components/admin/SideBar';
 import HeaderDash from '../components/admin/HeaderDash';
+import Home from '../components/admin/Home';
 
 
 export default function Dashboard (){
@@ -22,6 +23,7 @@ export default function Dashboard (){
        </Head>
       <SideBar />
       <HeaderDash />
+      <Home />
     </div>
   )
 }

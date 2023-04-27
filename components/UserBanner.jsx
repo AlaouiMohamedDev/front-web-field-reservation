@@ -12,18 +12,23 @@ export default function UserBanner() {
 
     const router = useRouter();
     const { reservation } = router.query;
+    const { reservationuser } = router.query;
+
+    
 
     useEffect(()=>{
            if(reservation != null)
                 showReservationlist()
+            if(reservationuser !=null)
+                 showReservationUserlist()
     })
 
     useEffect(()=>{
-        if(getCookie('name') == null)
+        if(getCookie('first_name') == null)
             setUserName(null)
         else
-            setUserName(getCookie('name'))
-    },[getCookie('name')])
+            setUserName(getCookie('first_name'))
+    },[getCookie('first_name')])
 
     const [role,setRole] = useState(null)
     useEffect(()=>{
@@ -47,23 +52,45 @@ export default function UserBanner() {
     }
 
     const showUserInfo = () => {
-        const addComplex = document.querySelector('.addComplex')
+       
         const userInfo = document.querySelector('.userInfo')
-        const complexlist = document.querySelector('.complexlist')
-        const cmlist = document.querySelector('.cmlist')
+      
         const settings = document.querySelector('.settings')
-        const reservationlist = document.querySelector('.reservationlist')
-        const reslist = document.querySelector('.reslist')
+        try{
+            const reservationlist = document.querySelector('.reservationlist')
+            const complexlist = document.querySelector('.complexlist')
+            const cmlist = document.querySelector('.cmlist')
+            const addComplex = document.querySelector('.addComplex')
+            const reslist = document.querySelector('.reslist')
+
+            addComplex.classList.add('hidden')
+            reservationlist.classList.add('hidden')
+
+            cmlist.classList.remove('activeOwner')
+            reslist.classList.remove('activeOwner')
+
+            complexlist.classList.add('hidden')
+        }
+        catch(e){
+
+        }
+
+        try{
+            const reservationlist = document.querySelector('.reservationuserlist')
+            const resuserlist = document.querySelector('.resuserlist')
+            resuserlist.classList.remove('activeOwner')
+
+            reservationlist.classList.add('hidden')
+        }
+        catch{
+
+        }
+        
 
         
         settings.classList.add('activeOwner')
-        cmlist.classList.remove('activeOwner')
-        reslist.classList.remove('activeOwner')
-
-        complexlist.classList.add('hidden')
         userInfo.classList.remove('hidden')
-        addComplex.classList.add('hidden')
-        reservationlist.classList.add('hidden')
+        
 
         
     }
@@ -88,6 +115,8 @@ export default function UserBanner() {
         addComplex.classList.add('hidden')
         reservationlist.classList.add('hidden')
 
+        
+
     }
 
     const showReservationlist = () => {
@@ -110,11 +139,35 @@ export default function UserBanner() {
         reservationlist.classList.remove('hidden')
     }
 
+    const showReservationUserlist = () => {
+        const userInfo = document.querySelector('.userInfo')
+        
+        const settings = document.querySelector('.settings')
+      
+        try{
+            const resuserlist = document.querySelector('.resuserlist')
+            resuserlist.classList.add('activeOwner')
+
+            const reservationlist = document.querySelector('.reservationuserlist')
+             reservationlist.classList.remove('hidden')
+        }
+        catch{
+
+        }
+        
+
+        settings.classList.remove('activeOwner')
+        
+        userInfo.classList.add('hidden')
+        
+        
+       
+    }
     const [image, setImage] = useState(null);
     const [createObjectURL, setCreateObjectURL] = useState("./images/default.jpg" );
 
     useEffect(() => {
-            if(getCookie('image') !='')
+            if(getCookie('image') != null)
             {
                 setCreateObjectURL(getCookie('image'))
             }
@@ -247,6 +300,13 @@ export default function UserBanner() {
                             <a onClick={showReservationlist} className='px-2 py-1 reslist'>Reservation List</a>
                             <a onClick={showComplexlist} className='px-2 py-1 cmlist'>Complexe List</a>
                                 </>
+                            }
+                            {
+                                userName !=null
+                                &&
+                                role == 'client'
+                                &&
+                                <a onClick={showReservationUserlist} className='px-2 py-1 resuserlist'>My Reservations</a>
                             }
                             <a onClick={showUserInfo} className='activeOwner px-2 py-1 settings'>My Settings</a>
                         </div>

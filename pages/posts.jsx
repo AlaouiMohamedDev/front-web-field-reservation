@@ -18,16 +18,19 @@ export async function getServerSideProps(context) {
   const posts = await response.json();
 
   const responseRes = await fetch(`${BASE_URL}/entity/completed_reservations_post/`)
-  const notifications = await responseRes.json();
+  const notificationsOwner = await responseRes.json();
 
+  const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`)
+  const notificationsUser = await responseRes1.json();
   return {
     props: {
       posts:posts,
-      notifications:notifications,
+      notificationsOwner:notificationsOwner,
+      notificationsUser:notificationsUser
     },
   }
 }
-export default function ({posts,notifications}) {
+export default function ({posts,notificationsOwner,notificationsUser}) {
   return (
     <div className="">
       <Head>
@@ -49,7 +52,7 @@ export default function ({posts,notifications}) {
         />
         <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
       </Head>
-      <Header notifications={notifications} />
+      <Header notificationsOwner={notificationsOwner} notificationsUser={notificationsUser} />
       <AuthModal />
       <Sidebar />
       <Banner />

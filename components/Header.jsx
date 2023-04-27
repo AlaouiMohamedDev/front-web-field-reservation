@@ -4,19 +4,30 @@ import { setCookie, getCookie, deleteCookie } from 'cookies-next'
 
 
 
-export default function Header({ notifications }) {
-    const [displayedReservation, setDisplayedReservation] = useState(notifications.data)
+export default function Header({ notificationsUser,notificationsOwner }) {
+console.log("🚀 ~ file: Header.jsx:8 ~ Header ~ notificationsOwner:", notificationsOwner.data)
+
+    const [displayedReservation, setDisplayedReservation] = useState(notificationsOwner)
     useEffect(() => {
-        setDisplayedReservation(notifications.data.filter(reservation => {
-            if (reservation.owner == getCookie('id') || reservation.userId == getCookie('id')) {
+        setDisplayedReservation(notificationsOwner.data.filter(reservation => {
+            if (reservation.owner == getCookie('id')) {
                 return reservation
             }
-
-
         }))
 
 
-    }, [notifications])
+    }, [notificationsOwner])
+
+    const [displayedReservationUser, setDisplayedReservationUser] = useState(notificationsUser.data)
+    useEffect(() => {
+        setDisplayedReservationUser(notificationsUser.data.filter(reservation => {
+            if (reservation.userId == getCookie('id')) {
+                return reservation
+            }
+        }))
+
+
+    }, [notificationsUser])
 
 
     const router = useRouter();
@@ -30,7 +41,8 @@ export default function Header({ notifications }) {
     }
 
     const logout = () => {
-        deleteCookie('name')
+        deleteCookie('first_name')
+        deleteCookie('last_name')
         deleteCookie('jwt')
         deleteCookie('id')
         deleteCookie('email')
@@ -67,11 +79,11 @@ export default function Header({ notifications }) {
     const [userName, setUserName] = useState(null)
 
     useEffect(() => {
-        if (getCookie('name') == null)
+        if (getCookie('first_name') == null)
             setUserName(null)
         else
-            setUserName(getCookie('name'))
-    }, [getCookie('name')])
+            setUserName(getCookie('first_name'))
+    }, [getCookie('first_name')])
 
 
     const [role, setRole] = useState(null)
@@ -139,7 +151,7 @@ export default function Header({ notifications }) {
                     </div>
                 </div>
 
-                {/* ------ */<div className="flex items-center space-x-5 text-xl ">
+              <div className="flex items-center space-x-5 text-xl ">
                     {
                         userName != null
                         &&
@@ -194,37 +206,51 @@ export default function Header({ notifications }) {
                             <button onClick={dropDown2} id="dropdownNavbarLink2" data-dropdown-toggle="dropdownNavbar2" className="relative text-sm flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-main md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                                 <i className='bx bx-bell text-lg '></i>
                                 {
-                                    displayedReservation.length != 0
+                                    displayedReservationUser.length != 0
                                     &&
-                                    <div className='text-[9px] text-white bg-red-500 w-3 h-3 absolute left-3 top-0 rounded-full flex items-center justify-center'>{displayedReservation.length}</div>
+                                    <div className='text-[9px] text-white bg-red-500 w-3 h-3 absolute left-3 top-0 rounded-full flex items-center justify-center'>{displayedReservationUser.length}</div>
                                 }
                             </button>
                             <div id="dropdownNavbar2" className="dropDown2 hidden z-10 absolute top-10 right-1 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-max dark:bg-gray-700 dark:divide-gray-600">
                                 <ul className="text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton2">
                                     {
-                                        displayedReservation.length != 0
+                                        displayedReservationUser.length != 0
                                         &&
-                                        displayedReservation.slice(0, 3).map(rese => {
+                                        displayedReservationUser.slice(0, 3).map(rese => {
 
                                             return (
-
-                                                <li key={rese.id} className='flex space-x-2 items-center hover:bg-main/40 bg-yellow-500/40 cursor-pointer rounded py-2 px-3'>
+                                                rese.status == "waiting"
+                                                ?
+                                                <li onClick={() => router.push('/owner?reservationuser=true')} key={rese.id} className='flex space-x-2 items-center hover:bg-main/40 bg-yellow-500/30 cursor-pointer rounded py-2 px-3'>
                                                     <img src='/user-2.jpg' className='w-8 h-8 rounded-full object-cover' />
                                                     <div className='flex flex-col text-[10px]'>
-                                                        <p><b>{rese.name} -</b> <span className='text-main'>Field {rese.nameField}</span></p>
+                                                        <p><b>{rese.name} -</b> <span className='text-main'>Field {rese.nameField}</span>- <span className='text-yellow-500 font-bold'>{rese.status}</span></p>
                                                         <p><span className='text-gray-800'>Reservation completed all places are full</span></p>
                                                     </div>
                                                 </li>
+                                                : 
+                                                rese.status == "approved"
+                                                ?
+                                               <li onClick={() => router.push('/owner?reservationuser=true')} key={rese.id} className='flex space-x-2 items-center hover:bg-main/40 bg-main/40 cursor-pointer rounded py-2 px-3'>
+                                                   <img src='/user-2.jpg' className='w-8 h-8 rounded-full object-cover' />
+                                                   <div className='flex flex-col text-[10px]'>
+                                                       <p><b>{rese.name} -</b> <span className='text-main'>Field {rese.nameField}</span>- <span className='text-main font-bold'>{rese.status}</span></p>
+                                                       <p><span className='text-gray-800'>Reservation completed all places are full</span></p>
+                                                   </div>
+                                               </li>
+                                               :
+                                               <li onClick={() => router.push('/owner?reservationuser=true')} key={rese.id} className='flex space-x-2 items-center hover:bg-main/40 bg-red-500/40 cursor-pointer rounded py-2 px-3'>
+                                                   <img src='/user-2.jpg' className='w-8 h-8 rounded-full object-cover' />
+                                                   <div className='flex flex-col text-[10px]'>
+                                                       <p><b>{rese.name} -</b> <span className='text-main'>Field {rese.nameField}</span>- <span className='text-red-500 font-bold'>{rese.status}</span></p>
+                                                       <p><span className='text-gray-800'>Reservation completed all places are full</span></p>
+                                                   </div>
+                                               </li>
                                             )
+                                            
                                         })
                                     }
-                                    {
-                                        displayedReservation.length != 0
-                                        &&
-                                        <li onClick={() => router.push('/owner?reservation=true')} className='flex justify-center border-t space-x-2 items-center cursor-pointer rounded py-1 bg-main text-white px-3'>
-                                            See All
-                                        </li>
-                                    }
+
                                 </ul>
                             </div>
                         </div>
@@ -245,10 +271,16 @@ export default function Header({ notifications }) {
                                                 <a onClick={() => router.push("/owner")} className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
                                             </li>
                                             :
-
+                                            
+                                            role == 'client'
+                                            ?
                                             <li>
                                                 <a onClick={() => router.push("/owner")} className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Profile</a>
                                             </li>
+                                            :
+                                            <li>
+                                            <a onClick={() => router.push("/dashboard")} className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Admin Dash</a>
+                                        </li>
                                     }
                                     <li>
                                         <a className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
@@ -269,7 +301,7 @@ export default function Header({ notifications }) {
                 </div>
 
 
-                }
+              
 
             </div>
 

@@ -87,11 +87,12 @@ export default function AuthModal() {
                       
                 if(res.data.status === 200){
                     setCookie('jwt',res.data.jwt);
-                    setCookie('name',res.data.user.first_name);
+                    setCookie('first_name',res.data.user.first_name);
+                    setCookie('last_name',res.data.user.first_name);
                     setCookie('email',res.data.user.email);
                     setCookie('id',res.data.user.id);
                     setCookie('role',res.data.user.role);
-                    setCookie('image','')
+                    setCookie('image',res.data.user.profile_pic)
                     
                     /*
                     setCookie('public_id',res.data.public_id);

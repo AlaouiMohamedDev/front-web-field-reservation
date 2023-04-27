@@ -1,3 +1,4 @@
+import { getCookie } from 'cookies-next';
 import { useTheme } from 'next-themes';
 import React, { useEffect, useState } from 'react'
 
@@ -10,6 +11,15 @@ export default function HeaderDash() {
   useEffect(() => {
     setMounted(true);
   }, []);
+  
+  const [userName,setUserName] = useState(false);
+  useEffect(() => {
+    if (getCookie('first_name') == null)
+        setUserName(null)
+    else
+        setUserName(getCookie('first_name'))
+}, [getCookie('first_name')])
+
   
 
   
@@ -35,7 +45,7 @@ export default function HeaderDash() {
 
 
   return (
-    <div className=' fixed right-0 top-0 md:w-4/5 py-4 px-5  page bg-main flex items-center justify-between'>
+    <div className='fixed right-0 top-0 md:w-4/5 py-4 px-5  page bg-dashGreen flex items-center justify-between'>
       <div className='flex items-center relative justify-center bg-white rounded'>
          <i className='bx bx-search right-0 absolute bg-white dark:bg-auto px-2 text-gray-400 text-xs'></i>
          <input type="text" className="outline-none bg-white rounded text-xs  py-2 px-4" placeholder="search"/>
@@ -56,12 +66,18 @@ export default function HeaderDash() {
           )
         }
 
-      <div className='flex space-x-1 items-center justify-center text-black'>
-        <img src="user-2.jpg" className="w-9 h-9 object-cover rounded-full img-user" />
-        <div className='flex flex-col justify-between'>
-          <span className='text-[10px] font-bold'>Alaoui Mohamed</span>
-          <span className='text-[10px] text-gray-300'>Founder</span>
-        </div>
+      <div className='flex space-x-2 items-center  text-white'>
+        {
+          getCookie('image') != null
+          ?
+          <img src={getCookie('image')} className="w-9 h-9 object-cover rounded-full img-user" />
+          :
+          <img src='/default.jpg' className="w-9 h-9 object-cover rounded-full img-user" />
+
+        }
+
+          <span className='text-[13px] font-bold'>{userName}</span>
+
       </div>
       </div>
     </div>

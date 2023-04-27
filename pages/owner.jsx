@@ -11,6 +11,7 @@ import Complexlist from '../components/owner/Complexlist'
 import { getCookie } from 'cookies-next'
 import ReservationList from '../components/owner/ReservationList'
 import BASE_URL from './global'
+import ReservationUserList from '../components/user/ReservationUserList'
 
 
 
@@ -20,25 +21,29 @@ export async function getServerSideProps(context) {
   const reservations = await response.json();
 
   const responseRes = await fetch(`${BASE_URL}/entity/completed_reservations_post/`)
-  const notifications = await responseRes.json();
+  const notificationsOwner = await responseRes.json();
+
+  const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`)
+  const notificationsUser = await responseRes1.json();
 
   return {
     props: {
       reservations:reservations,
-      notifications:notifications
+      notificationsOwner:notificationsOwner,
+      notificationsUser:notificationsUser
     },
   }
 }
-export default function ({reservations,notifications}) {
+export default function ({reservations,notificationsOwner,notificationsUser}) {
 
   const [userName,setUserName] = useState(null)
     
     useEffect(()=>{
-        if(getCookie('name') == null)
+        if(getCookie('first_name') == null)
             setUserName(null)
         else
-            setUserName(getCookie('name'))
-    },[getCookie('name')])
+            setUserName(getCookie('first_name'))
+    },[getCookie('first_name')])
 
 
     const [role,setRole] = useState(null)
@@ -59,7 +64,7 @@ export default function ({reservations,notifications}) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
       </Head>
-      <Header notifications={notifications} />
+      <Header notificationsOwner={notificationsOwner} notificationsUser={notificationsUser} />
       <AuthModal />
       <ReservationsBar reservations={reservations} />
       {/* grid grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 */}
@@ -79,7 +84,13 @@ export default function ({reservations,notifications}) {
            
            <ReservationList reservations={reservations}/>
            </>
-
+        }
+        {
+          userName !=null
+          &&
+          role == 'client'
+          &&
+          <ReservationUserList notificationsUser={notificationsUser}/>
         }
         <UserInfo />
       </div>

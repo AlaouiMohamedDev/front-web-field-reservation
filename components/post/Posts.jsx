@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import { differenceInMinutes,differenceInHours,differenceInDays } from 'date-fns'
+import BASE_URL from '../../pages/global'
 
 export default function Posts({posts}) {
 
@@ -85,7 +86,14 @@ export default function Posts({posts}) {
                                 
                                 <div className='flex items-center justify-between'>
                                     <div className='flex space-x-2'>
-                                        <img src='/user-2.jpg' className='w-9 h-9 rounded-full object-cover' />
+                                        {
+                                            post.userImage != null
+                                            ?
+                                            <img src={post.userImage} className='w-9 h-9 rounded-full object-cover' />
+                                            :
+                                            <img src='/default.jpg' className='w-9 h-9 rounded-full object-cover' />
+                                        }
+                                        
                                         <div className='flex flex-col justify-between'>
                                             <span className='text-xs font-semibold'>{post.user_name}</span>
                                             <span className='text-xs text-gray-600'>
