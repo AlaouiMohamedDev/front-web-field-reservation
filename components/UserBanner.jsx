@@ -1,9 +1,10 @@
 import { getCookie, setCookie } from 'cookies-next'
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
-import BASE_URL from '../pages/global';
+
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import BASE_URL from './global';
 
 export default function UserBanner() {
 

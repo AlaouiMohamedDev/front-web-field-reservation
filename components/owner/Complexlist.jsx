@@ -1,7 +1,8 @@
 import { getCookie } from 'cookies-next';
 import React, { useEffect, useState } from 'react'
 import Pagination from '../Pagination';
-import BASE_URL from '../../pages/global';
+import BASE_URL from '../global';
+
 
 
 

@@ -5,7 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import { differenceInMinutes,differenceInHours,differenceInDays } from 'date-fns'
-import BASE_URL from '../../pages/global'
+import BASE_URL from '../global'
+
 
 export default function Posts({posts}) {
 

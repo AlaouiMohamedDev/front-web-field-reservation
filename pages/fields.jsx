@@ -7,7 +7,8 @@ import Banner from '../components/fields/Banner'
 import FieldList from '../components/fields/FieldList'
 import ReservationsBar from '../components/ReservationsBar'
 import Sidebar from '../components/SideBar'
-import BASE_URL from './global'
+import BASE_URL from '../components/global'
+
 
 export async function getServerSideProps(context) {
   

@@ -2,8 +2,9 @@ import axios from 'axios'
 import { getCookie, setCookie } from 'cookies-next'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import BASE_URL from '../pages/global'
+
 import { Router, useRouter } from 'next/router'
+import BASE_URL from './global'
 
 export default function UserInfo() {
   const [userName,setUserName] = useState(null)

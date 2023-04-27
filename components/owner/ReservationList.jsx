@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-import BASE_URL from '../../pages/global'
+import BASE_URL from '../global'
+
 
 function ReservationList({reservations}) {
 

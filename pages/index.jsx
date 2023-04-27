@@ -8,7 +8,8 @@ import Banner from '../components/Banner'
 import Sidebar from '../components/SideBar'
 import PopularFields from '../components/PopularFields'
 import ReservationsBar from '../components/ReservationsBar'
-import BASE_URL from './global'
+import BASE_URL from '../components/global'
+
 
 
 export async function getServerSideProps(context) {

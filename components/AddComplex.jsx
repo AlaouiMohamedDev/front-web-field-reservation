@@ -4,7 +4,8 @@ import Select from 'react-select'
 import swal from 'sweetalert2'
 import { setCookie,getCookie } from 'cookies-next'
 import {  useRouter } from 'next/router';
-import BASE_URL from '../pages/global';
+import BASE_URL from './global';
+
 
 export default function AddComplex() {
   

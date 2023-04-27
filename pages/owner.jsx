@@ -10,8 +10,9 @@ import ReservationsBar from '../components/ReservationsBar'
 import Complexlist from '../components/owner/Complexlist'
 import { getCookie } from 'cookies-next'
 import ReservationList from '../components/owner/ReservationList'
-import BASE_URL from './global'
+
 import ReservationUserList from '../components/user/ReservationUserList'
+import BASE_URL from '../components/global'
 
 
 

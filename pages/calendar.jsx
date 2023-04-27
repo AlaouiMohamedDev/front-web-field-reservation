@@ -13,7 +13,8 @@ import { toast } from "react-toastify"
 import axios from 'axios';
 import ReservationsBar from '../components/ReservationsBar';
 import CreatePost from '../components/calendar/CreatePost';
-import BASE_URL from './global';
+import BASE_URL from '../components/global';
+
 
 export async function getServerSideProps(context) {
 

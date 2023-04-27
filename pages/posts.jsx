@@ -7,7 +7,10 @@ import Sidebar from "../components/SideBar";
 import Filter from "../components/post/Filter";
 import Posts from "../components/post/Posts";
 import Banner from "../components/post/Banner";
-import BASE_URL from "./global";
+import BASE_URL from "../components/global";
+
+
+
 
 
 export async function getServerSideProps(context) {
