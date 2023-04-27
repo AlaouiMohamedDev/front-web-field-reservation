@@ -12,6 +12,7 @@ import BASE_URL from '../components/global'
 
 
 
+
 export async function getServerSideProps(context) {
 
   const response = await fetch(`${BASE_URL}/entity/reservation-list`)
