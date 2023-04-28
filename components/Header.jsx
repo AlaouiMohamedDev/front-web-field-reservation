@@ -5,7 +5,7 @@ import { setCookie, getCookie, deleteCookie } from 'cookies-next'
 
 
 export default function Header({ notificationsUser,notificationsOwner }) {
-console.log("🚀 ~ file: Header.jsx:8 ~ Header ~ notificationsOwner:", notificationsOwner.data)
+
 
     const [displayedReservation, setDisplayedReservation] = useState(notificationsOwner)
     useEffect(() => {
