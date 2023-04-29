@@ -121,7 +121,7 @@ export default function FieldList({fields}) {
                                 
                             </div>
                             <div className="flex items-center h-[55px] w-full">
-                                <div onClick={()=>router.push(`/calendar?field=${field.id}`)} className="bg-gray-100 hover:bg-main hover:text-white duration-100 ease-in-out cursor-pointer h-full flex items-center justify-center w-[80%]">
+                                <div onClick={()=>router.push(`/calendar1?field=${field.id}`)} className="bg-gray-100 hover:bg-main hover:text-white duration-100 ease-in-out cursor-pointer h-full flex items-center justify-center w-[80%]">
                                     <span>See Details</span>
                                 </div>
                                 <div className="group cursor-pointer flex items-center border-t border-gray-200 h-full justify-center w-[20%]">

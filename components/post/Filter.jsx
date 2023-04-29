@@ -69,10 +69,8 @@ export default function Filter() {
 
   const handlerdate = (e) => {
     
-    console.log("🚀 ~ file: Filter.jsx:66 ~ Filter ~ datepicker:", )
     e.persist();
     setDatePicker(e.target.value)
-    console.log("🚀 ~ file: Filter.jsx:66 ~ Filter ~ datepicker:", datepicker)
 
   }
   return (

@@ -116,7 +116,7 @@ export default function CreatePost({oneField,from,to}) {
         }
     }
   return (
-    <div className="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 postmodal fade">
+    <div className="fixed z-100 w-full h-screen top-0 hidden left-0 items-center justify-center bg-gray-900/70 postmodal fade">
         <div className="relative flex items-center justify-center w-full h-full md:w-[700px] md:h-[280px] bg-white  zoom-in">
             <div className="flex w-full h-full flex-col items-center ">
                 <div className = "absolute z-30 left-0 p-2 top-0" >
