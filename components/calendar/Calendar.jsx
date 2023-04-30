@@ -206,7 +206,9 @@ export default function Calendar({reservations,field,fields}) {
     const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     const selectedDate = new Date(isoDate);
 
-    if(selectedDate.getTime() < nowDate.getTime())
+    const nDate = new Date(nowDate.getFullYear(),nowDate.getMonth(),nowDate.getDate())
+
+    if(selectedDate.getTime() < nDate.getTime())
     {
         toast.error('Date is Lower',{
             position: "bottom-right",
@@ -327,7 +329,7 @@ export default function Calendar({reservations,field,fields}) {
                       toast.success("Field Booked", {
                         position: "bottom-right",
                       });
-                     router.push(``);
+                      router.push(`/calendar1?field=${field}`);
                     } else {
                       Swal.fire("Echec !!", res.data.message, "warning");
                     }

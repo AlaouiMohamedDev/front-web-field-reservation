@@ -176,10 +176,29 @@ export default function ({
     ...time,
   }));
 
+
+  const currentMonth = new Date().getMonth() + 1;
+  const year = new Date().getFullYear();
+  
+  const months = [];
+  
+  for (let i = currentMonth; i <= 12; i++) {
+    const monthValue = i;
+    const monthLabel = getNextMonthName(monthValue) + ' ' + year;
+    months.push({ value: monthValue, label: monthLabel });
+  }
+
+  const [selectedOption, setSelectedOption] = useState({ value: currentMonth, label: getNextMonthName(currentMonth) + ' ' + year });
+  const [weekCount,setWeekCount] = useState(1)
+
+
+  
+ 
+
   const now = new Date(); // Get the current date and time
   const nowYear = now.getFullYear(); // Get the current year (e.g., 2023)
   const nowMonth = now.getMonth(); // Get the current month (0-11, where 0 is January and 11 is December)
-  const nowWeek = Math.floor((now.getDate() - 1) / 7) + 1; // Get the current week of the month (1-5)
+  const nowWeek = Math.floor(now.getDate()  / 7) ; // Get the current week of the month (1-5)
   const [reservationList, setReservationList] = useState([]);
   const [oneField, setField] = useState({});
   useEffect(() => {
@@ -188,22 +207,39 @@ export default function ({
         // Extract the year, month, and week of the reservation date
         const reservationDate = new Date(reservation.date);
         const reservationYear = reservationDate.getFullYear();
-        const reservationMonth = reservationDate.getMonth();
-        const reservationWeek =
-          Math.floor((reservationDate.getDate() - 1) / 7) + 1;
+        const reservationMonth = reservationDate.getMonth() + 1;
+        var reservationWeek = Math.floor(reservationDate.getDate()  / 7);
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ file: calendar.jsx:209 ~ reservations.filter ~ reservation:", reservation.date)
+        // console.log("🚀 ~ file: calendar.jsx:215 ~ reservations.filter ~ reservationWeek:", reservationWeek)
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        // console.log("🚀 ~ --------------------------------------------------:")
+        if(reservationWeek == 0)
+          reservationWeek =1
 
-        // Check if the reservation matches the current year, month, and week
         if (
           reservation.idField == field &&
           reservationYear == nowYear &&
-          reservationMonth == nowMonth &&
-          reservationWeek == nowWeek
-        ) {
-          return reservation;
-        }
-      })
-    );
-  }, [reservations]);
+          reservationMonth == selectedOption.value &&
+          reservationWeek == weekCount
+          ) {
+            console.log("🚀 ~ file: calendar.jsx:223 ~ reservations.filter ~ reservation:", reservation)
+            return reservation;
+          }
+        })
+        );
+  }, [reservations,selectedOption,weekCount]);
 
   useEffect(() => {
     setField(
@@ -309,13 +345,30 @@ export default function ({
               confirmButtonText: "Yes,Book it!",
             }).then((result) => {
               if (result.isConfirmed) {
-                const currentDate = new Date();
+
+                var currentDate= new Date();
+
+                if(currentDate.getMonth()+1 != selectedOption.value)
+                {
+                  if(weekCount > 1)
+                  {
+                    currentDate = new Date(currentDate.getFullYear(),selectedOption.value -1, (weekCount-1)*7 + d+1); 
+                  }
+                  else{
+                    currentDate = new Date(currentDate.getFullYear(),selectedOption.value-1 , d+1); 
+                  }
+                }
+                
+
+
+
                 const formattedDate = currentDate.toISOString().slice(0, 10);
 
                 const date = new Date(formattedDate);
-                if (date.getDay() != d) {
-                  date.setDate(date.getDate() + d - date.getDay());
-                }
+                // if (date.getDay() != d) {
+                //   date.setDate(date.getDate() + d );
+
+                // }
                 const data = {
                   startTime: f,
                   endTime: t,
@@ -324,6 +377,7 @@ export default function ({
                   approved_rejected: "waiting",
                   jwt: getCookie("jwt"),
                 };
+                console.log("🚀 ~ file: calendar.jsx:358 ~ .then ~ data:", data)
 
                 axios
                   .post(`${BASE_URL}/entity/reservation-create/`, data)
@@ -332,7 +386,7 @@ export default function ({
                       toast.success("Field Booked", {
                         position: "bottom-right",
                       });
-                      router.push(`/calendar?field=${field}`);
+                     //router.push(`/calendar?field=${field}`);
                     } else {
                       Swal.fire("Echec !!", res.data.message, "warning");
                     }
@@ -360,16 +414,6 @@ export default function ({
     return weekNo;
   };
 
-  const currentMonth = new Date().getMonth() + 1;
-  const year = new Date().getFullYear();
-  
-  const months = [];
-  
-  for (let i = currentMonth; i <= 12; i++) {
-    const monthValue = i;
-    const monthLabel = getNextMonthName(monthValue) + ' ' + year;
-    months.push({ value: monthValue, label: monthLabel });
-  }
   
   function getNextMonthName(monthValue) {
     const monthNames = [
@@ -383,17 +427,16 @@ export default function ({
 
 
 
-  const [selectedOption, setSelectedOption] = useState({ value: currentMonth, label: getNextMonthName(currentMonth) + ' ' + year });
- 
+
 
   function getWeeksInMonth(monthNumber) {
     // Create a new Date object for the given month and year
     const date = new Date(Date.UTC(new Date().getFullYear(), monthNumber - 1, 1));
-    console.log("🚀 ~ file: calendar.jsx:391 ~ getWeeksInMonth ~ date:", date)
+
   
     // Get the last day of the month
     const lastDayOfMonth = new Date(Date.UTC(new Date().getFullYear(), monthNumber, 0));
-    console.log("🚀 ~ file: calendar.jsx:395 ~ getWeeksInMonth ~ lastDayOfMonth:", lastDayOfMonth)
+
   
     // Calculate the number of days in the month
     const daysInMonth = lastDayOfMonth.getDate();
@@ -403,8 +446,9 @@ export default function ({
   
     return weeksInMonth;
   }
+
   
-  const [weekCount,setWeekCount] = useState(1)
+
 
   function handleNextMonthClick() {
     const currentIndex = months.findIndex(month => month.value === selectedOption.value);
@@ -439,6 +483,17 @@ export default function ({
         }
     }
   }
+
+  const days =[
+    "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+]
+  
 
 
   
@@ -523,17 +578,17 @@ export default function ({
                 value={selectedOption} options={months} onChange={setSelectedOption}
                 styles={customStyles}
                 placeholder="April 2023"
-                className="z-100 shadow rounded"
+                className="z-90 shadow rounded"
               />
-              <h1 className="font-poppins text-lg  absolute z-90  text-center w-full">Week {weekCount}</h1>
-              <div className="z-100 flex items-center text-lg shadow text-gray-700 justify-evenly py-3 px-2 space-x-1 bg-white rounded">
+              <h1 className="font-poppins text-lg  absolute z-50  text-center w-full">Week {weekCount}</h1>
+              <div className="z-90 flex items-center text-lg shadow text-gray-700 justify-evenly py-3 px-2 space-x-1 bg-white rounded">
                 <i onClick={handlePreviousMonthClick} className="bx bxs-chevron-left cursor-pointer"></i>
                 <span className="h-3 w-[2px] bg-main"></span>
                 <i onClick={handleNextMonthClick} className="bx bxs-chevron-right cursor-pointer"></i>
               </div>
             </div>
             <table className="w-full bg-white rounded  shadow">
-              <thead className="bg-main text-white sticky top-0 z-90">
+              <thead className="bg-main text-white sticky top-0 z-50">
                 <tr>
                   <th className="p-2 border-r h-10 xl:w-14 lg:w-14 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
                     <span className="xl:block lg:block md:block sm:block hidden">
@@ -543,62 +598,19 @@ export default function ({
                       Tm
                     </span>
                   </th>
-                  <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                    <span className="xl:block lg:block md:block sm:block hidden">
-                      Sunday
-                    </span>
-                    <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                      Sun
-                    </span>
-                  </th>
-                  <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                    <span className="xl:block lg:block md:block sm:block hidden">
-                      Monday
-                    </span>
-                    <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                      Mon
-                    </span>
-                  </th>
-                  <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                    <span className="xl:block lg:block md:block sm:block hidden">
-                      Tuesday
-                    </span>
-                    <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                      Tue
-                    </span>
-                  </th>
-                  <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                    <span className="xl:block lg:block md:block sm:block hidden">
-                      Wednesday
-                    </span>
-                    <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                      Wed
-                    </span>
-                  </th>
-                  <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                    <span className="xl:block lg:block md:block sm:block hidden">
-                      Thursday
-                    </span>
-                    <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                      Thu
-                    </span>
-                  </th>
-                  <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                    <span className="xl:block lg:block md:block sm:block hidden">
-                      Friday
-                    </span>
-                    <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                      Fri
-                    </span>
-                  </th>
-                  <th className="p-2 border-r h-10 xl:w-40 lg:w-30 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
-                    <span className="xl:block lg:block md:block sm:block hidden">
-                      Saturday
-                    </span>
-                    <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
-                      Sat
-                    </span>
-                  </th>
+                  {
+                      days.map(day =>(
+                      <th className="p-2 border-r h-10 xl:w-14 lg:w-14 md:w-30 sm:w-20 w-10 xl:text-sm text-xs">
+                        <span className="xl:block lg:block md:block sm:block hidden">
+                          {day}
+                        </span>
+                        <span className="xl:hidden lg:hidden md:hidden sm:hidden block">
+                          {day}
+                        </span>
+                      </th>
+
+                      ))
+                    }
                 </tr>
               </thead>
               <tbody>
@@ -624,7 +636,6 @@ export default function ({
                       const date = new Date();
                       const reservation = reservationList.find(
                         (reservation) => {
-
                           return (
                             reservation.day === day &&
                             reservation.from === from &&
@@ -648,6 +659,8 @@ export default function ({
                         currentDate.getDate() + daysToAdd,
                         hour24
                       );
+
+                      const currentWeeek = getWeeksInMonth(currentDate.getMonth()+1)
 
                       const dateCurrent = new Date(
                         currentDate.getFullYear(),
@@ -685,38 +698,44 @@ export default function ({
                                     <i className="bx bxs-star text-xs"></i>
                                   </div>
                                 </div>
-                              ) : (
-                                <div className="h-full">
-                                  <div className="group-hover:hidden h-full flex items-center justify-center text-sm text-gray-200">
-                                    <span>Empty</span>
+                              ) :
+                               
+                              currentDate.getMonth()+1 == selectedOption.value 
+                              ? 
+                              (
+                              currentWeeek <= weekCount
+                              ? (
+                                  <div className='h-full'>
+                                      <div className='group-hover:hidden h-full flex items-center justify-center text-sm text-gray-200'>
+                                          <span>Empty</span>
+                                      </div>
+                                      <div onClick={()=>book(from,to,i)} className='transition duration-100 ease-in-out hidden space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm'>
+                                          <i className='bx bxs-plus-circle text-lg' ></i>
+                                          <span>Add a Reservation</span>
+                                      </div>
                                   </div>
-                                  <div
-                                    onClick={() => book(from, to, i)}
-                                    className="transition duration-100 ease-in-out hidden space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm"
-                                  >
-                                    <i className="bx bxs-plus-circle text-lg"></i>
-                                    <span>Add a Reservation</span>
-                                  </div>
+                                ):(
+                                    <div className='h-full w-full cursor-none'>
+                                            <div className='space-y-1 flex flex-col items-center h-full justify-center text-gray-50 bg-gray-300 text-sm'>
+                                                <i className='bx bx-block text-lg' ></i>
+                                                <span>Locked</span>
+                                            </div>
+                                    </div>)
+                              
+                             
+                              )
+                              :
+                              (
+                                <div className='h-full'>
+                                    <div className='group-hover:hidden h-full flex items-center justify-center text-sm text-gray-200'>
+                                        <span>Empty</span>
+                                    </div>
+                                    <div onClick={()=>book(from,to,i)} className='transition duration-100 ease-in-out hidden space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm'>
+                                        <i className='bx bxs-plus-circle text-lg' ></i>
+                                        <span>Add a Reservation</span>
+                                    </div>
                                 </div>
                               )
-
-                              // currentDate.getDay()<=i && newDate > dateCurrent ?
-                              //         <div className='h-full'>
-                              //             <div className='group-hover:hidden h-full flex items-center justify-center text-sm text-gray-200'>
-                              //                 <span>Empty</span>
-                              //             </div>
-                              //             <div onClick={()=>book(from,to,i)} className='transition duration-100 ease-in-out hidden space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm'>
-                              //                 <i className='bx bxs-plus-circle text-lg' ></i>
-                              //                 <span>Add a Reservation</span>
-                              //             </div>
-                              //         </div>
-                              //     :
-                              //     <div className='h-full w-full cursor-none'>
-                              //             <div className='space-y-1 flex flex-col items-center h-full justify-center text-gray-50 bg-gray-300 text-sm'>
-                              //                 <i className='bx bx-block text-lg' ></i>
-                              //                 <span>Locked</span>
-                              //             </div>
-                              //     </div>
                             }
                           </div>
                         </td>
