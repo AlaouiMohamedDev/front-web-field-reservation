@@ -42,6 +42,10 @@
   .h-sm{
     height:28rem;
   }
+.map{
+  width:"100%";
+  height:"40rem";
+}
  
 
   @media only screen and (max-width: 600px) {
@@ -76,7 +80,5 @@
     from {right:-2.5rem;} 
     to {right:1.25rem;}
   }
-
-
 
  

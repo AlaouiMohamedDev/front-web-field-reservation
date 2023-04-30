@@ -348,6 +348,23 @@ export default function Calendar({reservations,field,fields}) {
   };
 
 
+  const convertHourTo24H = (timestring) => {
+
+    // create a new Date object and set its hours and minutes based on the input time string
+    const date = new Date();
+    const timeComponents = timestring.split(" ");
+    const hour = parseInt(timeComponents[0].split(":")[0]);
+    const minute = parseInt(timeComponents[0].split(":")[1]);
+    const isPM = timeComponents[1].toUpperCase() === "PM";
+    date.setHours(hour + (isPM && hour !== 12 ? 12 : 0));
+    date.setMinutes(minute);
+    
+    // convert the Date object to a 24-hour time string
+    const time24 = date.toLocaleTimeString("en-US", {hour12: false});
+
+    return time24;
+  }
+
 
   return (
     <div className="bg-gray-50 py-10 px-10 flex flex-col">
@@ -379,6 +396,52 @@ export default function Calendar({reservations,field,fields}) {
                 currentHours.map(({ id, from, to })=>{
                     const reservation = reservationList.find(reservation =>  reservation.from === from && reservation.to === to);
                     const hasReservation = Boolean(reservation);
+
+                    
+                    const date = new Date();
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+                    console.log("🚀 ~ file: Calendar.jsx:402 ~ currentHours.map ~ date:", date)
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+
+                    const time = convertHourTo24H(from)
+                    console.log("🚀 ~ file: Calendar.jsx:408 ~ currentHours.map ~ time:", time)
+                    const hour = parseInt(time.split(":")[0]);
+                    console.log("🚀 ~ file: Calendar.jsx:410 ~ currentHours.map ~ hour:", hour)
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+
+                    const dateFrom = new Date();
+                    dateFrom.setHours(hour-2);
+                    dateFrom.setMinutes(0);
+                    dateFrom.setSeconds(0);
+                    console.log("🚀 ~ file: Calendar.jsx:411 ~ currentHours.map ~ dateFrom:", dateFrom)
+
+                    //To compare the selected date with the current date to locked the invalid time
+                    const nowDate = new Date()
+                    const [day, month, year] = datepicker.split('/');
+                    const isoDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+                    const selectedDate = new Date(isoDate);
+                    selectedDate.setHours(0)
+                    selectedDate.setMinutes(0)
+                    selectedDate.setSeconds(0)
+                    console.log("🚀 ~ file: Calendar.jsx:425 ~ currentHours.map ~ selectedDate:", selectedDate)
+
+                    const nDate = new Date(nowDate.getFullYear(),nowDate.getMonth(),nowDate.getDate())
+                    console.log("🚀 ~ file: Calendar.jsx:427 ~ currentHours.map ~ nDate:", nDate)
+
+
+
+                    const timeValid =  date.getTime() < dateFrom.getTime();
+                    console.log("🚀 ~ file: Calendar.jsx:397 ~ currentHours.map ~ timeValid:", timeValid)
+
+
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+                    console.log("🚀 ~ file: Calendar.jsx:438 ~ currentHours.map ~ selectedDate.getTime() == nDate.getTime():", selectedDate.getTime() == nDate.getTime())
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+                    console.log("🚀 ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~")
+
+
                     return(
                         <div key={id} className="flex items-center rounded-l-3xl shadow fade">
                         <div className=' px-5 w-1/3 h-full items-center space-y-2 font-semibold flex flex-col justify-center bg-dashUser bg-cover rounded-l-3xl text-white bg-main'>
@@ -411,7 +474,11 @@ export default function Calendar({reservations,field,fields}) {
                             )
                             :
                             (
-
+                               selectedDate.getTime() == nDate.getTime()
+                               ?
+                               (
+                               timeValid
+                               ?
                                 <div className="h-[250px] w-full bg-white group">
                                         <div className='group-hover:hidden h-full flex items-center justify-center text-lg text-gray-200'>
                                             <span>Empty</span>
@@ -421,6 +488,26 @@ export default function Calendar({reservations,field,fields}) {
                                             <span>Add a Reservation</span>
                                         </div>
                                 </div>
+                                :
+                                <div className="h-[250px] w-full  text-gray-50 bg-gray-300">
+                                        <div className='space-y-1 flex flex-col items-center h-full justify-center  text-sm'>
+                                                <i className='bx bx-block text-lg' ></i>
+                                                <span>Locked</span>
+                                          </div>
+                                </div>
+                               )
+                               :
+                               (
+                                <div className="h-[250px] w-full bg-white group">
+                                        <div className='group-hover:hidden h-full flex items-center justify-center text-lg text-gray-200'>
+                                            <span>Empty</span>
+                                        </div>
+                                        <div onClick={()=>book(from,to)} className='transition duration-100 group-hover:bg-main/50 ease-in-out hidden font-bold space-y-1 group-hover:flex flex-col items-center h-full justify-center text-main text-sm cursor-pointer'>
+                                            <i className='bx bxs-plus-circle text-lg' ></i>
+                                            <span>Add a Reservation</span>
+                                        </div>
+                                </div>
+                               )
                             )
                         }
                     </div>

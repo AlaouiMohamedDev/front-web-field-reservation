@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import swal from 'sweetalert2'
 import axios from 'axios'
-import { setCookie,getCookie } from 'cookies-next'
+import { setCookie,getCookie, deleteCookie } from 'cookies-next'
 import { useRouter } from 'next/router'
 import BASE_URL from "./global";
-
+import {useSession,signIn,signOut, getSession} from 'next-auth/react'
 
 
 // Now you can use BASE_URL anywhere in this file
@@ -14,9 +14,17 @@ import BASE_URL from "./global";
 import  { useRouter} from 'next/router';
 import { setCookie,getCookie } from 'cookies-next';*/
 
-export default function AuthModal() {
-    
 
+export default function AuthModal({session}) {
+
+    useEffect(()=>{
+        if(getCookie('login') ==  true)
+        {
+            loginGoogle()
+            deleteCookie('login')
+        }
+    },[getCookie('login')])
+    
     const router = useRouter();
     const [registerInput,setRegister] = useState({
         userName:'',
@@ -25,6 +33,51 @@ export default function AuthModal() {
         confirm:'',
         error_list:[],
     });
+
+    const loginGoogle = async () => {
+        const nameParts = session.user.name.split(" ");
+        const firstName = nameParts[0];
+        const lastName = nameParts[1];
+
+        const data ={
+            first_name: firstName,
+            last_name : lastName,
+            email : session.user.email,
+            profile_pic : session.user.image
+        }
+
+        axios.post(`${BASE_URL}/api/googleAuth/`,data).then(res => {
+                      
+            if(res.data.status === 200){
+                setCookie('jwt',res.data.jwt);
+                setCookie('first_name',res.data.user.first_name);
+                setCookie('last_name',res.data.user.last_name);
+                setCookie('email',res.data.user.email);
+                setCookie('id',res.data.user.id);
+                setCookie('role',res.data.user.role);
+                setCookie('image',res.data.user.profile_pic)
+                
+                /*
+                setCookie('public_id',res.data.public_id);
+                setCookie('token',res.data.token);
+                setCookie('name',res.data.name);
+                setCookie('adress',res.data.adresse);
+                setCookie('tel',res.data.tel);
+                setCookie('image',res.data.image);
+                if(res.data.admin){
+                    setCookie('admin',res.data.admin);
+                }*/
+                swal.fire("Bienvenue","","success");
+                const currentUrl = router.asPath;
+                router.push(currentUrl)
+            }
+            else
+            {
+                swal.fire("Echec !!",res.data.message,"warning");
+            }
+        })
+        
+    }
 
     const [isChecked, setIsChecked] = useState(false);
     function handleCheckboxChange(event) {
@@ -89,7 +142,7 @@ export default function AuthModal() {
                 if(res.data.status === 200){
                     setCookie('jwt',res.data.jwt);
                     setCookie('first_name',res.data.user.first_name);
-                    setCookie('last_name',res.data.user.first_name);
+                    setCookie('last_name',res.data.user.last_name);
                     setCookie('email',res.data.user.email);
                     setCookie('id',res.data.user.id);
                     setCookie('role',res.data.user.role);
@@ -122,9 +175,6 @@ export default function AuthModal() {
 
     const registerSubmit=(e)=>
     {
-        
-       
-        
 
         const mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         e.preventDefault();
@@ -173,6 +223,11 @@ export default function AuthModal() {
         modal.classList.add('hidden')
         modal.classList.remove('flex')
     }
+
+    const authGoogle = () => {
+        setCookie('login',true)
+        signIn()
+    }
   return (
     <div className="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
         <div className="relative flex items-center justify-center w-full h-full md:w-[850px] md:h-[510px] bg-white  zoom-in">
@@ -201,7 +256,7 @@ export default function AuthModal() {
                         </button>
                     </form>
                     <div className="grid grid-cols-3 gap-5">
-                        <div className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                        <div onClick={authGoogle} className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                              <i className='bx bxl-google-plus'></i>
                         </div>
                         <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
@@ -242,7 +297,7 @@ export default function AuthModal() {
                         </button>
                     </form>
                     <div className="grid grid-cols-3 gap-5">
-                        <div className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                        <div onClick={authGoogle} className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                              <i className='bx bxl-google-plus'></i>
                         </div>
                         <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">

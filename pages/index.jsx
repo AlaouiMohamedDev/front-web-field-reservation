@@ -9,6 +9,7 @@ import Sidebar from '../components/SideBar'
 import PopularFields from '../components/PopularFields'
 import ReservationsBar from '../components/ReservationsBar'
 import BASE_URL from '../components/global'
+import { getSession } from 'next-auth/react'
 
 
 
@@ -24,18 +25,22 @@ export async function getServerSideProps(context) {
   const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`)
   const notificationsUser = await responseRes1.json();
 
+  const session =await getSession(context)
+
 
   return {
     props: {
       reservations:reservations,
       notificationsOwner:notificationsOwner,
-      notificationsUser:notificationsUser
+      notificationsUser:notificationsUser,
+      session:session
     },
   }
 }
 
-const Home= ({reservations,notificationsOwner,notificationsUser}) => {
+const Home= ({reservations,notificationsOwner,notificationsUser,session}) => {
 
+  
 
   
 
@@ -50,7 +55,7 @@ const Home= ({reservations,notificationsOwner,notificationsUser}) => {
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
        </Head>
       <Header notificationsOwner={notificationsOwner} notificationsUser={notificationsUser} />
-      <AuthModal />
+      <AuthModal session={session}/>
       <ReservationsBar reservations={reservations} />
       <Banner />
       <Sidebar />
