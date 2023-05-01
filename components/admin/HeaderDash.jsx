@@ -41,20 +41,46 @@ export default function HeaderDash() {
   const currentTheme = theme === 'system' ? systemTheme : theme;
 
 
+  const toggleSide = () =>{
+    const side = document.querySelector('.side')
+    const itemPs = document.querySelectorAll('.itemP')
+    
+    const elements = document.querySelectorAll('.span');
+
+    
+
+    itemPs.forEach(itemP => {
+      itemP.classList.toggle('pl-3')
+    });
+    side.classList.toggle('w-[250px]')
+    // Loop through each element and add the "hidden" class
+    elements.forEach(element => {
+      element.classList.toggle('hidden');
+    });
+  }
+  const toggleSideSmall = () => {
+    const side = document.querySelector('.side')
+    side.classList.toggle('hidden');
+  }
 
 
 
   return (
-    <div className='fixed right-0 top-0 md:w-4/5 py-4 px-5  page bg-dashGreen flex items-center justify-between'>
-      <div className='flex items-center relative justify-center bg-white rounded'>
-         <i className='bx bx-search right-0 absolute bg-white dark:bg-auto px-2 text-gray-400 text-xs'></i>
-         <input type="text" className="outline-none bg-white rounded text-xs  py-2 px-4" placeholder="search"/>
+    <div className='py-4 px-5 head page bg-white shadow text-custBlue flex  items-center justify-center md:justify-between h-max w-full'>
+
+      <div className='flex items-center  space-x-2 justify-center '>
+          <i onClick={toggleSide} className='bx bx-menu-alt-left text-2xl md:text-4xl text-custBlue cursor-pointer hidden md:flex' ></i>
+          <div className="bg-[#F1F5F7] rounded px-2 lg:flex items-center hidden">
+              <i className='bx bx-search  text-lg text-gray-500'></i>
+              <input type="text" className="outline-none bg-[#F1F5F7] text-gray-800 placeholder:text-gray-800 rounded text-sm py-2 px-2" placeholder="Search..."/>
+          </div>
       </div>
-      <div className='flex items-center space-x-5  text-lg  text-white '>
+      <div className='flex items-center space-x-5  text-xl text-gray-500 '>
+      <i onClick={toggleSideSmall} className='bx bx-menu-alt-left text-2xl md:text-4xl text-custBlue cursor-pointer md:hidden flex' ></i>
 
       {isFullscreen ? <i onClick={handleButtonClick} className='bx bx-exit-fullscreen cursor-pointer' ></i> : <i onClick={handleButtonClick} className='bx bx-fullscreen cursor-pointer'></i>}
       
-      <i className='bx bxs-bell'></i>
+      <i className='bx bx-bell'></i>
         {
           currentTheme === 'dark' ? (
           
@@ -66,7 +92,7 @@ export default function HeaderDash() {
           )
         }
 
-      <div className='flex space-x-2 items-center  text-white'>
+      <div className='flex space-x-3 items-center justify-center  text-'>
         {
           getCookie('image') != null
           ?
@@ -76,9 +102,10 @@ export default function HeaderDash() {
 
         }
 
-          <span className='text-[13px] font-bold'>{userName}</span>
-
+          <span className='text-[13px]  hidden md:flex'>admin</span>
+          <i className='bx bx-chevron-down hidden md:flex' ></i>
       </div>
+      <i className='bx bxs-cog' ></i>
       </div>
     </div>
   )

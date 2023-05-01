@@ -20,12 +20,14 @@ module.exports = {
         'Cblue' :'#001022',
         'dashBlack':'#212529',
         'custGreen':'#0ab39c',
-        'dashGreen':'#023535'
+        'dashGreen':'#023535',
+        'custBlue' : '#1B2C3F'
       },
       fontFamily:{
         'roboto':['Roboto', 'sans-serif'],
         'poppins':['Poppins', 'sans-serif'],
-        'archivo': ['Archivo Narrow', 'sans-serif']
+        'archivo': ['Archivo Narrow', 'sans-serif'],
+        'work':['Work Sans', 'sans-serif']
       },
       backgroundImage:{
         'home':'url("/images/bg-home.jpg")',
