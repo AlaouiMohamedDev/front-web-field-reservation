@@ -1,10 +1,11 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Select from 'react-select'
 import swal from 'sweetalert2'
 import { setCookie,getCookie } from 'cookies-next'
 import {  useRouter } from 'next/router';
 import BASE_URL from './global';
+import Map from './Map';
 
 
 export default function AddComplex() {
@@ -110,7 +111,7 @@ const AddField = async () => {
 const [complexId, setComplexId] = useState(null);
       //async
      const  addComplex  = async (e)=>{
-      if (complexInput.name=="" || complexInput.address=="" || complexInput.lat=="" || complexInput.long=="" || complexInput.desc=="" || zone == null)
+      if (complexInput.name=="" || complexInput.address=="" || latlng.lat == null || complexInput.desc=="" || zone == null)
       {
           setComplex({...complexInput,error_list:{'messageErr':"Un champs est vide",'error':true}})
           
@@ -136,8 +137,8 @@ const [complexId, setComplexId] = useState(null);
 
               name:complexInput.name,
               adresse:complexInput.address,
-              lattitude:complexInput.lat,
-              longtitude:complexInput.long,
+              lattitude:latlng.lat,
+              longtitude:latlng.lng,
               description:complexInput.desc,
               url:response.secure_url,
               zone:zone.value,
@@ -390,6 +391,17 @@ const [complexId, setComplexId] = useState(null);
         reader.readAsDataURL(changeEvent.target.files[0]);
       }
 
+      const [latlng, setLatLng] = useState({});
+
+      function handleChildValue(newValue) {
+        setLatLng(newValue);
+      }
+
+      useEffect(()=>{
+        console.log("🚀 ~ file: AddComplex.jsx:395 ~ AddComplex ~ latlng:", latlng)
+      },[latlng])
+     
+
 
     
   return (
@@ -418,9 +430,8 @@ const [complexId, setComplexId] = useState(null);
                   <h1 className="col-span-2 font-semibold text-gray-500 border-b-2 border-main w-max">Add your complex</h1>
                   <input name="name" value={complexInput.name} onChange={handleComplexInput}  placeholder = "Name of the complex" type="text" className = "col-span-2 md:col-span-1 focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                   <input name="address" value={complexInput.address} onChange={handleComplexInput}  placeholder = "Address of the complex" type="text" className = "col-span-2 md:col-span-1 focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
-                  <input name="lat" value={complexInput.lat} onChange={handleComplexInput}  placeholder = "Latitude of the complex" type="text" className = "col-span-2 md:col-span-1 focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
-                  <input name="long" value={complexInput.long} onChange={handleComplexInput}  placeholder = "Longitude of the complex" type="text" className = "col-span-2 md:col-span-1 focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
-                  
+               
+                   
                   <textarea name="desc" rows="1" value={complexInput.desc} onChange={handleComplexInput}  placeholder="Desciprtion" className="col-span-2 md:col-span-1 focus:border-main h-full outline-none border border-gray-100 text-sm py-2 px-3 rounded-md" />           
                   <Select
                               name="zone"
@@ -430,6 +441,7 @@ const [complexId, setComplexId] = useState(null);
                                   placeholder="Complex Zone"
                                   onChange={handlerZone}
                                   />
+                  
                   <div className="col-span-2 md:col-span-1 flex  items-center justify-center ">
                         <label for="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
@@ -450,7 +462,7 @@ const [complexId, setComplexId] = useState(null);
                       </div>
 
                     </div>
-
+                    <Map onValueChange={handleChildValue} />
 
 
                   <button onClick={addComplex} className="bg-main py-2 col-span-2 w-1/2 flex items-center justify-center  text-white text-xs rounded">

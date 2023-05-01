@@ -16,11 +16,16 @@ import { setCookie,getCookie } from 'cookies-next';*/
 
 
 export default function AuthModal({session}) {
+console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
 
     useEffect(()=>{
-        if(getCookie('login') ==  true)
+        if(getCookie('login') ==  true && session != null)
         {
-            loginGoogle()
+            loginSocials()
+            deleteCookie('login')
+        }
+        if(session == null)
+        {
             deleteCookie('login')
         }
     },[getCookie('login')])
@@ -34,7 +39,7 @@ export default function AuthModal({session}) {
         error_list:[],
     });
 
-    const loginGoogle = async () => {
+    const loginSocials = async () => {
         const nameParts = session.user.name.split(" ");
         const firstName = nameParts[0];
         const lastName = nameParts[1];
@@ -45,6 +50,7 @@ export default function AuthModal({session}) {
             email : session.user.email,
             profile_pic : session.user.image
         }
+        console.log("🚀 ~ file: AuthModal.jsx:48 ~ loginSocials ~ data:", data)
 
         axios.post(`${BASE_URL}/api/googleAuth/`,data).then(res => {
                       
@@ -226,7 +232,17 @@ export default function AuthModal({session}) {
 
     const authGoogle = () => {
         setCookie('login',true)
-        signIn()
+        signIn("google")
+    }
+
+    const authFacebook = () => {
+        setCookie('login',true)
+        signIn("facebook")
+    }
+
+    const authTwitter= () => {
+        setCookie('login',true)
+        signIn("twitter")
     }
   return (
     <div className="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
@@ -259,10 +275,10 @@ export default function AuthModal({session}) {
                         <div onClick={authGoogle} className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                              <i className='bx bxl-google-plus'></i>
                         </div>
-                        <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                        <div onClick={authFacebook} className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                             <i className='bx bxl-facebook' ></i>
                         </div>
-                        <div className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                        <div onClick={authTwitter} className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                             <i className='bx bxl-twitter text-blue-500' ></i>
                         </div>
                     </div>
@@ -300,10 +316,10 @@ export default function AuthModal({session}) {
                         <div onClick={authGoogle} className="cursor-pointer bg-red-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                              <i className='bx bxl-google-plus'></i>
                         </div>
-                        <div className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                        <div onClick={authFacebook} className="cursor-pointer bg-blue-600 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                             <i className='bx bxl-facebook' ></i>
                         </div>
-                        <div className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
+                        <div onClick={authTwitter} className="cursor-pointer border border-blue-500 text-white text-lg drop-shadow-md flex justify-center py-2 rounded">
                             <i className='bx bxl-twitter text-blue-500' ></i>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { setCookie, getCookie, deleteCookie } from 'cookies-next'
+import {useSession,signIn,signOut, getSession} from 'next-auth/react'
 
 
 
@@ -47,6 +48,8 @@ export default function Header({ notificationsUser,notificationsOwner }) {
         deleteCookie('id')
         deleteCookie('email')
         deleteCookie('role')
+        deleteCookie('login')
+        signOut()
         const currentUrl = router.asPath;
         router.push(currentUrl)
     }

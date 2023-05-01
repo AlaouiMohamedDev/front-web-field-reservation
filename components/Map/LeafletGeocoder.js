@@ -1,52 +1,69 @@
-
 import React, { useEffect, useState } from "react";
 import L from "leaflet";
 import { useMap } from "react-leaflet";
 
-const LeafletGeocoder = () => {
-    const [currentMarker, setCurrentMarker] = useState(null);
-    const map = useMap();
-  
-    useEffect(() => {
-      const geocoder = L.Control.geocoder({
-        defaultMarkGeocode: false,
-      })
-        .on("markgeocode", function (e) {
-          const latlng = e.geocode.center;
-          console.log(latlng);
-  
-          if (currentMarker) {
-            currentMarker.removeFrom(map);
-          }
-  
-          const marker = L.marker(latlng, { draggable: true })
+const LeafletGeocoder = ({onLocationSelect}) => {
+  const map = useMap();
+  const [markerCount, setMarkerCount] = useState(0);
+  let marker = null;
+  useEffect(() => {
+    L.Control.geocoder({
+      defaultMarkGeocode: false,
+    })
+      .on("markgeocode", function (e) {
+        var latlng = e.geocode.center;
+        console.log(latlng);
+        onLocationSelect(latlng)
+        if (marker) {
+          marker.setLatLng(latlng);
+        } else {
+          marker = L.marker(latlng, { draggable: true })
             .addTo(map)
             .bindPopup(e.geocode.name)
             .openPopup();
-  
-          setCurrentMarker(marker);
-  
-          if (e.geocode && e.geocode.bbox) {
-            map.fitBounds(e.geocode.bbox);
-          }
-        })
-        .addTo(map);
-  
-      return () => {
-        if (geocoder.removeFrom && typeof geocoder.removeFrom === "function") {
-          geocoder.removeFrom(map);
         }
-      };
-    }, [currentMarker, map]);
-  
-    return null;
-  };
-  
-  export default LeafletGeocoder;
-  
-  
-  
-  
-  
-  
-  
+        map.fitBounds(e.geocode.bbox);
+
+        // Update latlng on marker dragend
+        marker.on("dragend", function (e) {
+          latlng = e.target.getLatLng();
+          onLocationSelect(latlng);
+        });
+      })
+      .addTo(map);
+
+  }, []);
+
+  useEffect(() => {
+
+    const addMarker = (e) => {
+      // check if a marker has already been added
+      if (markerCount === 0) {
+        setMarkerCount(1);
+        var latlng = e.latlng;
+        onLocationSelect(latlng);
+        if (marker) {
+          marker.setLatLng(latlng);
+        } else {
+          marker = L.marker(latlng, { draggable: true })
+            .addTo(map)
+            .bindPopup("Custom Marker")
+            .openPopup();
+        }
+        // Update latlng on marker dragend
+        marker.on("dragend", function (e) {
+          latlng = e.target.getLatLng();
+          onLocationSelect(latlng);
+        });
+      }
+    };
+    map.on("click", addMarker);
+    return () => {
+      map.off("click", addMarker);
+    };
+  }, [markerCount, map]);
+
+  return null;
+};
+
+export default LeafletGeocoder;
