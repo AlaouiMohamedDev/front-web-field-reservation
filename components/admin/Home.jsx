@@ -1,175 +1,186 @@
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router';
-import { setCookie,getCookie,deleteCookie } from 'cookies-next';
+import React, { useEffect, useState } from 'react';
+
+import Chart from './Chart';
+
+import RadicalChart from './RadicalChart';
+import DChart from './DChart';
+import AChart from './AChart';
+import LatestTransation from './LatestTransaction';
 
 
 
 export default function Home() {
 
+
   return (
-    <div className="fixed right-0 top-[80px] md:w-4/5 py-5 px-5 w-full text-gray-300 space-y-5 page">
-        <div className="flex flex-col sm:flex-row items-center justify-between  bg-dashGreen py-2 px-3">
-            <h1 className="uppercase font-bold">Dashboard</h1>
-            <div className="flex items-center space-x-1 text-xs">
-                <span className="text-white">Dashboard</span>
-                <i className='bx bx-chevron-right'></i>
-                <span>Dashboard</span>
-            </div>
+    <div className="flex flex-col w-full px-5 inside bg-gray-100">
+      <div className="flex items-center justify-between py-5 ">
+        <h1 className="font-bold custBlue text-lg">Dashboard</h1>
+        <div className='flex items-center space-x-2 text-sm'>
+            <span className='text-main'>Kritirank</span>
+            <i className='bx bx-chevron-right text-lg'></i>
+            <span className='text-gray-500'>Dashboard</span>
         </div>
-        <div className="flex flex-col space-y-5 lg:space-y-0 lg:flex-row items-center justify-between text-black">
-            <div className="flex flex-col text-center lg:text-left">
-                <h3 className="text-md">Bonne journée, admin</h3>
-                <span className="text-gray-600 text-xs">Voici ce qui se passe avec votre application aujourd'hui.</span>
+      </div>
+      <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-5 grid1'>
+        <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
+          <Chart color="#03C988" val={72} className=""/>
+          <div className='flex flex-col justify-between space-y-1'>
+            <div className='flex flex-col'>
+              <span className='text-sm text-gray-400'>Reservations</span>
+              <p className='font-semibold'>2.2K</p>
             </div>
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 items-center space-x-3">
-                <div className="flex  items-center text-xs bg-gray-100 rounded">
-                    <span className='px-3'>2023-04-27</span>
-                    <i className='bx bx-calendar text-[13px] text-white bg-main py-3 px-3'></i>
-                </div>
-                <div  className="flex items-center text-xs rounded space-x-1 py-3 px-3 bg-custGreen/20 text-custGreen hover:text-white hover:bg-custGreen duration-100 cursor-pointer">
-                    <i className='bx bx-plus-circle'></i>
-                    <span>Consulter Complex</span>
-                </div>
+            <div className='flex items-center space-x-2'>
+              <span className="text-main">0.02%</span>
+              <i className='bx bx-up-arrow-alt text-main -rotate-45' ></i>
+              <span className='text-gray-400 font-thin text-sm'>From previous</span>
             </div>
+
+          </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-10">
-            <div className="bg-dashGreen flex flex-col space-y-6 py-3 px-3 rounded-md hover:-translate-y-2 duration-500">
-                <div className="flex items-center justify-between w-full">
-                    <span className="text-gray-400">Total vente</span>
-                    <div className="flex items-center text-sm space-x-2 text-custGreen">
-                        <i className='bx bx-up-arrow-alt rotate-45'></i>
-                        <span>+16.24 %</span>
-                    </div>
-                </div>
-                <div className="flex justify-between items-end">
-                    <div className="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">2000 MAD</span>
-                        <span className="underline underline-offset-1 text-xs">Plus de détails</span>
-                    </div>
-                    <i className='flex items-center bx bx-dollar-circle text-3xl text-custGreen bg-custGreen/20 w-max h-max rounded py-2 px-3'></i>
-                </div>
+
+        <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
+        <DChart />
+          <div className='flex flex-col justify-between space-y-1'>
+            <div className='flex flex-col'>
+              <span className='text-sm text-gray-400'>Citys</span>
+              <p className='font-semibold'>100</p>
             </div>
-            <div className="bg-dashGreen flex flex-col space-y-6 py-3 px-3 rounded-md hover:-translate-y-2 duration-500">
-                <div className="flex items-center justify-between w-full">
-                    <span className="text-gray-400">Reservation</span>
-                    <div className="flex items-center text-sm space-x-2 text-red-500">
-                        <i className='bx bx-down-arrow-alt rotate-45'></i>
-                        <span>-10.24 %</span>
-                    </div>
-                </div>
-                <div className="flex justify-between items-end">
-                    <div className="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">10 cmd</span>
-                        <span className="underline underline-offset-1 text-xs">Plus de détails</span>
-                    </div>
-                    <i className='flex items-center bx bx-shopping-bag text-3xl text-blue-500 bg-blue-500/20 w-max h-max rounded py-2 px-3'></i>
-                </div>
+            <div className='flex items-center space-x-2'>
+              <span className="text-main">0.02%</span>
+              <i className='bx bx-up-arrow-alt text-main' ></i>
+              <span className='text-gray-400 font-thin text-sm'>From previous</span>
             </div>
-            <div className="bg-dashGreen flex flex-col space-y-6 py-3 px-3 rounded-md hover:-translate-y-2 duration-500">
-                <div className="flex items-center justify-between w-full">
-                    <span className="text-gray-400">Clients</span>
-                    <div className="flex items-center text-sm space-x-2 text-custGreen">
-                        <i className='bx bx-up-arrow-alt rotate-45'></i>
-                        <span>+22.24 %</span>
-                    </div>
-                </div>
-                <div className="flex justify-between items-end">
-                    <div className="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">30 client</span>
-                        <span className="underline underline-offset-1 text-xs">Plus de détails</span>
-                    </div>
-                    <i className='flex items-center bx bx-user text-3xl text-orange-500 bg-orange-500/20 w-max h-max rounded py-2 px-3'></i>
-                </div>
-            </div>
-            <div className="bg-dashGreen flex flex-col space-y-6 py-3 px-3 rounded-md hover:-translate-y-2 duration-500">
-                <div className="flex items-center justify-between w-full">
-                    <span className="text-gray-400">Complexe</span>
-                    <div className="flex items-center text-sm space-x-2 text-custGreen">
-                        <i className='bx bx-up-arrow-alt rotate-45'></i>
-                        <span>+10.24 %</span>
-                    </div>
-                </div>
-                <div className="flex justify-between items-end">
-                    <div className="flex flex-col space-y-6 w-full">
-                        <span className="text-lg">10 Comp</span>
-                        <span className="underline underline-offset-1 text-xs">Plus de détails</span>
-                    </div>
-                    <i className='flex items-center bx bxs-leaf text-3xl text-lime-500 bg-lime-500/20 w-max h-max rounded py-2 px-3'></i>
-                </div>
-            </div>
+
+          </div>
         </div>
-        <div className="grid gri-cols-1 lg:grid-cols-2 gap-5">
-            <div className="bg-dashGreen flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full h-max">
-                <div className="border-b border-gray-700 flex w-full">
-                    <div className="py-4 px-3 flex items-center justify-between text-sm w-full">
-                        <span>Terrain le plus reservais</span>
-                        <span>Total : <span className="text-gray-500">5</span></span>
+
+        <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
+          <Chart color="#E3242B" val={15} className=""/>
+          <div className='flex flex-col justify-between space-y-1'>
+            <div className='flex flex-col'>
+              <span className='text-sm text-gray-400'>Complexs</span>
+              <p className='font-semibold'>1.2K</p>
+            </div>
+            <div className='flex items-center space-x-2'>
+              <span className="text-red-500">-0.05%</span>
+              <i className='bx bx-down-arrow-alt text-red-500 origin-center -rotate-45' ></i>
+              <span className='text-gray-400 font-thin text-sm'>From previous</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
+          <div className='bg-gray-50 rounded-full w-[70px] h-[70px] flex items-center justify-center'>
+            <img src="rating.png" className='w-[50px]'/>
+          </div>
+          <div className='flex flex-col justify-between space-y-1'>
+            <div className='flex flex-col'>
+              <span className='text-sm text-gray-400'>New Visitor</span>
+              <p className='font-semibold'>5 P</p>
+            </div>
+            <div className='flex items-center space-x-2'>
+              <span className="text-main">1.00%</span>
+              <i className='bx bx-up-arrow-alt text-main -rotate-45' ></i>
+              <span className='text-gray-400 font-thin text-sm'>From previous</span>
+            </div>
+
+          </div>
+        </div>
+       
+      </div>
+
+     <div className='grid lg:grid-cols-3 py-4 gap-5 grid2'>
+        <div className='lg:col-span-2 bg-white rounded-lg shadow flex flex-col items-center justify-between  '>
+          <div className='flex items-center justify-between w-full pt-7 px-5'>
+              <span className=' text-lg text-gray-500'>OverView</span>
+              <span className='text-xs text-gray-500 border rounded py-1 px-2'>Change</span>
+          </div>
+            <AChart />
+        <div className="flex items-center justify-center w-full   border-t py-5">
+            <div className=' flex items-center justify-evenly w-full'>
+                  <div className='flex flex-col space-y-2 items-center'>
+                    <div className='flex items-center space-x-1 text-sm'>
+                        <span className='w-2 h-2 rounded-full bg-blue-600'></span>
+                        <span className='text-gray-400'>Expenses</span>
                     </div>
+                    <div  className='flex items-center space-x-2 text-sm'>
+                        <span className="text-custBlue font-semibold">MAD 8,524</span>
+                        <i class='bx bxs-up-arrow text-main text-[11px]'></i>
+                        <span className="text-[13px] text-main">1.2%</span>
+
+                    </div>
+                  </div>
+                  <div className='flex flex-col space-y-2 items-center'>
+                    <div className='flex items-center space-x-1 text-sm'>
+                        <span className='w-2 h-2 rounded-full bg-indigo-500'></span>
+                        <span className='text-gray-400'>Maintenance</span>
+                    </div>
+                    <div  className='flex items-center space-x-2 text-sm'>
+                        <span className="text-custBlue font-semibold">MAD 8,524</span>
+                        <i class='bx bxs-up-arrow text-main text-[11px]'></i>
+                        <span className="text-[13px] text-main">2.0%</span>
+
+                    </div>
+                  </div>
+                  <div className='flex flex-col space-y-2 items-center'>
+                    <div className='flex items-center space-x-1 text-sm'>
+                        <span className='w-2 h-2 rounded-full bg-pink-600'></span>
+                        <span className='text-gray-400'>Profit</span>
+                    </div>
+                    <div  className='flex items-center space-x-2 text-sm'>
+                        <span className="text-custBlue font-semibold">MAD 8,524</span>
+                        <i class='bx bxs-up-arrow text-main text-[11px]'></i>
+                        <span className="text-[13px] text-main">0.4%</span>
+
+                    </div>
+                  </div>
+              </div>
+        </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow flex flex-col space-y-2 items-center py-7 px-5 w-full grid22">
+            <div className='flex items-center justify-between w-full'>
+                <span className=' text-lg text-gray-500'>Social Source</span>
+                <span className='text-xs text-gray-500 border rounded py-1 px-2'>Change</span>
+            </div>
+            <RadicalChart />
+            <div className='flex items-center justify-evenly w-full'>
+                <div className='flex flex-col items-center space-y-2 text-custBlue'>
+                  <div className='flex items-center justify-center text-white rounded-full bg-[#099680] w-8 h-8'>
+                    <i className='bx bxl-facebook text-lg' ></i>
+                  </div>
+                  <span>Facebook</span>
+                  <span className='text-sm text-gray-400'>125 user</span>
                 </div>
 
-                            <div  className="border-b border-gray-700 md:w-full w-max ">
-                                <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                                    <img src='/images/complex/1.jpg' className="w-12 h-12 rounded" />
-                                    <div className="flex flex-col space-y-2">
-                                        <span>FA445</span>
-                                        <span className="text-[10px] text-gray-500">prod.created</span>
-                                    </div>
-                                    <div className="flex flex-col space-y-2">
-                                        <span>120 MAD</span>
-                                        <span className="text-[10px] text-gray-500">Prix</span>
-                                    </div>
-                                    <div className="flex flex-col space-y-2">
-                                        <span>20 cmds</span>
-                                        <span className="text-[10px] text-gray-500">Commande</span>
-                                    </div>
-                                    <div className="flex flex-col space-y-2">
-                                        <span>10</span>
-                                        <span className="text-[10px] text-gray-500">Stock</span>
-                                    </div>
-                                    <div className="flex flex-col space-y-2">
-                                        <span>200 MAD </span>
-                                        <span className="text-[10px] text-gray-500">Total</span>
-                                    </div>
-                                </div>
-                            </div>
+                <div className='flex flex-col items-center space-y-2 text-custBlue'>
+                  <div className='flex items-center justify-center text-white rounded-full bg-[#4aa3ff] w-8 h-8'>
+                    <i className='bx bxl-twitter text-lg' ></i>
+                  </div>
+                  <span>Twitter</span>
+                  <span className='text-sm text-gray-400'>3 user</span>
+                </div>
 
                 
-            </div>
-            <div className="bg-dashGreen flex flex-col space-y-3 rounded-md overflow-x-auto relative w-full h-max">
-                <div className="border-b border-gray-700 ">
-                    <div className="py-4 px-3 flex items-center justify-between text-sm">
-                        <span>Meilleures Complexe</span>
-                        <span>Total : <span className="text-gray-500">5</span></span>
-                    </div>
+                <div className='flex flex-col items-center space-y-2'>
+                  <div className='flex items-center justify-center text-white rounded-full bg-[#FF3D60] w-8 h-8'>
+                  <i className='bx bxl-instagram text-lg' ></i>
+                  </div>
+                  <span>Instagram</span>
+                  <span className='text-sm text-gray-400'>10 user</span>
                 </div>
 
-                                <div  className="border-b border-gray-700  md:w-full w-max">
-                                    <div className="pb-3 px-3 flex items-center justify-around space-x-2 text-xs">
-                                        <img src='/images/complex/download.png' className="w-12 h-12 rounded-full object-cover" />
-                                        <div className="flex flex-col space-y-2">
-                                            <span>KickOff</span>
-                                            <span className="text-[10px] text-gray-500">200</span>
-                                        </div>
-                                        <div className="flex flex-col space-y-2">
-                                            <span>485</span>
-                                            <span className="text-[10px] text-gray-500">Produit</span>
-                                        </div>
-                                        <div className="flex flex-col space-y-2">
-                                            <span>5</span>
-                                            <span className="text-[10px] text-gray-500">Total produit</span>
-                                        </div>
-                                        <div className="flex flex-col space-y-2">
-                                            <div className="flex items-center">
-                                                <span>20%</span>
-                                                <i className='bx bx-bar-chart text-custGreen text-md '></i>
-                                            </div>
-                                            <span className="text-[10px] text-gray-500">vente</span>
-                                        </div>
-                                    </div>
-                                </div>
 
             </div>
         </div>
+
+     </div>
+     
+    <LatestTransation />
     </div>
-  )
+  );
 }
+
+

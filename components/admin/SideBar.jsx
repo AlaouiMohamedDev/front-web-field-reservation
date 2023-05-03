@@ -6,8 +6,10 @@ import axios from 'axios';
 
 export default function SideBar() {
 
+
+
   return (
-    <div className="side w-[250px] bg-custBlue h-screen lg:flex flex-col hidden fixed lg:static top-[68px] lg:top-0">
+    <div className="side w-[250px] bg-custBlue  lg:flex flex-col hidden fixed lg:static h-screen top-[68px] ">
       <div className="w-full py-[1.5rem] flex  justify-center items-center shadow">
           <img src="images/logo-white.png" className='h-[24px] span '/>
           <img src="images/logo.png" className='h-[30px] hidden span'/>

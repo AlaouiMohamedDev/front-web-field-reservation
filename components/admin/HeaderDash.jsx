@@ -8,9 +8,7 @@ export default function HeaderDash() {
   const [mounted, setMounted] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+
   
   const [userName,setUserName] = useState(false);
   useEffect(() => {
@@ -19,6 +17,12 @@ export default function HeaderDash() {
     else
         setUserName(getCookie('first_name'))
 }, [getCookie('first_name')])
+
+useEffect(() => {
+    
+  setMounted(true);
+}, []);
+
 
   
 
@@ -63,19 +67,19 @@ export default function HeaderDash() {
     side.classList.toggle('hidden');
   }
 
-
+ 
 
   return (
-    <div className='py-4 px-5 head page bg-white shadow text-custBlue flex  items-center justify-center md:justify-between h-max w-full'>
+    <div className='headerdash py-4 px-5 top-0  bg-white shadow text-custBlue flex items-center  md:justify-between h-max w-full'>
 
-      <div className='flex items-center  space-x-2 justify-center '>
-          <i onClick={toggleSide} className='bx bx-menu-alt-left text-2xl md:text-4xl text-custBlue cursor-pointer hidden md:flex' ></i>
+      <div className='hidden md:flex items-center  space-x-2 justify-center hi '>
+          <i onClick={toggleSide} className='bx bx-menu-alt-left text-2xl md:text-4xl text-custBlue cursor-pointer flex' ></i>
           <div className="bg-[#F1F5F7] rounded px-2 lg:flex items-center hidden">
               <i className='bx bx-search  text-lg text-gray-500'></i>
               <input type="text" className="outline-none bg-[#F1F5F7] text-gray-800 placeholder:text-gray-800 rounded text-sm py-2 px-2" placeholder="Search..."/>
           </div>
       </div>
-      <div className='flex items-center space-x-5  text-xl text-gray-500 '>
+      <div className='flex items-center space-x-5 justify-between w-full md:w-max  text-xl text-gray-500 '>
       <i onClick={toggleSideSmall} className='bx bx-menu-alt-left text-2xl md:text-4xl text-custBlue cursor-pointer md:hidden flex' ></i>
 
       {isFullscreen ? <i onClick={handleButtonClick} className='bx bx-exit-fullscreen cursor-pointer' ></i> : <i onClick={handleButtonClick} className='bx bx-fullscreen cursor-pointer'></i>}
