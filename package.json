@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@badrap/bar-of-progress": "^0.2.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@tremor/react": "^2.4.0",
     "apexcharts": "^3.40.0",

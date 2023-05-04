@@ -44,7 +44,7 @@ const dataFormatter = (number) => {
   return (
 
     <AreaChart
-          className="h-80 px-5 py-2"
+          className="h-80 w-screen md:w-full px-5 py-2"
           data={chartdata}
           index="date"
           categories={["SemiAnalysis", "The Pragmatic Engineer"]}

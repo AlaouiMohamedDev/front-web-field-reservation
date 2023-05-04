@@ -84,6 +84,7 @@ console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ joinedList:", joinedList)
         deleteCookie('email')
         deleteCookie('role')
         deleteCookie('login')
+        deleteCookie('admin')
         signOut()
         const currentUrl = router.asPath;
         router.push(currentUrl)
@@ -179,7 +180,7 @@ console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ joinedList:", joinedList)
             </div>
             <div className="flex  bg-white font-poppins text-sm justify-evenly px-5 shadow-sm  py-4 text-gray-600 header select-none">
                 <div className="flex items-center space-x-10">
-                    <img src="./images/logo-name.png" className="w-[170px] " />
+                    <img src="https://res.cloudinary.com/realmoro/image/upload/v1683230377/logo-name_o86ic6.png" className="w-[170px] " />
                     <div className="md:flex items-center space-x-7 hidden">
                         <a onClick={() => { router.push('/') }} className=" text-main cursor-pointer">Welcome</a>
                         <a onClick={() => router.push("/fields")} className=" cursor-pointer">Fields</a>
@@ -366,7 +367,7 @@ console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ joinedList:", joinedList)
                                             </li>
                                             :
                                             <li>
-                                            <a onClick={() => router.push("/dashboard")} className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Admin Dash</a>
+                                            <a onClick={() => router.push("/admin/dashboard")} className="cursor-pointer block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Admin Dash</a>
                                         </li>
                                     }
                                     <li>

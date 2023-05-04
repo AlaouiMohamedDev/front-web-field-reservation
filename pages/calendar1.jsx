@@ -54,7 +54,8 @@ export default function ({
   fields,
   notificationsUser,
   notificationsOwner,
-  joinedList
+  joinedList,
+  session
 }) {
   const router = useRouter();
   const { field } = router.query;

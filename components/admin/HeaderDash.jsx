@@ -1,5 +1,7 @@
-import { getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
+import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
 export default function HeaderDash() {
@@ -24,6 +26,7 @@ useEffect(() => {
 }, []);
 
 
+const router = useRouter()
   
 
   
@@ -67,6 +70,19 @@ useEffect(() => {
     side.classList.toggle('hidden');
   }
 
+  const logout = () => {
+    deleteCookie('first_name')
+    deleteCookie('last_name')
+    deleteCookie('jwt')
+    deleteCookie('id')
+    deleteCookie('email')
+    deleteCookie('role')
+    deleteCookie('login')
+    deleteCookie('admin')
+    signOut()
+    const currentUrl = router.asPath;
+    router.push('/')
+}
  
 
   return (
@@ -109,7 +125,7 @@ useEffect(() => {
           <span className='text-[13px]  hidden md:flex'>admin</span>
           <i className='bx bx-chevron-down hidden md:flex' ></i>
       </div>
-      <i className='bx bxs-cog' ></i>
+      <i onClick={logout} className='bx bx-door-open hover:text-main cursor-pointer' ></i>
       </div>
     </div>
   )

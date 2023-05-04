@@ -1,8 +1,8 @@
 
 import Head from 'next/head'
-import SideBar from '../components/admin/SideBar';
-import HeaderDash from '../components/admin/HeaderDash';
-import Home from '../components/admin/Home';
+import SideBar from '../../components/admin/SideBar';
+import HeaderDash from '../../components/admin/HeaderDash';
+import Home from '../../components/admin/Home';
 import { useEffect } from 'react';
 
 
@@ -24,7 +24,7 @@ export default function Dashboard (){
         if ((window.scrollY || window.pageYOffset) > 10) {
             side.classList.remove('lg:static')
             side.classList.add('left-0')
-            inside.classList.add('pl-[260px]')
+            inside.classList.add('lg:pl-[260px]')
             grid1.classList.remove('lg:grid-cols-4')
             grid2.classList.remove('lg:grid-cols-3')
             grid22.classList.add('lg:col-span-2')
@@ -35,7 +35,7 @@ export default function Dashboard (){
         } else {
           side.classList.add('lg:static')
           side.classList.remove('left-0')
-          inside.classList.remove('pl-[260px]')
+          inside.classList.remove('lg:pl-[260px]')
           grid1.classList.add('lg:grid-cols-4')
           grid2.classList.add('lg:grid-cols-3')
           grid22.classList.remove('lg:col-span-2')

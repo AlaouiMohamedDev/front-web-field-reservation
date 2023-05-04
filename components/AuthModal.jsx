@@ -152,6 +152,10 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
                     setCookie('email',res.data.user.email);
                     setCookie('id',res.data.user.id);
                     setCookie('role',res.data.user.role);
+                    if(res.data.user.role == 'admin')
+                    {
+                        setCookie('admin',true);
+                    }
                     setCookie('image',res.data.user.profile_pic)
                     
                     /*
@@ -246,6 +250,64 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
     }
   return (
     <div className="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
+        <div className="bg-[#023535]  text-white flex flex-col space-y-3 items-center py-6 px-7 rounded absolute top-2 right-2">
+            <div className="font-bold flex items-center space-x-1 text-sm">
+                 <i className='bx bx-error-circle text-lg'></i>
+                 <h1>These accounts are only visible for the sake of the testing the app</h1>
+            </div>
+            <div className=" py-2 px-3 flex flex-col text-white w-full rounded-lg text-sm">
+                <div className="font-semibold flex flex-col space-y-2">
+                    <span className="underline underline-offset-4">Admin account :</span>
+                    <div className="pl-5 flex items-center space-x-2">
+                        <i className='bx bx-envelope text-lg' ></i>
+                        <span>admin@gmail.com</span>
+                        <i className='pl-5 bx bx-hide text-lg' ></i>
+                        <span>123</span>
+                    </div>
+                    <span className="underline underline-offset-4">Owner account :</span>
+                    <div className="pl-5 flex items-center space-x-2">
+                        <i className='bx bx-envelope text-lg' ></i>
+                        <span>owner@gmail.com</span>
+                        <i className='pl-5 bx bx-hide text-lg' ></i>
+                        <span>123</span>
+                    </div>
+                    <span className="underline underline-offset-4">User account : </span>
+                    <div className="pl-5 flex items-center space-x-2">
+                        <i className='bx bx-envelope text-lg' ></i>
+                        <span>user@gmail.com</span>
+                        <i className='pl-5 bx bx-hide text-lg' ></i>
+                        <span>123</span>
+                    </div>
+
+                </div>
+            </div>
+            <div className='py-2'>
+
+            </div>
+            <div className="text-white border-t relative  justify-evenly border-white pt-5 flex items-center space-x-5 w-full">
+                <span className='bg-[#023535] absolute -top-4 px-4'>You can also sign in using </span>
+                <div className="flex flex-col items-center">
+                        <div className="text-blue-500 w-[30px] h-[30px] rounded-full bg-white flex items-center justify-center">
+                            <i className='bx bxl-facebook text-2xl' ></i>
+                        </div>
+                        <span className="text-white">Facebook</span>
+                </div>
+
+                <div className="flex flex-col items-center">
+                        <div className="text-red-600 w-[30px] h-[30px] rounded-full bg-white flex items-center justify-center">
+                            <i className='bx bxl-google text-2xl' ></i>
+                        </div>
+                        <span className="text-white">Google</span>
+                </div>
+
+                <div className="flex flex-col items-center">
+                        <div className="text-main w-[30px] h-[30px] rounded-full bg-white flex items-center justify-center">
+                            <i className='bx bxl-twitter text-2xl' ></i>
+                        </div>
+                        <span className="text-white">Twitter</span>
+                </div>
+            </div>
+        </div>
         <div className="relative flex items-center justify-center w-full h-full md:w-[850px] md:h-[510px] bg-white  zoom-in">
             <div className="flex px-7 md:w-1/2 flex-col items-center space-y-5">
                 <div className = "absolute left-0 p-4 top-0" >
@@ -342,9 +404,9 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
                     }
                 </div>
             </div>
-            <img alt="logo" src="images/logo.png" className="absolute bottom-5 right-5 w-24" />
+            <img alt="logo" src="https://res.cloudinary.com/realmoro/image/upload/v1683230137/logo_lfhogd.png" className="absolute bottom-5 right-5 w-24" />
             {/* <img alt="logo-a" src="images/logo-a.png" className="absolute top-5 right-[52%] w-24" /> */}
-            <img src="images/authModal.jpg" className="hidden md:flex w-1/2 object-right object-cover h-full "/>
+            <img src="https://res.cloudinary.com/realmoro/image/upload/v1683230302/authModal_etvej9.jpg" className="hidden md:flex w-1/2 object-right object-cover h-full "/>
         </div>
     </div>
   )

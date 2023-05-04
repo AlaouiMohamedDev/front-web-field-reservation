@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Row, Col } from 'reactstrap';
 
 
 
 
-const LatestTransation = () => {
+const LatestTransation = ({complexs}) => {
 
     const LatestTransationData = [
         {
@@ -62,9 +62,20 @@ const LatestTransation = () => {
             status: "Pending"
         },
     ];
+
+    const [displayedComplexs, setDisplayedComplexs] = useState(complexs.data)
+    useEffect(() => {
+        setDisplayedComplexs(complexs.data)
+    }, [complexs])
     return (
         <div className="bg-white rounded-lg py-7 mb-7 px-5 shadow flex flex-col space-y-3">
-            <h1 className="text-custBlue font-semibold">Latest Transation</h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-custBlue font-semibold">List Complexe</h1>
+                <div className="flex items-center space-x-2 bg-gray-50 rounded px-4 shadow">
+                    <input type="text" placeholder="Search" className="bg-transparent text-sm outline-none py-2 " />
+                    <i className='bx bx-search text-lg text-gray-500' ></i>
+                </div>
+            </div>
             <div className="flex flex-col">
                 <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -74,17 +85,14 @@ const LatestTransation = () => {
                             <tr>
                                 <th scope="col" className="px-6 py-4"></th>
                                 <th scope="col" className="px-6 py-4">ID & Name</th>
-                                <th scope="col" className="px-6 py-4">Date</th>
-                                <th scope="col" className="px-6 py-4">Price</th>
-                                <th scope="col" className="px-6 py-4">Quantity</th>
-                                <th scope="col" className="px-6 py-4">Amount</th>
-                                <th scope="col" className="px-6 py-4">Status</th>
+                                <th scope="col" className="px-6 py-4">Description</th>
+                       
                                 <th scope="col" className="px-6 py-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                LatestTransationData.map((item, key) =>(
+                                displayedComplexs.map((item, key) =>(
                                     <tr key={key} className="border-b dark:border-neutral-500">
                                         <td className="whitespace-nowrap px-6 py-4 font-medium flex items-center space-x-2">
                                             <input
@@ -92,27 +100,15 @@ const LatestTransation = () => {
                                                 type="checkbox"
                                                 value=""
                                                 id={item.id} />
-                                                {item.src ? <img src={item.src} alt="user" className="w-8 h-8 rounded-full object-cover" /> : 
-                                                <div className="w-8 h-8 rounded-full bg-main/50 flex items-center justify-center">
-                                                    <span className="text-xs text-main">
-                                                        {item.clientName.charAt(0)}
-                                                    </span>
-                                                </div>}
+                                                <img src={item.url} alt="user" className="w-8 h-8 rounded-full object-cover" />
+                                               
                                         </td>
                                         <td className="whitespace-nowrap px-6 py-4 ">
-                                            <span className="text-[9px] text-gray-600">{item.clientId}</span>
-                                            <p className="text-sm font-semibold">{item.clientName}</p>
+                                            <span className="text-[9px] text-gray-600">#CMP{item.id}</span>
+                                            <p className="text-sm font-semibold">{item.name}</p>
                                         </td>
-                                        <td className="whitespace-nowrap px-6 py-4">{item.date}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">$ {item.price}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">{item.quantity}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">$ {item.quantity * item.price}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">
-                                            <div className="flex items-center space-x-3">
-                                                <span className={"w-3 h-3 rounded-full bg-"+item.color}></span>
-                                                <span>{item.status}</span>
-                                            </div>
-                                        </td>
+                                        <td className="whitespace-nowrap px-6 py-4">{item.description}</td>  
+                                        
                                         <td className="whitespace-nowrap px-6 py-4  space-x-1">
                                             <span className="text-main border border-main py-2 px-3 rounded text-xs">
                                                 Edit

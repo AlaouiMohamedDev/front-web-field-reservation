@@ -9,5 +9,10 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.rewrite(new URL('/', request.url))
   }
+
+  if (!request.cookies.get('admin') && request.nextUrl.pathname.startsWith('/admin')) {
+
+    return NextResponse.rewrite(new URL('/', request.url))
+  }
   
 }

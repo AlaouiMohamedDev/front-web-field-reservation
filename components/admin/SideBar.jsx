@@ -6,17 +6,20 @@ import axios from 'axios';
 
 export default function SideBar() {
 
+  const router = useRouter()
+  
 
 
   return (
-    <div className="side w-[250px] bg-custBlue  lg:flex flex-col hidden fixed lg:static h-screen top-[68px] ">
+    //top-[68px] 
+    <div className="side w-[250px] bg-custBlue  lg:flex flex-col hidden fixed lg:static h-screen top-0">
       <div className="w-full py-[1.5rem] flex  justify-center items-center shadow">
-          <img src="images/logo-white.png" className='h-[24px] span '/>
-          <img src="images/logo.png" className='h-[30px] hidden span'/>
+          <img src="../images/logo-white.png" className='h-[24px] span '/>
+          <img src="../images/logo.png" className='h-[30px] hidden span'/>
       </div>
       <div className="w-full px-[20px] flex flex-col pt-5 space-y-5">
           <h1 className='text-[10px] text-gray-500 font-bold tracking-widest span'>MENU</h1>
-          <div className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
+          <div onClick={()=>router.push('dashboard')} className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
             <div className="flex space-x-3 items-center">
               <i className='bx bx-home-alt text-lg'></i>
               <span className="span">Dashboard</span>
@@ -31,7 +34,7 @@ export default function SideBar() {
             <i className='span bx bx-chevron-right text-md'></i>
           </div>
           <h1 className='text-[10px] text-gray-500 font-bold tracking-widest span'>PAGES</h1>
-          <div className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
+          <div onClick={()=>router.push('complexe')} className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
             <div className="flex space-x-3 items-center">
               <i className='bx bxs-component text-lg' ></i>
               <span className="span">Complexe</span>

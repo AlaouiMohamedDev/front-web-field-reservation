@@ -98,22 +98,28 @@ export default function UserBanner() {
   };
 
   const showReservationlist = () => {
-    const addComplex = document.querySelector(".addComplex");
-    const userInfo = document.querySelector(".userInfo");
-    const complexlist = document.querySelector(".complexlist");
-    const cmlist = document.querySelector(".cmlist");
-    const reslist = document.querySelector(".reslist");
-    const settings = document.querySelector(".settings");
-    const reservationlist = document.querySelector(".reservationlist");
+    try{
 
-    settings.classList.remove("activeOwner");
-    cmlist.classList.remove("activeOwner");
-    reslist.classList.add("activeOwner");
+      const addComplex = document.querySelector(".addComplex");
+      const userInfo = document.querySelector(".userInfo");
+      const complexlist = document.querySelector(".complexlist");
+      const cmlist = document.querySelector(".cmlist");
+      const reslist = document.querySelector(".reslist");
+      const settings = document.querySelector(".settings");
+      const reservationlist = document.querySelector(".reservationlist");
+  
+      settings.classList.remove("activeOwner");
+      cmlist.classList.remove("activeOwner");
+      reslist.classList.add("activeOwner");
+  
+      complexlist.classList.add("hidden");
+      userInfo.classList.add("hidden");
+      addComplex.classList.add("hidden");
+      reservationlist.classList.remove("hidden");
+    }
+    catch{
 
-    complexlist.classList.add("hidden");
-    userInfo.classList.add("hidden");
-    addComplex.classList.add("hidden");
-    reservationlist.classList.remove("hidden");
+    }
   };
 
   const showReservationUserlist = () => {

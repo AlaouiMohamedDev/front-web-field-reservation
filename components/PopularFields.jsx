@@ -10,9 +10,9 @@ export default function PopularFields() {
         <div className="flex items-center justify-center py-10">
             <div className="grid  grid-cols-3 gap-10 justify-items-center ">
                 <div className="flex flex-col border border-gray-200 w-[400px] relative">
-                    <img src="./images/complex/l-2.jpeg" className="object-cover h-[250px]" />
+                    <img src="https://res.cloudinary.com/realmoro/image/upload/v1683230153/footer-1_fz1wnc.jpg" className="object-cover h-[250px]" />
                     <span className="bg-yellow-400 text-white text-[10px] rounded px-3 py-2 font-semibold absolute top-2 right-2">Open</span>
-                    <img src="./images/complex/l-1.jpg" className='h-12 w-12 rounded-full border-2 border-white absolute top-[190px] left-4' />
+                    <img src="https://res.cloudinary.com/realmoro/image/upload/v1683230337/l-1_hu1o7d.jpg" className='h-12 w-12 rounded-full border-2 border-white absolute top-[190px] left-4' />
                     <div className="flex flex-col p-5 font-poppins">
                         <h1 className="text-md font-bold text-Cblue">Urabin Five - Field A1</h1>
                         <div className="flex items-center space-x-2 text-gray-400 text-sm py-1">
@@ -43,9 +43,9 @@ export default function PopularFields() {
                      </div>
                 </div>
                 <div className="flex flex-col border border-gray-200 w-[400px] relative">
-                    <img src="./images/complex/1.jpg" className="object-cover h-[250px]" />
+                    <img src="https://res.cloudinary.com/realmoro/image/upload/v1683230342/1_dowe9d.jpg" className="object-cover h-[250px]" />
                     <span className="bg-red-400 text-white text-[10px] rounded px-3 py-2 font-semibold absolute top-2 right-2">Close</span>
-                    <img src="./images/complex/l-2.png" className='h-12 w-12 object-contain bg-black rounded-full border-2 border-white absolute top-[190px] left-4' />
+                    <img src="https://res.cloudinary.com/realmoro/image/upload/v1683230337/download_jst6dy.png" className='h-12 w-12 object-contain bg-black rounded-full border-2 border-white absolute top-[190px] left-4' />
                     <div className="flex flex-col p-5 font-poppins">
                         <h1 className="text-md font-bold text-Cblue">Kick Off - Field IA47</h1>
                         <div className="flex items-center space-x-2 text-gray-400 text-sm py-1">

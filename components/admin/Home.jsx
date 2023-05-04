@@ -73,7 +73,7 @@ export default function Home() {
 
         <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
           <div className='bg-gray-50 rounded-full w-[70px] h-[70px] flex items-center justify-center'>
-            <img src="rating.png" className='w-[50px]'/>
+            <img src="../rating.png" className='w-[50px]'/>
           </div>
           <div className='flex flex-col justify-between space-y-1'>
             <div className='flex flex-col'>
@@ -97,9 +97,9 @@ export default function Home() {
               <span className=' text-lg text-gray-500'>OverView</span>
               <span className='text-xs text-gray-500 border rounded py-1 px-2'>Change</span>
           </div>
-            <AChart />
+          <AChart />
         <div className="flex items-center justify-center w-full   border-t py-5">
-            <div className=' flex items-center justify-evenly w-full'>
+            <div className=' flex  space-y-2 md:space-y-0 flex-col md:flex-row items-center justify-evenly w-full'>
                   <div className='flex flex-col space-y-2 items-center'>
                     <div className='flex items-center space-x-1 text-sm'>
                         <span className='w-2 h-2 rounded-full bg-blue-600'></span>
