@@ -8,6 +8,7 @@ import { differenceInMinutes,differenceInHours,differenceInDays } from 'date-fns
 import BASE_URL from '../global'
 
 
+
 export default function Posts({posts}) {
 
     var [displayedPosts,setDisplayedPosts]= useState(posts)
@@ -17,43 +18,83 @@ export default function Posts({posts}) {
         setDisplayedPosts(posts)
     },[posts])
 
+    const [userId,setUserId] = useState(null)
+    useEffect(()=>{
+        if(getCookie('id') != null)
+            setUserId(getCookie('id'))
+    },[getCookie('id')])
+
 
     const router = useRouter()
 
-    const join = (id,max,need) => {
+    const ModalAuth = () => {
+        const modal = document.querySelector('.authmodal')
+        modal.classList.remove('hidden')
+        modal.classList.add('flex')
+    }
 
-             Swal.fire({
-                title: `Do you want to Join`,
-                text: "Make sure of your descion",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes,Join now!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    
-                    axios.post(`${BASE_URL}/entity/decrementPlayersNeeded/${id}/`,{jwt:getCookie('jwt')}).then(res => {
-                    if(res.data.status === 200){
-                        router.push('')
-                        toast.success("You have joined the team", {
-                            position: "bottom-right",
-                          });
-
-                          
-                    }
-                    else
-                    {
-                        toast.error("Full", {
-                            position: "bottom-right",
-                          });
-                    }
-                })
-
-                    
+    const join = (id,max,need,reservation) => {
+            if(userId ==  null )
+            {
+                ModalAuth()
             }
-               
-        })
+            else{
+
+                Swal.fire({
+                   title: `Do you want to Join`,
+                   text: "Make sure of your descion",
+                   icon: 'warning',
+                   showCancelButton: true,
+                   confirmButtonColor: '#3085d6',
+                   cancelButtonColor: '#d33',
+                   confirmButtonText: 'Yes,Join now!'
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                   // Approve Player
+                   //     axios.post(`${BASE_URL}/entity/decrementPlayersNeeded/${id}/`,{jwt:getCookie('jwt')}).then(res => {
+                   //     if(res.data.status === 200){
+                   //         router.push('')
+                   //         toast.success("You have joined the team", {
+                   //             position: "bottom-right",
+                   //           });
+   
+                             
+                   //     }
+                   //     else
+                   //     {
+                   //         toast.error("Full", {
+                   //             position: "bottom-right",
+                   //           });
+                   //     }
+                   // })
+                       const data={
+                           jwt:getCookie('jwt'),
+                           user:getCookie('id'),
+                           post:id
+                       }
+                       console.log("🚀 ~ file: Posts.jsx:75 ~ join ~ data:", data)
+                       axios.post(`${BASE_URL}/entity/join-match/`,data).then(res => {
+                       if(res.data.status === 200){
+                           router.push('')
+                           toast.success("Request has been placed", {
+                               position: "bottom-right",
+                             });
+   
+                             
+                       }
+                       else
+                       {
+                           toast.error(res.data.message, {
+                               position: "bottom-right",
+                             });
+                       }
+                   })
+   
+                       
+               }
+                  
+           })
+            }
     }
   return (
     <div className=' m-5 flex items-center justify-end w-full font-poppins'>
@@ -74,6 +115,15 @@ export default function Posts({posts}) {
                             const hoursAgo = differenceInHours(currentDate,pastDate)
                             const daysAgo = differenceInDays(currentDate,pastDate)
                             var ago = minutesAgo +" min ago"
+
+                            var hasUser =false;
+                            for ( var i=0;i<post.joined.length;i++)
+                            {
+                                if(post.joined[i] == userId)
+                                {
+                                    hasUser = true;
+                                }
+                            }
 
                             if(minutesAgo < 0)
                                 ago = "Just now"
@@ -120,10 +170,10 @@ export default function Posts({posts}) {
                                     <img src={post.terrain_photo} className="w-full h-[200px] object-cover rounded-b-lg" />
                                     <div className="flex text-xs items-center text-white absolute bottom-3 right-3 space-x-1">
                                     {
-                                        post.neededPlayers != 0
+                                        post.neededPlayers != 0 && post.userId != userId && !hasUser
                                         && 
                                     <button
-                                        onClick={() => join(post.id, post.maxPlayers, post.neededPlayers)}
+                                        onClick={() => join(post.id, post.maxPlayers, post.neededPlayers,post.reservation)}
                                         className="bg-main rounded p-2"
                                     >
                                         Join

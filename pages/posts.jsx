@@ -8,6 +8,7 @@ import Filter from "../components/post/Filter";
 import Posts from "../components/post/Posts";
 import Banner from "../components/post/Banner";
 import BASE_URL from "../components/global";
+import { getSession } from "next-auth/react";
 
 
 
@@ -25,15 +26,23 @@ export async function getServerSideProps(context) {
 
   const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`)
   const notificationsUser = await responseRes1.json();
+
+  const resp1 = await fetch(`${BASE_URL}/entity/list-joined/`)
+  const joinedList = await resp1.json();
+
+  const session =await getSession(context)
+  
   return {
     props: {
       posts:posts,
+      session:session,
       notificationsOwner:notificationsOwner,
-      notificationsUser:notificationsUser
+      notificationsUser:notificationsUser,
+      joinedList:joinedList
     },
   }
 }
-export default function ({posts,notificationsOwner,notificationsUser}) {
+export default function ({posts,notificationsOwner,notificationsUser,joinedList,session}) {
   return (
     <div className="">
       <Head>
@@ -55,8 +64,8 @@ export default function ({posts,notificationsOwner,notificationsUser}) {
         />
         <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
       </Head>
-      <Header notificationsOwner={notificationsOwner} notificationsUser={notificationsUser} />
-      <AuthModal />
+      <Header notificationsOwner={notificationsOwner} notificationsUser={notificationsUser} joinedList={joinedList}/>
+      <AuthModal session={session}/>
       <Sidebar />
       <Banner />
       <div className="flex items-start gap-10 bg-gray-100">

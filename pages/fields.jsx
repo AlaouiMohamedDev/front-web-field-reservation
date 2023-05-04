@@ -8,6 +8,7 @@ import FieldList from '../components/fields/FieldList'
 import ReservationsBar from '../components/ReservationsBar'
 import Sidebar from '../components/SideBar'
 import BASE_URL from '../components/global'
+import { getSession } from 'next-auth/react'
 
 
 export async function getServerSideProps(context) {
@@ -23,17 +24,24 @@ export async function getServerSideProps(context) {
 
   const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`)
   const notificationsUser = await responseRes1.json();
+  
+  const resp1 = await fetch(`${BASE_URL}/entity/list-joined/`)
+  const joinedList = await resp1.json();
+
+  const session =await getSession(context)
 
   return {
     props: {
       fields:fields,
       reservations:reservations,
       notificationsOwner:notificationsOwner,
-      notificationsUser:notificationsUser
+      notificationsUser:notificationsUser,
+      joinedList:joinedList,
+      session:session
     },
   }
 }
-export default function ({fields,reservations,notificationsUser,notificationsOwner}) {
+export default function ({fields,reservations,notificationsUser,notificationsOwner,joinedList,session}) {
   return (
     <div className="">
       <Head>
@@ -44,8 +52,8 @@ export default function ({fields,reservations,notificationsUser,notificationsOwn
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
       </Head>
-      <Header notificationsUser={notificationsUser} notificationsOwner={notificationsOwner}/>
-      <AuthModal />
+      <Header notificationsUser={notificationsUser} notificationsOwner={notificationsOwner} joinedList={joinedList}/>
+      <AuthModal session={session} />
       <Sidebar />
        <ReservationsBar reservations={reservations}/>
        <Banner />

@@ -66,6 +66,8 @@ const router = useRouter();
           if(res.data.status === 200){
             toast.success(res.data.message,{ position: "bottom-right" })
             setCookie('name',userInput.first_name)
+            setCookie('first_name',userInput.first_name)
+            setCookie('last_name',userInput.last_name)
             router.push('')
           }
           else

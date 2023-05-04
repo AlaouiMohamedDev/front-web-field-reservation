@@ -5,7 +5,8 @@ import {useSession,signIn,signOut, getSession} from 'next-auth/react'
 
 
 
-export default function Header({ notificationsUser,notificationsOwner }) {
+export default function Header({ notificationsUser,notificationsOwner,joinedList }) {
+console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ joinedList:", joinedList)
 
 
     const [displayedReservation, setDisplayedReservation] = useState(notificationsOwner)
@@ -16,8 +17,42 @@ export default function Header({ notificationsUser,notificationsOwner }) {
             }
         }))
 
-
     }, [notificationsOwner])
+
+    const [image, setImage] = useState("./images/default.jpg" );
+
+    useEffect(() => {
+            if(getCookie('image') != null)
+            {
+                setImage(getCookie('image'))
+            }
+            else{
+                setImage("./images/default.jpg" )
+            }
+    },[getCookie('image')])
+
+
+    const [displayedJoined, setDisplayedJoined] = useState(joinedList)
+    const [displayedStatusJoined, setDisplayedStatusJoined] = useState(joinedList)
+
+    useEffect(() => {
+        setDisplayedJoined(joinedList.data.filter(data => {
+            if (data.owner == getCookie('id') && data.request == "Requested") {
+                return data
+            }
+        }))
+
+        setDisplayedStatusJoined(joinedList.data.filter(data => {
+            if (data.user == getCookie('id') && data.request != "Requested") {
+                return data
+            }
+        }))
+
+
+    }, [joinedList,getCookie('id')])
+   
+
+    
 
     const [displayedReservationUser, setDisplayedReservationUser] = useState(notificationsUser.data)
     useEffect(() => {
@@ -209,13 +244,18 @@ export default function Header({ notificationsUser,notificationsOwner }) {
                             <button onClick={dropDown2} id="dropdownNavbarLink2" data-dropdown-toggle="dropdownNavbar2" className="relative text-sm flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-main md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">
                                 <i className='bx bx-bell text-lg '></i>
                                 {
-                                    displayedReservationUser.length != 0
+                                    displayedReservationUser.length + displayedJoined.length + displayedStatusJoined.length !=0
                                     &&
-                                    <div className='text-[9px] text-white bg-red-500 w-3 h-3 absolute left-3 top-0 rounded-full flex items-center justify-center'>{displayedReservationUser.length}</div>
+                                    <div className='text-[9px] text-white bg-red-500 w-3 h-3 absolute left-3 top-0 rounded-full flex items-center justify-center'>{displayedReservationUser.length + displayedJoined.length + displayedStatusJoined.length }</div>
                                 }
                             </button>
                             <div id="dropdownNavbar2" className="dropDown2 hidden z-10 absolute top-10 right-1 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-max dark:bg-gray-700 dark:divide-gray-600">
                                 <ul className="text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton2">
+                                    {
+                                        displayedReservationUser.length != 0
+                                        &&
+                                        <li className="bg-main text-white text-[10px]  text-center">Reservations</li>
+                                    }
                                     {
                                         displayedReservationUser.length != 0
                                         &&
@@ -225,7 +265,7 @@ export default function Header({ notificationsUser,notificationsOwner }) {
                                                 rese.status == "waiting"
                                                 ?
                                                 <li onClick={() => router.push('/owner?reservationuser=true')} key={rese.id} className='flex space-x-2 items-center hover:bg-main/40 bg-yellow-500/30 cursor-pointer rounded py-2 px-3'>
-                                                    <img src='/user-2.jpg' className='w-8 h-8 rounded-full object-cover' />
+                                                    <img src={image} className='w-8 h-8 rounded-full object-cover' />
                                                     <div className='flex flex-col text-[10px]'>
                                                         <p><b>{rese.name} -</b> <span className='text-main'>Field {rese.nameField}</span>- <span className='text-yellow-500 font-bold'>{rese.status}</span></p>
                                                         <p><span className='text-gray-800'>Reservation completed all places are full</span></p>
@@ -249,6 +289,50 @@ export default function Header({ notificationsUser,notificationsOwner }) {
                                                        <p><span className='text-gray-800'>Reservation completed all places are full</span></p>
                                                    </div>
                                                </li>
+                                            )
+                                            
+                                        })
+                                    }
+                                    {
+                                        displayedJoined.length != 0
+                                        &&
+                                        <li className="bg-main text-white text-[10px]  text-center">Requests</li>
+                                    }
+                                     {
+                                        displayedJoined.length != 0
+                                        &&
+                                        displayedJoined.slice(0, 3).map(data => {
+
+                                            return (
+                                                <li onClick={() => router.push('/owner?requestuser=true')} key={data.id} className='flex space-x-2 items-center hover:bg-main/40 bg-pink-500/30 cursor-pointer rounded py-2 px-3'>
+                                                    <img src={data.userImage !=null ? data.userImage : './images/default.jpg'} className='w-8 h-8 rounded-full object-cover' />
+                                                    <div className='flex flex-col text-[10px]'>
+                                                        <p><b>{data.userFirstName} {data.userLastName} -</b> <span className='text-main'>Field {data.field}</span>- <span className='text-yellow-500 font-bold'>{data.request}</span></p>
+                                                        <p><span className='text-gray-800'>{data.reservation}</span></p>
+                                                    </div>
+                                                </li>
+                                            )
+                                            
+                                        })
+                                    }
+                                    {
+                                        displayedStatusJoined.length != 0
+                                        &&
+                                        <li className="bg-main text-white text-[10px]  text-center">Others</li>
+                                    }
+                                     {
+                                        displayedStatusJoined.length != 0
+                                        &&
+                                        displayedStatusJoined.slice(0, 3).map(data => {
+
+                                            return (
+                                                <li onClick={() => router.push('/owner')} key={data.id} className={'flex space-x-2 items-center hover:bg-main/40  cursor-pointer rounded py-2 px-3 '+ (data.request == "Rejected" ? "bg-pink-500/30" :"bg-main/50")}>
+                                                    <img src={data.ownerImage !=null ? data.ownerImage : './images/default.jpg'} className='w-8 h-8 rounded-full object-cover' />
+                                                    <div className='flex flex-col text-[10px]'>
+                                                        <p><b>{data.ownerFirstName} {data.ownerLastName} -</b> <span className='text-main'>Field {data.field}</span>- {data.request =="Rejected" ? <span className='text-red-500 font-bold'>{data.request}</span> : <span className='text-main font-bold'>{data.request}</span>}</p>
+                                                        <p><span className='text-gray-800'>{data.reservation}</span></p>
+                                                    </div>
+                                                </li>
                                             )
                                             
                                         })

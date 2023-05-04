@@ -15,6 +15,7 @@ import ReservationsBar from "../components/ReservationsBar";
 import CreatePost from "../components/calendar/CreatePost";
 import BASE_URL from "../components/global";
 import Select from "react-select";
+import { getSession } from "next-auth/react";
 
 export async function getServerSideProps(context) {
   const response = await fetch(`${BASE_URL}/entity/reservation-list`);
@@ -31,12 +32,21 @@ export async function getServerSideProps(context) {
   const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`);
   const notificationsUser = await responseRes1.json();
 
+
+  const resp1 = await fetch(`${BASE_URL}/entity/list-joined/`)
+  const joinedList = await resp1.json();
+
+
+  const session =await getSession(context)
+
   return {
     props: {
       reservations: reservations,
       fields: fields,
       notificationsOwner: notificationsOwner,
       notificationsUser: notificationsUser,
+      joinedList:joinedList,
+      session:session
     },
   };
 }
@@ -45,6 +55,8 @@ export default function ({
   fields,
   notificationsUser,
   notificationsOwner,
+  joinedList,
+  session
 }) {
   const router = useRouter();
   const { field } = router.query;
@@ -558,9 +570,10 @@ export default function ({
       <Header
         notificationsUser={notificationsUser}
         notificationsOwner={notificationsOwner}
+        joinedList={joinedList}
       />
       <SideBar />
-      <AuthModal />
+      <AuthModal session={session}/>
       <ReservationsBar reservations={reservations} />
       <Banner />
       <div className="font-roboto bg-gray-50">

@@ -13,6 +13,8 @@ import ReservationList from '../components/owner/ReservationList'
 
 import ReservationUserList from '../components/user/ReservationUserList'
 import BASE_URL from '../components/global'
+import RequestList from '../components/user/RequestList'
+import { getSession } from 'next-auth/react'
 
 
 
@@ -27,15 +29,23 @@ export async function getServerSideProps(context) {
   const responseRes1 = await fetch(`${BASE_URL}/entity/reservations-status/`)
   const notificationsUser = await responseRes1.json();
 
+  const resp1 = await fetch(`${BASE_URL}/entity/list-joined/`)
+  const joinedList = await resp1.json();
+
+  const session =await getSession(context)
+
+
   return {
     props: {
       reservations:reservations,
       notificationsOwner:notificationsOwner,
-      notificationsUser:notificationsUser
+      notificationsUser:notificationsUser,
+      joinedList:joinedList,
+      session:session
     },
   }
 }
-export default function ({reservations,notificationsOwner,notificationsUser}) {
+export default function ({reservations,notificationsOwner,notificationsUser,joinedList,session}) {
 
   const [userName,setUserName] = useState(null)
     
@@ -65,8 +75,8 @@ export default function ({reservations,notificationsOwner,notificationsUser}) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&display=swap" rel="stylesheet" />
       </Head>
-      <Header notificationsOwner={notificationsOwner} notificationsUser={notificationsUser} />
-      <AuthModal />
+      <Header notificationsOwner={notificationsOwner} notificationsUser={notificationsUser} joinedList={joinedList} />
+      <AuthModal session={session}/>
       <ReservationsBar reservations={reservations} />
       {/* grid grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 */}
       <div className="bg-gray-50 w-full grid grid-cols-1 font-poppins py-10">
@@ -92,6 +102,14 @@ export default function ({reservations,notificationsOwner,notificationsUser}) {
           role == 'client'
           &&
           <ReservationUserList notificationsUser={notificationsUser}/>
+        }
+
+        {
+          userName !=null
+          &&
+          role == 'client'
+          &&
+          <RequestList joinedList={joinedList}/>
         }
         <UserInfo />
       </div>

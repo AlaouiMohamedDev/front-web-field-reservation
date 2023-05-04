@@ -166,8 +166,8 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
                     }*/
                     swal.fire("Bienvenue","","success");
                     ModalAuth()
-                    const currentUrl = router.asPath;
-                    router.push(currentUrl)
+                    
+                    router.push('')
                 }
                 else
                 {
