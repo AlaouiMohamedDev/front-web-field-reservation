@@ -2,27 +2,26 @@ import React, { useEffect } from 'react'
 import HeaderDash from '../../components/admin/HeaderDash';
 import SideBar from '../../components/admin/SideBar';
 import Head from 'next/head';
-import Complex from '../../components/admin/Complex';
-import { getCookie } from 'cookies-next';
+
 import BASE_URL from '../../components/global';
+import Reservation from '../../components/admin/Reservation';
 
 
 export async function getServerSideProps(context) {
 
-    const response1 = await fetch(`${BASE_URL}/entity/complexe-list/`)
-    const complexs = await response1.json();
-  
+  const response = await fetch(`${BASE_URL}/entity/reservation-list`);
+  const reservations = await response.json();
     
   
   
     return {
       props: {
-        complexs:complexs
+        reservations:reservations
       },
     }
   }
 
-export default function complexe({complexs}) {
+export default function reservation({reservations}) {
 
     
 
@@ -67,7 +66,7 @@ export default function complexe({complexs}) {
 return (
     <div className="w-full flex flex-col lg:flex-row-reverse bg-gray-100 justify-between  dark:bg-custBlue m-0 p-0 relative font-work">
       <Head>
-        <title>Complex - admin</title>
+        <title>Reservation - admin</title>
         <link rel="icon" href="/favicon.ico" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -77,7 +76,7 @@ return (
 
        <div className='flex flex-col w-full'>
           <HeaderDash />
-        <Complex complexs={complexs}/>
+          <Reservation reservations={reservations}/>
        </div>
         <SideBar />
 

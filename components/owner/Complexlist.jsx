@@ -30,6 +30,14 @@ export default function Complexlist() {
         modal.classList.remove('flex')
     }
 
+    const closeEditModal = () => {
+        const editmodal = document.querySelector('.editmodal')
+        editmodal.classList.add('hidden')
+        editmodal.classList.remove('flex')
+    }
+
+    
+
     var [displayedFields,setDisplayedFields]= useState([])
 
     const [currentPage,setCurrentPage] = useState(1)
@@ -51,6 +59,13 @@ export default function Complexlist() {
         getFieldByComplex(id);
         modal.classList.remove('hidden')
         modal.classList.add('flex')
+    }
+
+    
+    const openEditModal = (id) => {
+        const editmodal = document.querySelector('.editmodal')
+        editmodal.classList.remove('hidden')
+        editmodal.classList.add('flex')
     }
     const [search,setSearch] = useState([])
 
@@ -135,10 +150,18 @@ export default function Complexlist() {
                                             <td className="px-6 py-4">
                                                 {complex.adresse}
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <div onClick={()=>openModal(complex.id)} className="cursor-pointer hover:bg-white hover:text-main shadow transition-all ease-in-out duration-150 flex items-center w-max py-1 px-2 rounded bg-Cblue space-x-1 text-white text-xs">
-                                                    <i className='bx bx-show'></i>
-                                                    <span>Show fields</span>
+                                            <td className="px-6 py-4  ">
+                                                <div className="flex items-center space-x-2">
+
+                                                    <div onClick={()=>openModal(complex.id)} className="cursor-pointer hover:bg-white hover:text-main shadow transition-all ease-in-out duration-150 flex items-center w-max py-1 px-2 rounded bg-Cblue space-x-1 text-white text-xs">
+                                                        <i className='bx bx-show'></i>
+                                                        <span>Show fields</span>
+                                                    </div>
+
+                                                    <div  onClick={()=>openEditModal(complex.id)} className="cursor-pointer hover:bg-white hover:text-main  shadow transition-all ease-in-out duration-150 flex items-center w-max py-1 px-2 rounded bg-main space-x-1 text-white text-xs">
+                                                    <i className='bx bx-edit-alt'></i>
+                                                        <span>Edit</span>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -234,6 +257,14 @@ export default function Complexlist() {
                     </div>
                  }
                 </div>
+            </div>
+        </div>
+        <div  className="editmodal fixed z-100 w-full h-screen top-0 hidden  items-center justify-center bg-gray-900/70 fade">
+            <div className="relative w-full h-full md:w-[1050px] md:h-[510px] bg-white rounded-md  zoom-in">
+                <div className = "absolute -right-2 p-4 -top-2" >
+                      <i className = "bx bx-x cursor-pointer text-2xl font-semibold hover:text-main" onClick={closeEditModal}/>
+                </div>
+
             </div>
         </div>
     </div>

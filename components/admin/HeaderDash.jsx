@@ -41,11 +41,11 @@ const router = useRouter()
     setIsFullscreen(!isFullscreen);
   };
 
-  if (!mounted) 
-  {
-    return null;
-  }
-  const currentTheme = theme === 'system' ? systemTheme : theme;
+  // if (!mounted) 
+  // {
+  //   return null;
+  // }
+  // const currentTheme = theme === 'system' ? systemTheme : theme;
 
 
   const toggleSide = () =>{
@@ -67,19 +67,24 @@ const router = useRouter()
   }
   const toggleSideSmall = () => {
     const side = document.querySelector('.side')
+    const inside = document.querySelector('.inside')
+    
+    inside.classList.remove('lg:pl-[260px]')
     side.classList.toggle('hidden');
   }
 
   const logout = () => {
     deleteCookie('first_name')
-    deleteCookie('last_name')
-    deleteCookie('jwt')
-    deleteCookie('id')
-    deleteCookie('email')
-    deleteCookie('role')
-    deleteCookie('login')
-    deleteCookie('admin')
-    signOut()
+      deleteCookie('last_name')
+      deleteCookie('jwt')
+      deleteCookie('id')
+      deleteCookie('email')
+      deleteCookie('role')
+      deleteCookie('login')
+      deleteCookie('admin')
+      deleteCookie('lat')
+      deleteCookie('long')
+    //signOut()
     const currentUrl = router.asPath;
     router.push('/')
 }
@@ -101,16 +106,16 @@ const router = useRouter()
       {isFullscreen ? <i onClick={handleButtonClick} className='bx bx-exit-fullscreen cursor-pointer' ></i> : <i onClick={handleButtonClick} className='bx bx-fullscreen cursor-pointer'></i>}
       
       <i className='bx bx-bell'></i>
-        {
+        {/* {
           currentTheme === 'dark' ? (
           
             <i onClick={() => setTheme('light')}  className='transition ease-in delay-75 bx bxs-sun cursor-pointer justify-center flex items-center  rounded-full'></i>
           )
           :
-          (
+          ( */}
             <i onClick={() => setTheme('dark')}  className='transition ease-in delay-75 bx bxs-moon cursor-pointer rounded-full '></i>
-          )
-        }
+          {/* )
+        } */}
 
       <div className='flex space-x-3 items-center justify-center  text-'>
         {

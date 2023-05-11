@@ -1,61 +1,100 @@
 import React, { useEffect, useState } from "react";
 import L from "leaflet";
 import "leaflet-routing-machine";
-import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { useMap } from "react-leaflet";
+import { getCookie } from "cookies-next";
 
-const LeafletRoutingMachine = () => {
-  const [hasClicked, setHasClicked] = useState(false); // State variable to track if click has occurred
-  let DefaultIcon = L.icon({
-    iconUrl: "/car.png",
-    iconSize: [30, 30],
+const LeafletRoutingMachine = ({field}) => {
+  const [longlat,setLongLat] = useState({
+    lat:31.630491792770226,
+    long:-8.021628856658937
+  })
+
+  console.log("---------------------->",field)
+
+  useEffect(()=>{
+    setLongLat({lat:getCookie('lat'),long:getCookie('long')})
+    console.log('------=> longLat',longlat)
+  },[getCookie('lat'),getCookie('long')])
+
+  console.log(':( ---- ',field)
+
+  let playerIcon = L.icon({
+    iconUrl: "shoot.png",
+    iconSize: [40, 40],
+  });
+  let fieldIcon = L.icon({
+    iconUrl: "field.png",
+    iconSize: [40, 40],
   });
   const map = useMap();
+ const [remove,setRemove] = useState(0)
+
+ function resetMap() {
+  // Remove all layers from the map
+  map.eachLayer(function (layer) {
+      map.removeLayer(layer);
+  });
+
+  // Set the map's view to its initial state
+  map.setView([51.505, -0.09], 13);
+}
+
+ 
   useEffect(() => {
-    var marker1 = L.marker([31.630491792770226, -8.021628856658937], { icon: DefaultIcon }).addTo(
-      map
-    );
-    const handleClick = function (e) {
-      if (!hasClicked) {
-        setHasClicked(true); // Set hasClicked to true to prevent further clicks
-        console.log(e.latlng.lat, e.latlng.lng);
-        L.marker([e.latlng.lat, e.latlng.lng]).addTo(map);
-        L.Routing.control({
-          waypoints: [
-            L.latLng(31.630491792770226, -8.021628856658937),
-            L.latLng(e.latlng.lat, e.latlng.lng),
-          ],
-          lineOptions: {
-            styles: [
-              {
-                color: "green",
-                weight: 4,
-                opacity: 0.7,
-              },
+
+
+    // if(remove !=0)
+    // {
+    //   resetMap()
+    //   setRemove(1)
+    // }
+    if(getCookie('lat'))
+    {
+      var  marker1= L.marker([longlat.lat, longlat.long], { icon: playerIcon }).addTo(
+        map
+      );
+
+    }
+    
+
+     L.marker([field ? field.lat : longlat.lat  , field ? field.long : -8.021628856658937],{icon : fieldIcon}).addTo(map);
+
+     if(getCookie('lat'))
+     {
+
+       var routtt=L.Routing.control({
+            waypoints: [
+              L.latLng(longlat.lat, longlat.long),
+              L.latLng(field ? field.lat : longlat.lat  , field ? field.long : -8.021628856658937),
             ],
-          },
-          routeWhileDragging: false,
-          geocoder: L.Control.Geocoder.nominatim(),
-          addWaypoints: false,
-          draggableWaypoints: false,
-          fitSelectedRoutes: true,
-          showAlternatives: true,
-        })
-          .on("routesfound", function (e) {
-            e.routes[0].coordinates.forEach((c, i) => {
-              setTimeout(() => {
-                marker1.setLatLng([c.lat, c.lng]);
-              }, 1000 * i);
-            });
+            line: {
+              show: false // Hide the route text
+            },
+            lineOptions: {
+              styles: [
+                {
+                  color: "#03C988",
+                  weight: 3,
+                  opacity: 0.7,
+                },
+              ],
+            },
+            routeWhileDragging: false,
+            addWaypoints: false,
+            draggableWaypoints: false,
+            fitSelectedRoutes: true,
+            showAlternatives: true,
           })
-          .addTo(map);
-      }
-    };
-    map.on("click", handleClick); // Attach click event listener
-    return () => {
-      map.off("click", handleClick); // Remove click event listener on component unmount
-    };
-  }, [map, hasClicked]); // Include map and hasClicked in the dependencies array for proper effect behavior
+            .addTo(map);
+     }
+
+      
+
+
+
+    
+  }, [map,field]); // Include map and hasClicked in the dependencies array for proper effect behavior
   return null;
 };
 

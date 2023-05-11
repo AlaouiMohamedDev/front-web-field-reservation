@@ -5,74 +5,26 @@ import { Row, Col } from 'reactstrap';
 
 
 
-const LatestTransation = ({complexs}) => {
+const Complexes = ({complexs}) => {
 
-    const LatestTransationData = [
-        {
-            id: "customCheck1",
-            clientId: "#AP1234",
-            clientName: "David Wiley",
-            src:"../user-1.jpg",
-            date: "02 Nov, 2019",
-            price: "1234",
-            quantity: "1",
-            color: "main",
-            status: "Confirm"
-        },
-        {
-            id: "customCheck2",
-            clientId: "#AP1235",
-            clientName: "Walter Jones",
-            date: "04 Nov, 2019",
-            price: "822",
-            quantity: "2",
-            color: "main",
-            status: "Confirm"
-        },
-        {
-            id: "customCheck3",
-            clientId: "#AP1236",
-            clientName: "Eric Ryder",
-            src:"../user-1.jpg",
-            date: "	05 Nov, 2019",
-            price: "1153",
-            quantity: "1",
-            color: "red-500",
-            status: "Cancel"
-        },
-        {
-            id: "customCheck4",
-            clientId: "#AP1237",
-            clientName: "Kenneth Jackson",
-            date: "06 Nov, 2019",
-            price: "1365",
-            quantity: "1",
-            color: "main",
-            status: "Confirm"
-        },
-        {
-            id: "customCheck5",
-            clientId: "#AP1238",
-            clientName: "Ronnie Spiller",
-            src:"../user-2.jpg",
-            date: "08 Nov, 2019",
-            price: "740",
-            quantity: "2",
-            color: "yellow-500",
-            status: "Pending"
-        },
-    ];
+    const [search,setSearch] = useState([])
+
+    const handler =(e)=>{
+        e.persist()
+        setSearch(e.target.value)
+    }
+
 
     const [displayedComplexs, setDisplayedComplexs] = useState(complexs.data)
     useEffect(() => {
         setDisplayedComplexs(complexs.data)
     }, [complexs])
     return (
-        <div className="bg-white rounded-lg py-7 mb-7 px-5 shadow flex flex-col space-y-3">
+        <div className="bg-white rounded-lg py-7 mb-7 px-5 shadow flex flex-col ">
             <div className="flex items-center justify-between">
                 <h1 className="text-custBlue font-semibold">List Complexe</h1>
                 <div className="flex items-center space-x-2 bg-gray-50 rounded px-4 shadow">
-                    <input type="text" placeholder="Search" className="bg-transparent text-sm outline-none py-2 " />
+                    <input name="search" value={search} onChange={handler} type="text" placeholder="Search" className="bg-transparent text-sm outline-none py-2 " />
                     <i className='bx bx-search text-lg text-gray-500' ></i>
                 </div>
             </div>
@@ -92,7 +44,16 @@ const LatestTransation = ({complexs}) => {
                         </thead>
                         <tbody>
                             {
-                                displayedComplexs.map((item, key) =>(
+                                displayedComplexs.filter((val)=>{
+                                    if(search == "")
+                                    {
+                                        return val;
+                                    }
+                                    else if(val.name.toLowerCase().includes(search.toLowerCase()))
+                                    {
+                                        return val;
+                                    }
+                                }).map((item, key) =>(
                                     <tr key={key} className="border-b dark:border-neutral-500">
                                         <td className="whitespace-nowrap px-6 py-4 font-medium flex items-center space-x-2">
                                             <input
@@ -111,24 +72,28 @@ const LatestTransation = ({complexs}) => {
                                         
                                         <td className="whitespace-nowrap px-6 py-4  space-x-1">
                                             <span className="text-main border border-main py-2 px-3 rounded text-xs">
-                                                Edit
+                                                Approve
                                             </span>
                                             <span className="text-red-600 border border-red-600 py-2 px-3 rounded text-xs">
-                                                Cancel
+                                                Remove
                                             </span>
                                         </td>
 
                                     </tr>
                                 ))
-                            }
+                            } 
                         </tbody>
                         </table>
                     </div>
                     </div>
                 </div>
             </div>
+
+            
+
+          
         </div>
     )
 }
 
-export default LatestTransation;
+export default Complexes;

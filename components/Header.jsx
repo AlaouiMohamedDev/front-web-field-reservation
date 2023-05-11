@@ -85,9 +85,16 @@ console.log("🚀 ~ file: Header.jsx:9 ~ Header ~ joinedList:", joinedList)
         deleteCookie('role')
         deleteCookie('login')
         deleteCookie('admin')
-        signOut()
+        deleteCookie('lat')
+        deleteCookie('long')
+        //signOut()
         const currentUrl = router.asPath;
-        router.push(currentUrl)
+         
+        if (currentUrl.includes("destination")) {
+            router.reload();
+          } else {
+            router.push(currentUrl)
+          }
     }
 
     useEffect(() => {

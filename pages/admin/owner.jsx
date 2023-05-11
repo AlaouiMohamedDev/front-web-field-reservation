@@ -5,24 +5,25 @@ import Head from 'next/head';
 import Complex from '../../components/admin/Complex';
 import { getCookie } from 'cookies-next';
 import BASE_URL from '../../components/global';
+import Owner from '../../components/admin/Owner';
 
 
 export async function getServerSideProps(context) {
 
-    const response1 = await fetch(`${BASE_URL}/entity/complexe-list/`)
-    const complexs = await response1.json();
+    const response1 = await fetch(`${BASE_URL}/api/user_list/`)
+    const users = await response1.json();
   
     
   
   
     return {
       props: {
-        complexs:complexs
+        users:users
       },
     }
   }
 
-export default function complexe({complexs}) {
+export default function complexe({users}) {
 
     
 
@@ -67,7 +68,7 @@ export default function complexe({complexs}) {
 return (
     <div className="w-full flex flex-col lg:flex-row-reverse bg-gray-100 justify-between  dark:bg-custBlue m-0 p-0 relative font-work">
       <Head>
-        <title>Complex - admin</title>
+        <title>Owner - admin</title>
         <link rel="icon" href="/favicon.ico" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -77,7 +78,7 @@ return (
 
        <div className='flex flex-col w-full'>
           <HeaderDash />
-        <Complex complexs={complexs}/>
+        <Owner users={users}/>
        </div>
         <SideBar />
 

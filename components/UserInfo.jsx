@@ -6,6 +6,8 @@ import { toast } from 'react-toastify'
 import { Router, useRouter } from 'next/router'
 import BASE_URL from './global'
 
+import Map from './Map'
+
 export default function UserInfo() {
   const [userName,setUserName] = useState(null)
 
@@ -56,6 +58,8 @@ const router = useRouter();
           first_name:userInput.first_name,
           last_name:userInput.last_name,
           password:userInput.password,
+          lat:latlng.lat,
+          long:latlng.long,
           id:getCookie('id'),
           jwt:getCookie('jwt')
         }
@@ -80,6 +84,12 @@ const router = useRouter();
     
   }
 
+  const [latlng, setLatLng] = useState({});
+
+  function handleChildValue(newValue) {
+    setLatLng(newValue);
+  }
+
   return (
     <div className='mt-10 userInfo'>
          <div className="p-7 flex flex-col  space-y-2">
@@ -96,6 +106,7 @@ const router = useRouter();
                   {/* <input name="adresse" value={userInput.adresse} onChange={handleUserInput} placeholder = "Adress" type="text" className = "col-span-2 md:col-span-1 focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" /> */}
                   <input name="password" value={userInput.password} onChange={handleUserInput} placeholder = "Password" type="password" className = "col-span-2 md:col-span-1 focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" />
                   {/* <input name="confirm" value={userInput.confirm} onChange={handleUserInput} placeholder = "Confirm Password" type="password" className = "col-span-2 md:col-span-1 focus:border-main placeholder:text-xs text-sm p-2 border border-gray-100 outline-none text-gray-600" /> */}
+                  <Map onValueChange={handleChildValue} />
                   <button onClick={updateUser} className="bg-main py-2 col-span-2 w-1/2  text-white text-xs rounded">Save</button>
                   {
                               (userInput.error_list.error)

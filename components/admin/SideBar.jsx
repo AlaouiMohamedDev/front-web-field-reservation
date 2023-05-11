@@ -11,8 +11,8 @@ export default function SideBar() {
 
 
   return (
-    //top-[68px] 
-    <div className="side w-[250px] bg-custBlue  lg:flex flex-col hidden fixed lg:static h-screen top-0">
+    
+    <div className="top-[68px] side w-[250px] bg-custBlue  lg:flex flex-col hidden fixed lg:static h-screen">
       <div className="w-full py-[1.5rem] flex  justify-center items-center shadow">
           <img src="../images/logo-white.png" className='h-[24px] span '/>
           <img src="../images/logo.png" className='h-[30px] hidden span'/>
@@ -41,14 +41,14 @@ export default function SideBar() {
             </div>
             <i className='span bx bx-chevron-right text-md'></i>
           </div>
-          <div className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
+          <div  onClick={()=>router.push('fields')} className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
             <div className="flex space-x-3 items-center">
               <i className='bx bx-football text-lg' ></i>
               <span className="span">Field</span>
             </div>
             <i className='span bx bx-chevron-right text-md'></i>
           </div>
-          <div className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
+          <div onClick={()=>router.push('reservation')} className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
             <div className="flex space-x-3 items-center">
               <i className='bx bx-book-bookmark text-lg' ></i>
               <span className="span">Reservation</span>
@@ -62,7 +62,7 @@ export default function SideBar() {
             </div>
             <i className='span bx bx-chevron-right text-md'></i>
           </div>
-          <div className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
+          <div onClick={()=>router.push('owner')} className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
             <div className="flex space-x-3 items-center">
               <i className='bx bx-face text-lg' ></i>
               <span className="span">Owner</span>

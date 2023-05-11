@@ -152,6 +152,8 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
                     setCookie('email',res.data.user.email);
                     setCookie('id',res.data.user.id);
                     setCookie('role',res.data.user.role);
+                    setCookie('lat',res.data.user.lat);
+                    setCookie('long',res.data.user.long);
                     if(res.data.user.role == 'admin')
                     {
                         setCookie('admin',true);
@@ -170,8 +172,14 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
                     }*/
                     swal.fire("Bienvenue","","success");
                     ModalAuth()
+                    const currentUrl = router.asPath;
                     
-                    router.push('')
+                    if (currentUrl.includes("destination")) {
+                        router.reload();
+                      } else {
+                        router.push(currentUrl)
+                      }
+                    
                 }
                 else
                 {

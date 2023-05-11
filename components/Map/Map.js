@@ -24,16 +24,17 @@ const Map = ({ onValueChange }) => {
 
   return (
     <MapContainer
-      className="w-full h-[400px] z-90 col-span-1 md:col-span-2"
+      className="w-full h-full md:h-[400px] z-90 col-span-1 md:col-span-2"
       center={position}
       zoom={10}
-      scrollWheelZoom={true}
+      scrollWheelZoom={false}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <LeafletGeocoder onLocationSelect={handleChange} />
+      
     </MapContainer>
   );
 };

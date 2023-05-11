@@ -1,20 +1,13 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
-import Pagination from "../components/Pagination";
+import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SideBar from "../components/SideBar";
 import Banner from "../components/calendar/Banner";
 import AuthModal from "../components/AuthModal";
-import { getCookie } from "cookies-next";
-import Swal from "sweetalert2";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import axios from "axios";
 import ReservationsBar from "../components/ReservationsBar";
-import CreatePost from "../components/calendar/CreatePost";
 import BASE_URL from "../components/global";
-import Select from "react-select";
 import Calendar from "../components/calendar/Calendar";
 import { getSession } from "next-auth/react";
 

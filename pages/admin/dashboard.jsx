@@ -17,21 +17,21 @@ export default function Dashboard (){
     const grid2 = document.querySelector('.grid2')
     const grid22 = document.querySelector('.grid22')
 
-   // const headersah = document.querySelector('.headerdash')
+   const headersah = document.querySelector('.headerdash')
 
 
     window.addEventListener('scroll', () => {
-        if ((window.scrollY || window.pageYOffset) > 10) {
+        if ((window.scrollY || window.pageYOffset) > 100) {
             side.classList.remove('lg:static')
             side.classList.add('left-0')
             inside.classList.add('lg:pl-[260px]')
             grid1.classList.remove('lg:grid-cols-4')
             grid2.classList.remove('lg:grid-cols-3')
             grid22.classList.add('lg:col-span-2')
-            // headersah.classList.add('fixed')
-            // headersah.classList.add('w-screen')
-            // headersah.classList.add('top-0')
-            // headersah.classList.add('z-100')
+            headersah.classList.add('fixed')
+            headersah.classList.add('w-screen')
+            headersah.classList.add('top-0')
+            headersah.classList.add('z-100')
         } else {
           side.classList.add('lg:static')
           side.classList.remove('left-0')
@@ -39,17 +39,17 @@ export default function Dashboard (){
           grid1.classList.add('lg:grid-cols-4')
           grid2.classList.add('lg:grid-cols-3')
           grid22.classList.remove('lg:col-span-2')
-          // headersah.classList.remove('fixed')
-          // headersah.classList.remove('w-screen')
-          // headersah.classList.remove('top-0')
-          // headersah.classList.remove('z-100')
+          headersah.classList.remove('fixed')
+          headersah.classList.remove('w-screen')
+          headersah.classList.remove('top-0')
+          headersah.classList.remove('z-100')
         }
     })
 }, []);
   
 
   return (
-    <div className="w-full flex flex-col lg:flex-row-reverse bg-gray-100 justify-between  dark:bg-custBlue m-0 p-0 relative font-work">
+    <div className="w-full flex flex-col lg:flex-row-reverse bg-gray-100 h-full justify-between  dark:bg-custBlue m-0 p-0 relative font-work">
       <Head>
         <title>Dashboard - admin</title>
         <link rel="icon" href="/favicon.ico" />
