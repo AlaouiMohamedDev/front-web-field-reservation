@@ -258,7 +258,7 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
     }
   return (
     <div className="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
-        <div className="bg-[#023535]  text-white flex flex-col space-y-3 items-center py-6 px-7 rounded absolute top-2 right-2">
+        <div className="bg-[#023535]  text-white flex flex-col space-y-2 items-center py-4 px-5 z-10 rounded absolute top-2 right-2">
             <div className="font-bold flex items-center space-x-1 text-sm">
                  <i className='bx bx-error-circle text-lg'></i>
                  <h1>These accounts are only visible for the sake of the testing the app</h1>
@@ -316,7 +316,7 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
                 </div>
             </div>
         </div>
-        <div className="relative flex items-center justify-center w-full h-full md:w-[850px] md:h-[510px] bg-white  zoom-in">
+        <div className="relative flex items-center justify-center z-5 w-full h-full md:w-[850px] md:h-[510px] bg-white  zoom-in">
             <div className="flex px-7 md:w-1/2 flex-col items-center space-y-5">
                 <div className = "absolute left-0 p-4 top-0" >
                       <i className = "bx bx-x cursor-pointer text-2xl font-semibold hover:text-main" onClick={ModalAuth}/>
