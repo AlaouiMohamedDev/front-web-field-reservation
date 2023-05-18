@@ -46,29 +46,25 @@ export default function Owner({ users }) {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, Approve it!'
       }).then((result) => {
-        if (result.isConfirmed) {
-            toast.success("Accepted", {
-                position: "bottom-right",
-              });
-              router.push('/admin/dashboard')            // const data ={
-            //     jwt:getCookie('jwt')
-            // }
-            // console.log('------------->',data)
-            // axios.post(`${BASE_URL}/entity/approvehost/${id}/`,data).then(res => {
-            //     if(res.data.status === 200){
-            //         toast.success("Accepted", {
-            //             position: "bottom-right",
-            //           });
-            //           router.push('')
+        if (result.isConfirmed) {        
+            const data ={
+                jwt:getCookie('jwt')
+            }
+            axios.post(`${BASE_URL}/entity/approvehost/${id}/`,data).then(res => {
+                if(res.data.status === 200){
+                    toast.success("Accepted", {
+                        position: "bottom-right",
+                      });
+                      router.push('')
                       
-            //     }
-            //     else
-            //     {
-            //         toast.error(res.data.message, {
-            //             position: "bottom-right",
-            //           });
-            //     }
-            // })
+                }
+                else
+                {
+                    toast.error(res.data.message, {
+                        position: "bottom-right",
+                      });
+                }
+            })
           
         }
       })
@@ -89,7 +85,7 @@ const reject = (id) => {
             const data ={
                 jwt:getCookie('jwt')
             }
-            axios.post(`${BASE_URL}/entity/reject-host-account/${id}/`,data).then(res => {
+            axios.post(`${BASE_URL}/entity/rejecthost/${id}/`,data).then(res => {
                 if(res.data.status === 200){
                     toast.success("Rejected", {
                         position: "bottom-right",
@@ -204,12 +200,9 @@ const reject = (id) => {
                           </td>
 
                           <td className="whitespace-nowrap px-6 py-4  space-x-1">
-                            <span onClick={()=>approve(item.email)} className="text-main border border-main py-2 px-3 rounded text-xs cursor-pointer">
-                              Approve
-                            </span>
-                            <span onClick={()=>reject(item.email)} className="text-red-600 border border-red-600 py-2 px-3 rounded text-xs cursor-pointer">
-                              Reject
-                            </span>
+                              <div className="flex items-center space-x-1 text-main">
+                                  
+                              </div>
                           </td>
                         </tr>
                       ))}

@@ -4,9 +4,22 @@ import SideBar from '../../components/admin/SideBar';
 import HeaderDash from '../../components/admin/HeaderDash';
 import Home from '../../components/admin/Home';
 import { useEffect } from 'react';
+import BASE_URL from '../../components/global';
 
+export async function getServerSideProps(context) {
 
-export default function Dashboard (){
+  const response = await fetch(`${BASE_URL}/entity/get_stats/`)
+  const stats = await response.json();
+    
+  
+  
+    return {
+      props: {
+        stats:stats
+      },
+    }
+  }
+export default function Dashboard ({stats}){
 
 
   useEffect(() => {
@@ -61,7 +74,7 @@ export default function Dashboard (){
 
        <div className='flex flex-col w-full'>
           <HeaderDash />
-          <Home />
+          <Home stats={stats}/>
        </div>
         <SideBar />
 

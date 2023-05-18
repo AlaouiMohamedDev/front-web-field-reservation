@@ -9,8 +9,13 @@ import LatestTransation from './LatestTransaction';
 
 
 
-export default function Home() {
+export default function Home({stats}) {
 
+  var [displayedStats,setDisplayedStats]= useState(stats)
+
+  useEffect(()=>{
+      setDisplayedStats(stats)
+  },[stats])
 
   return (
     <div className="flex flex-col w-full px-5 inside bg-gray-100">
@@ -24,11 +29,11 @@ export default function Home() {
       </div>
       <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-5 grid1'>
         <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
-          <Chart color="#03C988" val={72} className=""/>
+          <Chart color="#03C988" val={displayedStats.reservationsCount} className=""/>
           <div className='flex flex-col justify-between space-y-1'>
             <div className='flex flex-col'>
               <span className='text-sm text-gray-400'>Reservations</span>
-              <p className='font-semibold'>2.2K</p>
+              <p className='font-semibold'>{displayedStats.reservationsCount} Resvs</p>
             </div>
             <div className='flex items-center space-x-2'>
               <span className="text-main">0.02%</span>
@@ -44,7 +49,7 @@ export default function Home() {
           <div className='flex flex-col justify-between space-y-1'>
             <div className='flex flex-col'>
               <span className='text-sm text-gray-400'>Citys</span>
-              <p className='font-semibold'>100</p>
+              <p className='font-semibold'>{displayedStats.citiesCount}</p>
             </div>
             <div className='flex items-center space-x-2'>
               <span className="text-main">0.02%</span>
@@ -56,11 +61,11 @@ export default function Home() {
         </div>
 
         <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
-          <Chart color="#E3242B" val={15} className=""/>
+          <Chart color="#E3242B" val={displayedStats.complexesCount} className=""/>
           <div className='flex flex-col justify-between space-y-1'>
             <div className='flex flex-col'>
               <span className='text-sm text-gray-400'>Complexs</span>
-              <p className='font-semibold'>1.2K</p>
+              <p className='font-semibold'>{displayedStats.complexesCount} complex</p>
             </div>
             <div className='flex items-center space-x-2'>
               <span className="text-red-500">-0.05%</span>

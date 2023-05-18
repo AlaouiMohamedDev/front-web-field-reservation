@@ -26,10 +26,10 @@ export default function SideBar() {
             </div>
             <div className="span flex items-center justify-center bg-main w-[20px] font-semibold h-[15px] rounded-full text-white text-[12px]">9</div>
           </div>
-          <div className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
+          <div onClick={()=>router.push('/')} className="w-full flex pl-3 items-center itemP justify-between text-[15px] text-[#8590a5] hover:text-main cursor-pointer">
             <div className="flex space-x-3 items-center">
-              <i className='bx bxs-calendar-event text-lg' ></i>
-              <span className="span">Calendar</span>
+              <i className='bx bx-world text-lg' ></i>
+              <span className="span">Web Site</span>
             </div>
             <i className='span bx bx-chevron-right text-md'></i>
           </div>

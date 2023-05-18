@@ -10,6 +10,9 @@
   .activeM{
     @apply bg-main rounded text-white;
   }
+  .activeCat{
+    @apply bg-main border-main text-white;
+  }
 }
 .fade {
     animation-name: fade;

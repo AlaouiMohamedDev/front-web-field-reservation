@@ -6,6 +6,7 @@ import { setCookie,getCookie } from 'cookies-next'
 import {  useRouter } from 'next/router';
 import BASE_URL from './global';
 import Map from './Map';
+import cities from './cities';
 
 
 export default function AddComplex() {
@@ -111,7 +112,7 @@ const AddField = async () => {
 const [complexId, setComplexId] = useState(null);
       //async
      const  addComplex  = async (e)=>{
-      if (complexInput.name=="" || complexInput.address=="" || latlng.lat == null || complexInput.desc=="" || zone == null)
+      if (complexInput.name=="" || complexInput.address=="" || latlng.lat == null || complexInput.desc=="" || city == null)
       {
           setComplex({...complexInput,error_list:{'messageErr':"Un champs est vide",'error':true}})
           
@@ -141,7 +142,7 @@ const [complexId, setComplexId] = useState(null);
               longtitude:latlng.lng,
               description:complexInput.desc,
               url:response.secure_url,
-              zone:zone.value,
+              city:city.label,
           jwt:getCookie('jwt')
         }
         console.log("🚀 ~ file: AddComplex.jsx:129 ~ addComplex ~ data:", data)
@@ -206,44 +207,44 @@ const [complexId, setComplexId] = useState(null);
     }
 
     const customStyles = {
-
-        menuList :()=>({
-            backgroundColor:'#ffffff',
-            display:'absolute',
-          }),
-        dropdownIndicator :()=>({
-          color:'gray',
-          padding:'0px 5px'
-        }),
-        option: (provided, state) => ({
-          ...provided,
-          width:'inherit',
-          borderBottom: '1px ',
-          color: 'black',
-          backgroundColor:'#ffffff',
-        }), placeholder: (provided) => ({
-        ...provided,
-        fontSize: '13px',
-        color : '#9CA3C1' // add font size here
+      control: (provided, state) => ({
+        // none of react-select's styles are passed to <Control />
+        display: "flex",
+        outline: "none",
+        border: "solid 1px #E5E7EB",
+        borderRadius: "4px",
+        backgroundColor: "#ffffff",
+        color: "#ffffff",
+        fontSize: "12px",
+        padding: "0px",
       }),
-        control: (provided, state) => ({
-          // none of react-select's styles are passed to <Control />
-          display: 'flex',
-          outline:'none',
-          border:'1px solid #E9E9E9',
-          borderRadius:'4px',
-          backgroundColor:'#ffffff',
-          color:'#ffffff',
-          boxShadow: state.isFocused ? '0 0 0 1px #03C988' : 'none',
-
-        }),
-        singleValue: (provided, state) => {
-          const opacity = state.isDisabled ? 0.5 : 1;
-          const transition = 'opacity 300ms';
-            
-          return { ...provided, opacity, transition,color:"black",fontSize: '14px' };
-        }
-    }
+      dropdownIndicator: (provided) => ({
+        ...provided,
+        color: "#03C988", // replace with your desired color
+      }),
+      container: (provided) => ({
+        ...provided,
+        width: "100%", // replace with your desired width
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        fontSize: "12px", // replace with your desired font size
+        backgroundColor: state.isSelected ? "#03C988" : "white", // replace with your desired color
+      }),
+      singleValue: (provided, state) => {
+        const opacity = state.isDisabled ? 0.5 : 1;
+        const transition = "opacity 300ms";
+  
+        return {
+          ...provided,
+          opacity,
+          transition,
+          color: "black",
+          fontSize: "12px",
+        };
+        
+      },
+    };
 
     const [categoryError,setCategoryError]= useState(null)
 
@@ -351,10 +352,10 @@ const [complexId, setComplexId] = useState(null);
 
 
     }
-      const [zone,setZone] = useState(null)
+      const [city,setCity] = useState(null)
       
-      const handlerZone = (e) =>{
-        setZone(e)
+      const handlerCity = (e) =>{
+        setCity(e)
       }
 
       const [fieldCategory,setFieldCategory] = useState(null)
@@ -365,11 +366,6 @@ const [complexId, setComplexId] = useState(null);
       }
       
 
-      const options = [
-        { value: 1, label: 'Sidi Youssef' },
-        { value: 2, label: 'Lmhamid' },
-        { value: 3, label: 'Massira' }
-      ]
 
       const [imageSrc, setImageSrc] = useState();
       const [imageSrcField, setImageSrcField] = useState();
@@ -434,12 +430,12 @@ const [complexId, setComplexId] = useState(null);
                    
                   <textarea name="desc" rows="1" value={complexInput.desc} onChange={handleComplexInput}  placeholder="Desciprtion" className="col-span-2 md:col-span-1 focus:border-main h-full outline-none border border-gray-100 text-sm py-2 px-3 rounded-md" />           
                   <Select
-                              name="zone"
-                                  options={options}
+                              name="city"
+                                  options={cities}
                                   styles={customStyles}
-                                  value={zone}
-                                  placeholder="Complex Zone"
-                                  onChange={handlerZone}
+                                  value={city}
+                                  placeholder="Complex City"
+                                  onChange={handlerCity}
                                   />
                   
                   <div className="col-span-2 md:col-span-1 flex  items-center justify-center ">

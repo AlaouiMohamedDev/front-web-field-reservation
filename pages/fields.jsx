@@ -16,6 +16,9 @@ export async function getServerSideProps(context) {
   const response = await fetch(`${BASE_URL}/entity/list_fields`)
   const fields = await response.json();
 
+  const responseCat = await fetch(`${BASE_URL}/entity/list_category_letter/`)
+  const cats = await responseCat.json();
+
   const response1 = await fetch(`${BASE_URL}/entity/reservation-list`)
   const reservations = await response1.json();
 
@@ -37,11 +40,12 @@ export async function getServerSideProps(context) {
       notificationsOwner:notificationsOwner,
       notificationsUser:notificationsUser,
       joinedList:joinedList,
-      session:session
+      session:session,
+      cats:cats
     },
   }
 }
-export default function ({fields,reservations,notificationsUser,notificationsOwner,joinedList,session}) {
+export default function ({fields,reservations,notificationsUser,notificationsOwner,joinedList,session,cats}) {
   return (
     <div className="">
       <Head>
@@ -57,7 +61,7 @@ export default function ({fields,reservations,notificationsUser,notificationsOwn
       <Sidebar />
        <ReservationsBar reservations={reservations}/>
        <Banner />
-       <FieldList  fields={fields} />
+       <FieldList cats={cats}  fields={fields} />
       <Footer />
     </div>
   )

@@ -6,57 +6,27 @@ import Image from 'next/image';
 import MapModal from '../MapModal';
 import Map from '../Map';
 import Destinations from '../Map/destination';
+import Filter from './Filter';
+import cities from '../cities';
 
-export default function FieldList({fields}) {
+export default function FieldList({fields,cats}) {
 
     const router = useRouter();
 
     var [displayedFields,setDisplayedFields]= useState(fields)
 
     useEffect(()=>{
-        setDisplayedFields(fields)
+        setDisplayedFields(fields.filter((field) => field.user_is_active))
     },[fields])
 
-    const customStyles = {
 
-        menuList :()=>({
-            backgroundColor:'#ffffff',
-            display:'absolute',
-          }),
-        dropdownIndicator :()=>({
-          color:'gray',
-          padding:'0px 5px'
-        }),
-        option: (provided, state) => ({
-          ...provided,
-          width:'inherit',
-          borderBottom: '1px ',
-          color: 'black',
-          backgroundColor:'#ffffff',
-        }), placeholder: (provided) => ({
-        ...provided,
-        fontSize: '13px',
-        color : '#9CA3C1' // add font size here
-      }),
-        control: (provided, state) => ({
-          // none of react-select's styles are passed to <Control />
-          display: 'flex',
-          outline:'none',
-          border:'1px solid #E9E9E9',
-          borderRadius:'4px',
-          backgroundColor:'#ffffff',
-          color:'#ffffff',
-          width:'200px',
-          boxShadow: state.isFocused ? '0 0 0 1px #03C988' : 'none',
+    var [displayedCats,setDisplayedCats]= useState(cats)
 
-        }),
-        singleValue: (provided, state) => {
-          const opacity = state.isDisabled ? 0.5 : 1;
-          const transition = 'opacity 300ms';
-            
-          return { ...provided, opacity, transition,color:"black",fontSize: '14px' };
-        }
-    }
+    useEffect(()=>{
+        setDisplayedCats(cats)
+    },[cats])
+
+  
 
     const options = [
         { value: 1, label: 'New offers' },
@@ -86,34 +56,195 @@ export default function FieldList({fields}) {
         modal.classList.add('hidden')
         modal.classList.remove('flex')
     }
-  return (
-    <div className='bg-white px-[50px] 2xl:px-[300px] py-10'>
-        <div className='flex items-center justify-between'>
-            <div className='flex items-center space-x-1 font-semibold hover:text-main cursor-pointer'>
-                <i class='bx bx-filter-alt' ></i>
-                <span>Filter</span>
-            </div>
-            <Select
-                              name="zone"
-                                  options={options}
-                                  styles={customStyles}
-                                  placeholder="New Offers"
-                                  />
 
-                                  
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 justify-items-center py-10">
+    
+      const needs = () => {
+        const needs = document.querySelector(".needs");
+        needs.classList.toggle("grid");
+        needs.classList.toggle("hidden");
+        document.querySelector(".updownNeeds").classList.toggle("bx-chevron-up");
+        document.querySelector(".updownNeeds").classList.toggle("bx-chevron-down");
+      };
+    
+      const times = () => {
+        const time = document.querySelector(".time");
+        time.classList.toggle("flex");
+        time.classList.toggle("hidden");
+        document.querySelector(".updownTimes").classList.toggle("bx-chevron-up");
+        document.querySelector(".updownTimes").classList.toggle("bx-chevron-down");
+      };
+    
+      const customStyles = {
+        control: (provided, state) => ({
+          // none of react-select's styles are passed to <Control />
+          display: "flex",
+          outline: "none",
+          border: "solid 1px #E5E7EB",
+          borderRadius: "4px",
+          backgroundColor: "#ffffff",
+          color: "#ffffff",
+          fontSize: "12px",
+          padding: "0px",
+        }),
+        dropdownIndicator: (provided) => ({
+          ...provided,
+          color: "#03C988", // replace with your desired color
+        }),
+        container: (provided) => ({
+          ...provided,
+          width: "100%", // replace with your desired width
+        }),
+        option: (provided, state) => ({
+          ...provided,
+          fontSize: "12px", // replace with your desired font size
+          backgroundColor: state.isSelected ? "#03C988" : "white", // replace with your desired color
+        }),
+        singleValue: (provided, state) => {
+          const opacity = state.isDisabled ? 0.5 : 1;
+          const transition = "opacity 300ms";
+    
+          return {
+            ...provided,
+            opacity,
+            transition,
+            color: "black",
+            fontSize: "12px",
+          };
+          
+        },
+      };
+
+      const [search,setSearch] = useState([])
+
+      const handler =(e)=>{
+        e.persist()
+        setSearch(e.target.value)
+      }
+
+      const [activeCategory, setActiveCategory] = useState("-");
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category);
+  };
+
+
+  const [city,setCity] = useState(cities[0])
+      
+      const handlerCity = (e) =>{
+        setCity(e)
+      }
+
+
+
+  return (
+    <div className='bg-gray-50 flex flex-bol lg:flex-row lg:space-x-6  items-start justify-between px-[50px] py-10'>
+        <div className="w-1/3 font-poppins text-sm">
+      <div className="bg-white shadow flex py-3 space-y-3 flex-col  px-3 rounded-tr-xl">
+        <h3 className="">Filter</h3>
+        <input
+          type="text"
+          name="search" value={search} onChange={handler}
+          className="outline-none border py-2 text-xs rounded px-3 placeholder:text-gray-400"
+          placeholder="Search for fields"
+        />
+        <h3 className="text-xs">Category</h3>
+        <div className="grid grid-cols-3 w-full gap-5">
+            {
+                displayedCats.length == 0
+                ?
+                <div className="col-span-3 bg-main text-white flex items-center">
+                    No categories
+                </div>
+                :
+                <span
+                        className={`text-xs flex py-1 items-center justify-center border rounded ${
+                        activeCategory === `-` ? 'activeCat' : ''
+                        }`}
+                        onClick={() => handleCategoryClick(`-`)}
+                    >
+                        All
+                    </span>
+            }
+            {
+                displayedCats.map(cat => (
+                    <span
+                        className={`text-xs flex py-1 items-center justify-center border rounded ${
+                        activeCategory === `${cat.typeTerrain} vs ${cat.typeTerrain}` ? 'activeCat' : ''
+                        }`}
+                        onClick={() => handleCategoryClick(`${cat.typeTerrain} vs ${cat.typeTerrain}`)}
+                    >
+                        {cat.typeTerrain} vs {cat.typeTerrain}
+                    </span>
+
+                ))
+            }
+            </div>
+        <h3 className="text-xs">Ville</h3>
+        <Select
+          options={cities}
+          styles={customStyles}
+          placeholder="Choose a city"
+          value={city}
+          onChange={handlerCity}
+        />
+    
+        
+
+          {/* <button onClick={()=>{console.log(document.querySelector('.datepi').value)}}>sUbmit</button> */}
+        
+      </div>
+    </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 justify-items-center">
             {displayedFields.length == 0 && 
-            <div className="py-2 col-span-3 bg-orange-400 rounded-md w-full text-white flex items-center justify-center">
+            <div className="py-2 col-span-2 bg-orange-400 rounded-md w-full text-white flex items-center justify-center">
                 <span>No fields to show in this moments</span>
             </div>
             }
             {
-                displayedFields.map(field => {
-                    return(
-                        <div className="flex flex-col border border-gray-200 w-[400px] relative">
-                            <div className="relative h-[250px]">
-                                <Image src={field.terrain_photo} fill className="object-cover" />
+                displayedFields.filter((val)=>{
+                    console.log('----> : ',val.Fieldname.toLowerCase() ," -- Search : ",search !="" && search.toLowerCase(),"---",activeCategory[0] , "==",val.category,'--->',activeCategory[0] == val.category)
+                    
+                    if(activeCategory[0] == "-")
+                    {
+                        if(search == "" && city.label == "All")
+                        {
+                            return val;
+                        }
+                        else if(search == "" && city.label == val.city){
+                            return val;
+                        }
+                        else if(search != "" && val.Fieldname.toLowerCase().includes(search.toLowerCase())&& city.label == val.city)
+                        {
+                            return val;
+                        }
+                        else if(search != "" && val.Fieldname.toLowerCase().includes(search.toLowerCase()) && city.label == "All")
+                        {
+                            return val;
+                        }
+                    }
+                    else
+                    {
+                        if(activeCategory[0] == val.category && search == "" && city.label == "All")
+                        {
+                            return val;
+                        }
+                        else if(search != "" && val.Fieldname.toLowerCase().includes(search.toLowerCase()) && activeCategory[0] == val.category && city.label == val.city){
+                            return val;
+                        }
+                        else if(search != "" && val.Fieldname.toLowerCase().includes(search.toLowerCase()) && activeCategory[0] == val.category && city.label == "All"){
+                            return val;
+                        }
+                        else if(search =="" && activeCategory[0] == val.category && city.label == val.city){
+                            return val;
+                        }
+                    }
+                })
+                .map(field => {
+                   
+                    return  field ?(
+                        <div className="flex flex-col border border-gray-200 w-[400px] relative shadow rounded-t-3">
+                            <div className="relative h-[250px] rounded-t-3">
+                                <Image src={field.terrain_photo} fill className="object-cover rounded-t-3" />
                             </div>
                             {!field.reserved ? 
                                 <span className="bg-yellow-400 text-white text-[10px] rounded px-3 py-2 font-semibold absolute top-2 right-2">Open</span>
@@ -156,6 +287,12 @@ export default function FieldList({fields}) {
                                 </div>
                             </div>
                        </div>
+                    )
+                    :
+                    (
+                        <div className="py-2 col-span-2 bg-orange-400 rounded-md w-full text-white flex items-center justify-center">
+                            <span>No fields to show for the moments</span>
+                        </div>
                     )
                 })
             }
