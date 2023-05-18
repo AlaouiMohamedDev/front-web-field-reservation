@@ -31,6 +31,9 @@ const resp1 = await fetch(`${BASE_URL}/entity/list-joined/`)
 
   const session =await getSession(context)
 
+  const responseF = await fetch(`${BASE_URL}/entity/list_fields`)
+  const fields = await responseF.json();
+
 
   return {
     props: {
@@ -38,12 +41,13 @@ const resp1 = await fetch(`${BASE_URL}/entity/list-joined/`)
       notificationsOwner:notificationsOwner,
       notificationsUser:notificationsUser,
       session:session,
-      joinedList:joinedList
+      joinedList:joinedList,
+      fields:fields
     },
   }
 }
 
-const Home= ({reservations,notificationsOwner,notificationsUser,session,joinedList}) => {
+const Home= ({reservations,notificationsOwner,notificationsUser,session,joinedList,fields}) => {
 
   
 
@@ -64,7 +68,7 @@ const Home= ({reservations,notificationsOwner,notificationsUser,session,joinedLi
       <ReservationsBar reservations={reservations} />
       <Banner />
       <Sidebar />
-      <PopularFields />
+      <PopularFields fields={fields} />
       <Footer />
     </div>
   )

@@ -10,16 +10,22 @@ export async function getServerSideProps(context) {
 
   const response = await fetch(`${BASE_URL}/entity/get_stats/`)
   const stats = await response.json();
+
+  const responseRevenue = await fetch(`${BASE_URL}/entity/getRevenueByCity/`)
+  const revenue = await responseRevenue.json();
+
+  
     
   
   
     return {
       props: {
-        stats:stats
+        stats:stats,
+        revenue:revenue
       },
     }
   }
-export default function Dashboard ({stats}){
+export default function Dashboard ({stats,revenue}){
 
 
   useEffect(() => {
@@ -74,7 +80,7 @@ export default function Dashboard ({stats}){
 
        <div className='flex flex-col w-full'>
           <HeaderDash />
-          <Home stats={stats}/>
+          <Home stats={stats} revenue={revenue}/>
        </div>
         <SideBar />
 

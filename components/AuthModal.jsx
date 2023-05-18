@@ -258,7 +258,7 @@ console.log("🚀 ~ file: AuthModal.jsx:19 ~ AuthModal ~ session:", session)
     }
   return (
     <div className="fixed z-100 w-full h-screen top-0 hidden items-center justify-center bg-gray-900/70 authmodal fade">
-        <div className="bg-[#023535]  text-white flex flex-col space-y-3 items-center py-6 px-7 rounded absolute top-2 right-2">
+        <div className="bg-[#023535]  text-white hidden flex-col space-y-3 items-center py-6 px-7 rounded absolute top-2 right-2">
             <div className="font-bold flex items-center space-x-1 text-sm">
                  <i className='bx bx-error-circle text-lg'></i>
                  <h1>These accounts are only visible for the sake of the testing the app</h1>

@@ -201,7 +201,8 @@ const reject = (id) => {
 
                           <td className="whitespace-nowrap px-6 py-4  space-x-1">
                               <div className="flex items-center space-x-1 text-main">
-                                  
+                                  <span>Verfified</span>
+                                  <i className='bx bxs-check-circle'></i>
                               </div>
                           </td>
                         </tr>
@@ -308,10 +309,10 @@ const reject = (id) => {
                           </td>
 
                           <td className="whitespace-nowrap px-6 py-4  space-x-1">
-                          <span onClick={()=>approve(item.email)} className="text-main border border-main py-2 px-3 rounded text-xs cursor-pointer">
+                          <span onClick={()=>approve(item.id)} className="text-main border border-main py-2 px-3 rounded text-xs cursor-pointer">
                               Approve
                             </span>
-                            <span onClick={()=>reject(item.email)} className="text-red-600 border border-red-600 py-2 px-3 rounded text-xs cursor-pointer">
+                            <span onClick={()=>reject(item.id)} className="text-red-600 border border-red-600 py-2 px-3 rounded text-xs cursor-pointer">
                               Reject
                             </span>
                           </td>

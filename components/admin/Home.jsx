@@ -9,7 +9,7 @@ import LatestTransation from './LatestTransaction';
 
 
 
-export default function Home({stats}) {
+export default function Home({stats,revenue}) {
 
   var [displayedStats,setDisplayedStats]= useState(stats)
 
@@ -45,7 +45,7 @@ export default function Home({stats}) {
         </div>
 
         <div className='rounded-lg bg-white shadow flex items-center space-x-3 py-7 px-5'>
-        <DChart />
+        <DChart revenue={revenue}/>
           <div className='flex flex-col justify-between space-y-1'>
             <div className='flex flex-col'>
               <span className='text-sm text-gray-400'>Citys</span>
